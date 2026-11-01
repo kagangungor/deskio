@@ -1,0 +1,17 @@
+{
+  // Cloudflare Workers Static Assets, assets-only (no Worker script): static
+  // requests are free and unmetered; the custom domain binds on deploy.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "deskmakeover-site",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  // Custom domain: dm.xiaominglab.com (xiaominglab.com is a zone in this
+  // Cloudflare account; the owner mapped the domain 2026-07-17). Declared
+  // here so deploys keep the binding reproducible.
+  "routes": [{ "pattern": "dm.xiaominglab.com", "custom_domain": true }]
+}

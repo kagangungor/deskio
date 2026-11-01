@@ -1,0 +1,66 @@
+[package]
+name = "dm-windows"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+# The Windows platform adapters (COM/registry/filesystem) implementing the `dm-domain` ports.
+# Blind-written on Mac behind `cfg(windows)` and kept compiling via
+# `cargo check -p dm-windows --target x86_64-pc-windows-msvc`. Deliberately free of any
+# C-compiling dependency (no rusqlite) so that isolated cross-check compiles offline.
+[dependencies]
+dm-domain = { path = "../dm-domain" }
+# Desktop change watcher (B10, spec 07 §3/§16). Cross-platform (ReadDirectoryChangesW on Windows,
+# FSEvents/inotify elsewhere) and pure-Rust bindings — no C toolchain, so the msvc cross-check stays
+# offline-clean and the debounce/event-mapping core is unit-testable on the Mac host. `-full` (not
+# `-mini`) tracks file ids to fold installer temp-write→rename storms into one settled event.
+notify-debouncer-full = "0.7.0"
+# Diagnostics for the signature gate (dev-unsigned warning). Facade only — the host binds the sink.
+log = "0.4"
+
+[dev-dependencies]
+# Temp dirs for the host-side durability/atomic-replace tests (durable::write_atomic).
+tempfile = "3"
+
+[target.'cfg(windows)'.dependencies]
+# Per-user Recycle Bin DefaultIcon values (HKCU) — pure-Rust registry, no C build.
+winreg = "0.55"
+# PNG encode for extracted icon sources (pure Rust — the msvc cross-check stays offline-clean).
+image = { version = "0.25", default-features = false, features = ["png"] }
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_System_Com",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Registry",
+    "Win32_System_Variant",
+    "Win32_System_Ole",
+    "Win32_System_Threading",
+"Win32_System_RemoteDesktop",
+    "Win32_System_Memory",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_LibraryLoader",
+    # Session-scoped elevated helper client (session_channel.rs): WaitNamedPipeW to wait for the
+    # server's pipe after the one launch-time UAC (owner 2026-07-17 "authorize once per app launch").
+    "Win32_System_Pipes",
+    "Win32_UI_Shell",
+    "Win32_UI_Shell_Common",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Input_KeyboardAndMouse",
+    # Judge-1 desktop-activity precision layer (activity.rs): SetWinEventHook / UnhookWinEvent /
+    # HWINEVENTHOOK on the desktop SysListView32's drag/capture/move-size WinEvents (spec 07 §11).
+    "Win32_UI_Accessibility",
+    "Win32_System_SystemInformation",
+    "Win32_Storage_FileSystem",
+    "Win32_Security",
+    # A1/C3 signature gate (signing.rs): WinVerifyTrust on dm-elevated.exe BEFORE the `runas`, so a
+    # swapped helper in the user-writable install dir cannot run elevated (LPE guard). The
+    # WINTRUST_DATA structs are gated behind the Cryptography feature in windows-rs.
+    "Win32_Security_WinTrust",
+    "Win32_Security_Cryptography",
+    # Calm profile probe (system_tweaks): RtlGetVersion (unshimmed OS version + wProductType) and
+    # GetCurrentPackageFullName (package-identity detection), so is_workstation / packaged are read
+    # from authoritative APIs rather than derived/hardcoded (codex W2 R1 Major-3).
+    "Wdk_System_SystemServices",
+    "Win32_Storage_Packaging_Appx",
+] }

@@ -1,0 +1,189 @@
+import type { Dict } from "./types";
+
+export const en: Dict = {
+  locale: "en",
+  htmlLang: "en",
+  meta: {
+    title: "Deskio: the desktop studio for Windows",
+    description:
+      "Deskio restyles every Windows desktop icon with nine hand-tuned looks, draws organizer zones on your wallpaper, and snapshots everything first so one click restores the exact original. Free, open source, local-only.",
+    ogAlt: "Deskio: a cluttered Windows desktop turned beautiful, fully reversible",
+  },
+  nav: {
+    proof: "Proof",
+    looks: "Looks",
+    zones: "Zones",
+    story: "Story",
+    engine: "Engine",
+    download: "Download",
+    github: "GitHub",
+    langLabel: "中文",
+    langHref: "/zh/",
+  },
+  ui: {
+    zoomHint: "Click to enlarge",
+    zoomClose: "Close",
+  },
+  hero: {
+    eyebrow: "Free · Open source",
+    title: "Deskio",
+    tagline: "The desktop studio for Windows.",
+    sub: "Nine hand-tuned looks for every icon. Organizer zones drawn on your wallpaper. A snapshot before anything changes, so one click puts it all back.",
+    ctaRelease: "Download for Windows",
+    ctaPending: "Coming soon",
+    ctaGithub: "GitHub",
+    specs: ["WIN 10 1809+ / WIN 11 · 64-BIT", "MIT LICENSE", "LOCAL-ONLY", "SNAPSHOT RESTORE"],
+    sceneCaption: "Real desktop. Real restore. Rendered live.",
+    sceneAlt: "A 3D monitor showing a real Windows desktop being restyled by Deskio",
+  },
+  proof: {
+    index: "01",
+    kicker: "Proof",
+    title: "Real pixels, before and after",
+    body: "No mockups. Both frames are the same desktop, shot from the app: 126 icons restyled in one click, and one click back. Drag the line.",
+    dragHint: "Drag",
+    altBefore: "A default Windows desktop crowded with mismatched icons",
+    altAfter: "The same desktop after Deskio: every icon in the Squircle look",
+  },
+  looks: {
+    index: "02",
+    kicker: "Looks",
+    title: "Nine looks, hand-tuned",
+    body: "Each look was tuned on a real, crowded desktop, not a demo folder. Pick one and every icon puts it on. Shape, coloring, plate, finish, and shortcut mark stay adjustable on their own.",
+    altPrefix: "A full Windows desktop wearing the look:",
+    // names + taglines mirror the app's own preset strings (src/lib/i18n/en.ts)
+    styles: [
+      { key: "squircle", name: "Squircle", tagline: "One squircle, every type its own shape" },
+      { key: "blueprint", name: "Blueprint", tagline: "A full set of engineering drawings" },
+      { key: "pixel-era", name: "Pixel Era", tagline: "An afternoon back in 8-bit" },
+      { key: "gleam", name: "Gleam", tagline: "Icons as they are, brushed with light" },
+      { key: "glaze", name: "Glaze", tagline: "Cool porcelain under a glaze" },
+      { key: "die-cut", name: "Die-Cut", tagline: "Stickers cut along every outline" },
+      { key: "porthole", name: "Porthole", tagline: "Round apps; files keep their places" },
+      { key: "scrapbook", name: "Scrapbook", tagline: "A page pasted together by hand" },
+      { key: "creekstone", name: "Creekstone", tagline: "Stones rounded by the stream" },
+    ],
+  },
+  zones: {
+    index: "03",
+    kicker: "Zones",
+    title: "Zones drawn on your wallpaper",
+    body: "Translucent panels that live inside the wallpaper itself, so your desktop gets rooms: apps here, work there, current projects front and center.",
+    points: [
+      {
+        title: "Templates or freehand",
+        body: "Start from a ready layout like Workbench or Quadrants, or draw your own. Five materials, four title styles.",
+      },
+      {
+        title: "Baked in, not floating",
+        body: "Zones render into the wallpaper image. Nothing runs in the background to keep them there.",
+      },
+      {
+        title: "One click removes them",
+        body: "Your original wallpaper is kept as shot. Bring it back whenever.",
+      },
+    ],
+    imgAlt: "The DeskMakeover zones editor: three translucent zones titled Apps, Work and Doing over a real wallpaper",
+  },
+  studio: {
+    index: "04",
+    kicker: "Studio",
+    title: "A studio, not a settings page",
+    body: "The live desktop mirror on the left is your actual desktop, and every control on the right answers instantly. Hold space to compare with the original at any time.",
+    points: [
+      {
+        title: "Per-type styling",
+        body: "Programs, folders, and files can each wear their own variant.",
+      },
+      {
+        title: "Undo, redo, re-read",
+        body: "Full history, plus a one-click re-read of the real desktop: icons, arrangement, wallpaper.",
+      },
+      {
+        title: "Save and share styles",
+        body: "Keep your combinations in the style library, export them as files, import packs from friends.",
+      },
+    ],
+    imgAlt: "The Deskio icons studio: a live desktop mirror with 126 styled icons and shape, subject, plate, filter and shortcut controls",
+  },
+  engineBand: {
+    kicker: "Engine",
+    title: "Not a filter. An engine that reads your icons.",
+    body: "Behind every look is a purpose-built, fully deterministic pixel pipeline. It studies each icon before touching it, and renders byte-identical pixels in the browser and on the desktop.",
+    cta: "See how it works",
+  },
+  download: {
+    index: "05",
+    kicker: "Download",
+    title: "Get Deskio",
+    body: "Download, double-click, done. Installs per-user, runs entirely on your PC. No account, no telemetry, no uploads.",
+    ctaRelease: "Download for Windows",
+    ctaPending: "Coming soon",
+    watchGithub: "Watch on GitHub",
+    pendingNote: "The first installer is on the way. Watch the repo and GitHub notifies you the moment it lands.",
+    smartscreenLead: "Windows may show a blue “Windows protected your PC” screen. That is not a virus warning.",
+    smartscreenDetail:
+      "It is Windows being cautious with newer software few people have downloaded yet. Click More info, then Run anyway. Deskio is open source, so anyone can read exactly what it does.",
+    requirements: "WIN 10 1809+ / WIN 11 · 64-BIT",
+  },
+  downloadModal: {
+    title: "Download Deskio",
+    device: {
+      "win-x64": "Your device runs 64-bit Windows. Ready to install",
+      "win-unknown": "Your device runs Windows. The installer is 64-bit",
+      "win-arm":
+        "Your device may be Windows on ARM. Only an x64 installer exists today; it may still run, with reduced performance",
+      "win-32":
+        "This Windows is 32-bit. Deskio needs 64-bit Windows 10 (1809+) or Windows 11; you can still download it for later",
+      "win-old":
+        "This Windows version is older than supported. Deskio needs Windows 10 (1809+) or Windows 11; you can still download it for later",
+      "desktop-other":
+        "Deskio is Windows-only. You can still grab the installer and copy it to a Windows PC",
+      mobile:
+        "Deskio is a Windows desktop app. Copy the download link and open it on a PC",
+    },
+    primaryCta: "Download installer",
+    mobileCopyCta: "Copy download link",
+    mobileCopied: "Copied. Paste it on your PC",
+    mobileStillDownload: "Download the installer here anyway",
+    viaGithub: "Direct from GitHub",
+    mirrorsLead: "Slow or blocked in mainland China? Mirrors",
+    mirrorNote: "Mirrors are third-party public proxies, unaffiliated with this project. The downloaded file should be {size} MB.",
+    historyLabel: "Previous versions",
+    releaseNotes: "Release notes",
+    smartscreenStarted:
+      "Download should have started. If Windows shows the blue \u201cWindows protected your PC\u201d screen during install, click More info, then Run anyway. It is not a virus warning, just caution around newly published software.",
+    close: "Close",
+  },
+  faq: {
+    kicker: "FAQ",
+    title: "Questions people ask",
+    items: [
+      {
+        q: "Can Deskio break my PC, or leave me stuck?",
+        a: "No. Deskio snapshots the Windows desktop (icons, shortcut arrows, wallpaper) before changing anything, and every change is one click to undo, back to exactly how it was. Experiment freely.",
+      },
+      {
+        q: "Will it slow my computer down?",
+        a: "Not noticeably. Deskio does the heavy work once when you hit apply. The rest of the time it sits quietly and puts your look back if Windows resets the desktop.",
+      },
+      {
+        q: "Is it really free? What is the catch?",
+        a: "Deskio is free and MIT-licensed, with the source on GitHub. It runs only on your machine: no account, no telemetry, nothing uploaded.",
+      },
+      {
+        q: "Does it work on macOS or Linux?",
+        a: "No. Deskio is built for Windows 10 (1809 or newer) and Windows 11, 64-bit.",
+      },
+    ],
+  },
+  footer: {
+    tagline: "Make it yours. Take it back.",
+    license: "MIT licensed, free forever.",
+    links: [
+      { label: "GitHub", href: "https://github.com/kagangungor/deskio" },
+      { label: "Releases", href: "https://github.com/kagangungor/deskio/releases" },
+      { label: "License", href: "https://github.com/kagangungor/deskio/blob/main/LICENSE" },
+    ],
+  },
+};

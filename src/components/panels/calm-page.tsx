@@ -1,0 +1,413 @@
+import * as React from 'react'
+import type { ReactNode } from 'react'
+import { Check, ExternalLink, Info, RotateCcw } from 'lucide-react'
+import { InspectorCard } from '@/components/common/inspector'
+import { ConfirmSheet } from '@/components/common/ceremony'
+import { Confetti, useCelebration } from '@/components/common/confetti'
+import { FullPage } from '@/components/shell/full-page'
+import { CtaButton, type HeroPhase } from '@/components/common/cta-button'
+import { SurfaceSchematic, applyStaggerDelay } from '@/components/calm/surface-schematic'
+import { controlById, type CalmControl, type CalmControlId } from '@/lib/calm/catalog'
+import type { CalmRowState } from '@/lib/calm/states'
+import { applyCandidates, countQuieted, countRestorable, groupedRows, guidedOnlyFace, reopenedRows, useCalm } from '@/stores/calm'
+import { useToasts } from '@/stores/toasts'
+import { format, useT } from '@/lib/i18n'
+import { cn } from '@/lib/utils'
+
+// 清爽系统 (spec 08 + the viz panel 2026-07-13): schematic-first, words-second.
+// Every row LEADS with a mini-screen wireframe marking the operation area; the
+// hero is the honest establishing shot (start panel over taskbar) whose noise
+// exits on apply. The tier grouping (one-click / guided / held) is ADR-0023's
+// load-bearing honesty and never reorders. Guided rows are NEVER toggles.
+
+export function CalmPage() {
+  const t = useT()
+  const probed = useCalm((s) => s.probed)
+  const probeFailed = useCalm((s) => s.probeFailed)
+  const op = useCalm((s) => s.op)
+  const rows = useCalm((s) => s.rows)
+  const excluded = useCalm((s) => s.excluded)
+  const [confirmOpen, setConfirmOpen] = React.useState(false)
+  // Same celebration as the icons/wallpaper applies (DRY, owner 2026-07-13),
+  // gated per spec 08 §4: confetti ONLY when this is the launch's first module
+  // success anywhere in the app — otherwise the 「去看看」 toast stands in.
+  const { celebrateKey, celebrate } = useCelebration()
+
+  // Guided return-probe: when the window regains focus after a walk, re-check the
+  // walked row (readable rows confirm themselves; unreadable ones ask the user).
+  React.useEffect(() => {
+    const onFocus = () => void useCalm.getState().reProbeWalked()
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [])
+
+  const groups = groupedRows(rows)
+  const quieted = countQuieted(rows)
+  // Restore gates on LEDGER rows (intact writes + drifted reopened) — when every
+  // write drifts, the restore/disown entrance must survive (codex R5 #1).
+  const restorable = countRestorable(rows)
+  const candidates = applyCandidates(rows, excluded)
+  // ONE actionable set feeds the notice, its button AND the hero phase — an
+  // excluded reopened row is user-silenced, but its existence still blocks any
+  // 「已清爽」 claim (codex R5 #2: two truths must never contradict on screen).
+  const reopenedAll = reopenedRows(rows)
+  const reopenedActionable = reopenedAll.filter((id) => !excluded.has(id))
+  const awaiting = groups.oneClick.filter((id) => rows[id] === 'setAwaiting').length
+  // §5 degraded honesty (ADR-0023 D2): with every automatic candidate fail-closed (real
+  // Windows before the W3 cert lab), the hero wears the guided-only face — honest words, no
+  // CTA — instead of an eternal spinner + 「可以让 0 个界面安静下来」.
+  const guidedFace = op === 'idle' && guidedOnlyFace(probed, rows)
+  // A rejected probe (host/IPC error) shows an honest retry hero, never a forever-spinner (B2).
+  const scanFailed = op === 'idle' && probeFailed && !probed
+
+  // Honest hero phases: ready only with real candidates; synced only when our
+  // verified writes exist AND nothing is still awaiting; awaiting gets its own
+  // non-interactive truth; otherwise the CTA stays quiet — never a false ✓.
+  const phase: HeroPhase =
+    !probed || op === 'probe'
+      ? 'scanning'
+      : op !== 'idle'
+        ? 'working'
+        : candidates.length > 0
+          ? 'ready'
+          : awaiting > 0
+            ? 'scanning'
+            : quieted > 0 && reopenedAll.length === 0
+              ? 'synced' // never 「已清爽」 while ANY row sits reopened
+              : 'scanning'
+  const ctaLabel =
+    op === 'restore'
+      ? t('Calm_Restore_Working')
+      : op === 'apply'
+        ? t('Calm_Cta_Working')
+        : phase === 'synced'
+          ? t('Calm_Cta_Done')
+          : awaiting > 0 && candidates.length === 0
+            ? t('Calm_Cta_Awaiting')
+            : t('Calm_Cta')
+  const includedNames = candidates.map((id) => t(controlById(id).labelKey)).join(t('Calm_ListJoin'))
+
+  return (
+    <FullPage title={t('Panel_CalmTitle')}>
+        {/* Hero: dynamic words only (owner 2026-07-13) — a fixed establishing image
+            would hard-code the starter count and lie the moment the user excludes a
+            row or new controls land. The row schematics carry all the visuals.
+            HIDDEN ENTIRELY in the guided-only state (owner 2026-07-16): with every
+            automatic row fail-closed there is nothing to one-click, so an
+            apology-for-absence block only steals attention — the walk groups below
+            are the whole page. A failed scan keeps its own retry hero. */}
+        {scanFailed ? (
+          <div className="mb-6 flex items-center gap-6 rounded-2xl border border-hair bg-raised px-6 py-5">
+            <div className="min-w-0 flex-1">
+              <p className="text-[18px] font-medium tracking-[-0.01em] text-t1">{t('Calm_ScanFailed_Head')}</p>
+              <p className="mt-1.5 text-[12px] leading-relaxed text-t3">{t('Calm_ScanFailed_Sub')}</p>
+            </div>
+            <div className="w-[200px] shrink-0">
+              <button
+                type="button"
+                onClick={() => void useCalm.getState().probe()}
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-[10px] bg-chip px-4 py-2 text-[13px] font-medium text-t2 transition-colors hover:bg-raised-hov hover:text-t1"
+              >
+                <RotateCcw size={13} />
+                {t('Calm_ScanFailed_Retry')}
+              </button>
+            </div>
+          </div>
+        ) : guidedFace ? null : (
+          <div className="mb-6 flex items-center gap-6 rounded-2xl border border-hair bg-raised px-6 py-5">
+            <div className="min-w-0 flex-1">
+              {/* Typographic hierarchy (owner 2026-07-13): the count line IS the
+                  page's message — large; everything explanatory shrinks and fades. */}
+              <p className="text-[18px] font-medium tracking-[-0.01em] text-t1">
+                {quieted > 0
+                  ? format(t('Calm_Summary'), quieted)
+                  : format(t('Calm_CanQuiet'), candidates.length)}
+              </p>
+              <p className="mt-1.5 text-[12px] leading-relaxed text-t3">{t('Calm_HeroPromise')}</p>
+              {/* HealthCheck re-propose (spec 08 §6): additive notice, never an
+                  auto-replay — 重新关闭 runs the same verify pipeline, scoped to
+                  the ACTIONABLE set (excluded rows are user-silenced). */}
+              {reopenedActionable.length > 0 && (
+                <p className="mt-2.5 flex items-center gap-2 text-[12.5px] font-medium text-t1">
+                  <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-amber" />
+                  {format(t('Calm_Notice_Reopened'), reopenedActionable.length)}
+                  <ChipButton onClick={() => void useCalm.getState().applyAll(reopenedActionable)}>
+                    {t('Calm_Notice_ReClose')}
+                  </ChipButton>
+                </p>
+              )}
+            </div>
+            <div className="w-[200px] shrink-0">
+              {/* Spec 08 §10: verified success is coral-ink on this page — the shared
+                  synced teal would read as the banned green-family shield (codex R3 #5). */}
+              <CtaButton
+                phase={phase}
+                onClick={() => setConfirmOpen(true)}
+                className={phase === 'synced' ? 'bg-coral/10 text-coral-ink' : undefined}
+              >
+                {ctaLabel}
+              </CtaButton>
+              {/* Restore gates on live LEDGER rows, not the verified count. */}
+              {restorable > 0 && (
+                <button
+                  type="button"
+                  onClick={() => void useCalm.getState().restoreAll()}
+                  className="mt-2 inline-flex w-full items-center justify-center gap-1 text-[12px] text-t3 transition-colors hover:text-t1"
+                >
+                  <RotateCcw size={12} />
+                  {t('Calm_Restore')}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {!scanFailed && (
+          <div className="flex flex-col gap-6">
+            {groups.oneClick.length > 0 && (
+              <Group label={t('Calm_Group_OneClick')} subtitle={t('Calm_Group_OneClick_Sub')}>
+                {groups.oneClick.map((id) => (
+                  <OneClickRow key={id} id={id} oneClickIds={groups.oneClick} />
+                ))}
+              </Group>
+            )}
+
+            {groups.guided.length > 0 && (
+              <Group label={t('Calm_Group_Guided')} subtitle={t('Calm_Group_Guided_Sub')}>
+                {groups.guided.map((id) => (
+                  <GuidedRow key={id} id={id} />
+                ))}
+              </Group>
+            )}
+          </div>
+        )}
+
+      {/* Explain before apply (spec 08 §4) — three lines, no dangling references. */}
+      <ConfirmSheet
+        open={confirmOpen}
+        title={t('Calm_Confirm_Title')}
+        body={
+          <>
+            <span className="block">{format(t('Calm_Confirm_List'), includedNames)}</span>
+            <span className="mt-1.5 block">{t('Calm_Confirm_Body')}</span>
+            <span className="mt-1.5 block text-t3">{t('Calm_Confirm_GuidedNote')}</span>
+          </>
+        }
+        confirmLabel={t('Calm_Confirm_Go')}
+        cancelLabel={t('Calm_Confirm_Cancel')}
+        onConfirm={() => {
+          setConfirmOpen(false)
+          // THIS call's summary (null = nothing ran) — a stale lastApply from an
+          // earlier batch must never trigger a celebration (codex R6).
+          void useCalm.getState().applyAll().then((sum) => {
+            if (!sum || sum.verified === 0) return
+            if (!celebrate()) {
+              // Not the launch's first module success → spec 08 §4's stand-in.
+              useToasts.getState().show(t('Calm_Toast_GoLook'), 'success')
+            }
+          })
+        }}
+        onCancel={() => setConfirmOpen(false)}
+      />
+      {/* First-apply confetti cannons — the shared icons/wallpaper celebration. */}
+      <Confetti fireKey={celebrateKey} />
+    </FullPage>
+  )
+}
+
+/** Group header — one tier below the hero, one above row labels; the
+ *  why-this-tier subtitle shrinks and fades (scan layer, not reading layer). */
+function Group({ label, subtitle, footer, children }: { label: string; subtitle: string; footer?: string; children: ReactNode }) {
+  return (
+    <section>
+      <p className="mb-0.5 px-1 text-[16px] font-medium text-t1">{label}</p>
+      <p className="mb-2 px-1 text-[11.5px] text-t3">{subtitle}</p>
+      <InspectorCard>{children}</InspectorCard>
+      {footer && <p className="mt-2 px-1 text-[11px] leading-relaxed text-t3">{footer}</p>}
+    </section>
+  )
+}
+
+/** One row: the mini-screen schematic leads (WHERE), words follow, control right. */
+function RowShell({
+  control,
+  state,
+  schematicDelay = 0,
+  compactSchematic = false,
+  caption,
+  right,
+}: {
+  control: CalmControl
+  state: CalmRowState
+  schematicDelay?: number
+  compactSchematic?: boolean
+  caption?: ReactNode
+  right: ReactNode
+}) {
+  const t = useT()
+  return (
+    <div className="group/calmrow flex min-h-[80px] items-center gap-4 px-5 py-3.5">
+      <SurfaceSchematic
+        control={control}
+        state={state}
+        delay={schematicDelay}
+        className={compactSchematic ? 'w-[64px]' : 'w-[104px]'}
+      />
+      <div className="min-w-0 flex-1">
+        {/* Row hierarchy (owner 2026-07-13): the NAME is what users scan — medium
+            weight; the result sentence drops to the faded reading layer. */}
+        <p className="text-[14px] font-medium text-t1">{t(control.labelKey)}</p>
+        <p className="mt-0.5 text-[12px] text-t3">{t(control.descKey)}</p>
+        {control.collateralKey && (
+          <p className="mt-1 flex items-center gap-1 text-[11px] text-t3">
+            <Info size={11} className="shrink-0" />
+            {t(control.collateralKey)}
+          </p>
+        )}
+        {caption}
+      </div>
+      <div className="flex min-w-[132px] shrink-0 items-center justify-end gap-2">{right}</div>
+    </div>
+  )
+}
+
+/** Status chip: verified wears the coral-ink check; everything else calm text. */
+function StateChip({ state }: { state: CalmRowState }) {
+  const t = useT()
+  const text: Partial<Record<CalmRowState, string>> = {
+    pending: t('Calm_State_Pending'),
+    verified: t('Calm_State_Verified'),
+    setAwaiting: t('Calm_State_Awaiting'),
+    reverted: t('Calm_State_Reverted'),
+    quiet: t('Calm_State_Quiet'),
+    external: t('Calm_State_External'),
+    confirmedOff: t('Calm_State_ConfirmedOff'),
+    userAttested: t('Calm_State_UserAttested'),
+    needsReconfirm: t('Calm_State_NeedsReconfirm'),
+  }
+  const label = text[state]
+  if (!label) return null
+  return (
+    <span
+      className={cn(
+        'whitespace-nowrap text-[12px]',
+        state === 'verified' && 'font-medium text-coral-ink',
+        state === 'pending' && 'animate-pulse text-t3',
+        state === 'reverted' && 'text-t2',
+        (state === 'quiet' || state === 'setAwaiting' || state === 'external' || state === 'confirmedOff' ||
+          state === 'userAttested' || state === 'needsReconfirm') && 'text-t3',
+      )}
+    >
+      {state === 'verified' && '✓ '}
+      {label}
+    </span>
+  )
+}
+
+/** Batch-inclusion checkbox — same grammar as the icons kindPolicy boxes. */
+function IncludeCheckbox({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+      className={cn(
+        'flex size-4 items-center justify-center rounded-[5px] border transition-colors',
+        checked ? 'border-transparent bg-primary text-primary-foreground' : 'border-hair bg-transparent text-transparent hover:border-t3',
+      )}
+    >
+      <Check size={12} strokeWidth={3} />
+    </button>
+  )
+}
+
+function OneClickRow({ id, oneClickIds }: { id: CalmControlId; oneClickIds: CalmControlId[] }) {
+  const t = useT()
+  const control = controlById(id)
+  const state = useCalm((s) => s.rows[id])
+  const excluded = useCalm((s) => s.excluded.has(id))
+  const skipReason = useCalm((s) => s.skipReasons[id])
+  const selectable = state === 'pushing' || state === 'reverted' || state === 'reopened'
+  return (
+    <RowShell
+      control={control}
+      state={state}
+      schematicDelay={applyStaggerDelay(id, oneClickIds)}
+      caption={skipReason && <p className="mt-1 text-[11.5px] text-t3">{t('Calm_SkipReason_Changed')}</p>}
+      right={
+        selectable ? (
+          <div className="flex items-center gap-2">
+            {state === 'reverted' && <StateChip state={state} />}
+            <IncludeCheckbox checked={!excluded} onChange={() => useCalm.getState().toggleExcluded(id)} label={t(control.labelKey)} />
+          </div>
+        ) : state === 'verified' || state === 'setAwaiting' ? (
+          // Per-row undo (owner 2026-07-13): a quieted surface must be individually
+          // recoverable, not only through the global restore.
+          <div className="flex items-center gap-2">
+            <StateChip state={state} />
+            <ChipButton onClick={() => void useCalm.getState().restoreOne(id)}>{t('Calm_RestoreOne')}</ChipButton>
+          </div>
+        ) : (
+          <StateChip state={state} />
+        )
+      }
+    />
+  )
+}
+
+function GuidedRow({ id }: { id: CalmControlId }) {
+  const t = useT()
+  const control = controlById(id)
+  const state = useCalm((s) => s.rows[id])
+  const walked = useCalm((s) => s.walkedId === id)
+  const settled = state === 'confirmedOff' || state === 'userAttested'
+  // Unreadable rows we walked: the app cannot know — ask, and record it as YOURS.
+  const askAttest = walked && !control.readableState && state === 'pushing'
+  // A fail-closed automatic row we can only walk you to (never a real guided-tier row): its route
+  // hint is ALWAYS shown so the button reads as 「opens the official page」, not a fake auto-fix.
+  const walkFallback = control.tier !== 'guided'
+  return (
+    <RowShell
+      control={control}
+      state={state}
+      caption={
+        walkFallback && control.routeKey ? (
+          <p className="mt-1 text-[11.5px] text-t3">{t(control.routeKey)}</p>
+        ) : walked && control.routeKey ? (
+          <p className="mt-1 text-[11.5px] text-t2">{t(control.routeKey)}</p>
+        ) : undefined
+      }
+      right={
+        settled ? (
+          <StateChip state={state} />
+        ) : askAttest ? (
+          <div className="flex items-center gap-1.5">
+            <span className="text-[12px] text-t3">{t('Calm_Guided_ConfirmAsk')}</span>
+            <ChipButton onClick={() => useCalm.getState().attestGuided(id)}>{t('Calm_Guided_ConfirmYes')}</ChipButton>
+            <ChipButton onClick={() => void useCalm.getState().walkGuided(id)}>{t('Calm_Guided_Again')}</ChipButton>
+          </div>
+        ) : (
+          // NEVER a toggle (ADR-0023 D3): a guided row is an action, and says so.
+          <ChipButton onClick={() => void useCalm.getState().walkGuided(id)}>
+            <ExternalLink size={12} />
+            {t('Calm_GoGuided')}
+          </ChipButton>
+        )
+      }
+    />
+  )
+}
+
+function ChipButton({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center gap-1 whitespace-nowrap rounded-[9px] bg-chip px-2.5 py-1.5 text-[12px] text-t2 transition-colors hover:bg-raised-hov hover:text-t1"
+    >
+      {children}
+    </button>
+  )
+}

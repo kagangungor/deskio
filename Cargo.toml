@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "src-tauri",
+    "crates/dm-domain",
+    "crates/dm-contracts",
+    "crates/dm-icon-core",
+    "crates/dm-icon-codec",
+    "crates/dm-icon-wasm",
+    "crates/dm-operations",
+    "crates/dm-windows",
+    "crates/dm-elevated",
+    "crates/dm-resident",
+    "crates/dm-test-support",
+    "crates/xtask",
+]
+
+# Shared crate metadata (DRY): each member inherits edition/version/publish.
+[workspace.package]
+edition = "2021"
+version = "1.0.0"
+publish = false

@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Deskio">
+  <defs>
+    <!-- Background Coral-Peach Fluent Gradient -->
+    <linearGradient id="coralBg" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFA18F"/>
+      <stop offset="0.26" stop-color="#FF6F5E"/>
+      <stop offset="0.70" stop-color="#E84838"/>
+      <stop offset="1" stop-color="#B82418"/>
+    </linearGradient>
+
+    <!-- Squircle Specular Rim (Bevel Edge Light) -->
+    <linearGradient id="squircleRim" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.75"/>
+      <stop offset="0.32" stop-color="#FFFFFF" stop-opacity="0.25"/>
+      <stop offset="0.75" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#FFA899" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Ambient Top Gaze / Volumetric Curve -->
+    <radialGradient id="ambientGaze" cx="50%" cy="14%" r="60%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Master Acrylic Desktop Plate (Frosted Glass) -->
+    <linearGradient id="acrylicPlate" x1="96" y1="100" x2="416" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.36"/>
+      <stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FFEFEB" stop-opacity="0.10"/>
+    </linearGradient>
+
+    <!-- Acrylic Specular Rim Stroke -->
+    <linearGradient id="acrylicStroke" x1="96" y1="90" x2="416" y2="370" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="0.30" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="0.70" stop-color="#FFFFFF" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#FFB3A3" stop-opacity="0.40"/>
+    </linearGradient>
+
+    <!-- Floating Hero Card (Porcelain Warm-White / Peach) -->
+    <linearGradient id="heroCard" x1="130" y1="156" x2="242" y2="268" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#FFF3EF"/>
+      <stop offset="1" stop-color="#FFD6C9"/>
+    </linearGradient>
+
+    <!-- Hero Card Symbol Gradient -->
+    <linearGradient id="heroGlyph" x1="150" y1="178" x2="218" y2="246" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF7A66"/>
+      <stop offset="1" stop-color="#E03B2A"/>
+    </linearGradient>
+
+    <!-- Glass Cards Gradients -->
+    <linearGradient id="glassCardTop" x1="256" y1="160" x2="384" y2="218" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.18"/>
+    </linearGradient>
+
+    <linearGradient id="glassCardBottom" x1="256" y1="222" x2="384" y2="278" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#FFD4C8" stop-opacity="0.24"/>
+    </linearGradient>
+
+    <!-- Floating Glass Dock -->
+    <linearGradient id="dockGlass" x1="150" y1="290" x2="362" y2="338" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.60"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#FFEAE3" stop-opacity="0.22"/>
+    </linearGradient>
+
+    <!-- Shadow Filters -->
+    <filter id="deepShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#5C0D07" flood-opacity="0.46"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#420803" flood-opacity="0.28"/>
+    </filter>
+
+    <filter id="cardShadow" x="-35%" y="-35%" width="170%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#6B1109" flood-opacity="0.26"/>
+    </filter>
+
+    <filter id="sparkleGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFFFFF" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#FF8A78" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Master Squircle Foundation (Continuous Curvature) -->
+  <path d="M186.09 32L325.91 32C370.28 32 392.46 32 416.35 39.55C442.42 49.04 462.96 69.58 472.45 95.65C480 119.54 480 141.72 480 186.09L480 325.91C480 370.28 480 392.46 472.45 416.35C462.96 442.42 442.42 462.96 416.35 472.45C392.46 480 370.28 480 325.91 480L186.09 480C141.72 480 119.54 480 95.65 472.45C69.58 462.96 49.04 442.42 39.55 416.35C32 392.46 32 370.28 32 325.91L32 186.09C32 141.72 32 119.54 39.55 95.65C49.04 69.58 69.58 49.04 95.65 39.55C119.54 32 141.72 32 186.09 32Z" fill="url(#coralBg)"/>
+
+  <!-- Ambient Light Reflection on Squircle -->
+  <path d="M186.09 32L325.91 32C370.28 32 392.46 32 416.35 39.55C442.42 49.04 462.96 69.58 472.45 95.65C480 119.54 480 141.72 480 186.09L480 325.91C480 370.28 480 392.46 472.45 416.35C462.96 442.42 442.42 462.96 416.35 472.45C392.46 480 370.28 480 325.91 480L186.09 480C141.72 480 119.54 480 95.65 472.45C69.58 462.96 49.04 442.42 39.55 416.35C32 392.46 32 370.28 32 325.91L32 186.09C32 141.72 32 119.54 39.55 95.65C49.04 69.58 69.58 49.04 95.65 39.55C119.54 32 141.72 32 186.09 32Z" fill="url(#ambientGaze)"/>
+
+  <!-- Outer Glass Specular Border -->
+  <path d="M186.09 32L325.91 32C370.28 32 392.46 32 416.35 39.55C442.42 49.04 462.96 69.58 472.45 95.65C480 119.54 480 141.72 480 186.09L480 325.91C480 370.28 480 392.46 472.45 416.35C462.96 442.42 442.42 462.96 416.35 472.45C392.46 480 370.28 480 325.91 480L186.09 480C141.72 480 119.54 480 95.65 472.45C69.58 462.96 49.04 442.42 39.55 416.35C32 392.46 32 370.28 32 325.91L32 186.09C32 141.72 32 119.54 39.55 95.65C49.04 69.58 69.58 49.04 95.65 39.55C119.54 32 141.72 32 186.09 32Z" fill="none" stroke="url(#squircleRim)" stroke-width="3"/>
+
+  <!-- 2. Master Acrylic Desktop Window Plate -->
+  <rect x="92" y="104" width="328" height="256" rx="36" fill="url(#acrylicPlate)" stroke="url(#acrylicStroke)" stroke-width="2.5" filter="url(#deepShadow)"/>
+
+  <!-- Window Header Tint & Frosted Separator Line -->
+  <path d="M93 144 H419" stroke="#FFFFFF" stroke-opacity="0.32" stroke-width="1.5"/>
+  <!-- Acrylic Header Dots -->
+  <circle cx="124" cy="124" r="5.5" fill="#FFFFFF" fill-opacity="0.80"/>
+  <circle cx="142" cy="124" r="5.5" fill="#FFFFFF" fill-opacity="0.50"/>
+  <circle cx="160" cy="124" r="5.5" fill="#FFFFFF" fill-opacity="0.32"/>
+
+  <!-- Diagonal Specular Light Beam on Glass -->
+  <path d="M140 104 L276 104 L188 360 L96 360 Z" fill="#FFFFFF" fill-opacity="0.06"/>
+
+  <!-- 3. Floating Hero Tile (Porcelain Ivory with 4-zone glyph) -->
+  <rect x="128" y="164" width="108" height="108" rx="26" fill="url(#heroCard)" filter="url(#cardShadow)"/>
+  <rect x="128" y="164" width="108" height="108" rx="26" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- Clean 4-zone Desktop Grid Symbol on Hero Tile -->
+  <rect x="148" y="184" width="30" height="30" rx="8" fill="url(#heroGlyph)"/>
+  <rect x="186" y="184" width="30" height="30" rx="8" fill="url(#heroGlyph)" fill-opacity="0.72"/>
+  <rect x="148" y="222" width="30" height="30" rx="8" fill="url(#heroGlyph)" fill-opacity="0.72"/>
+  <!-- Active / Transforming 4th Zone with Makeover Glow -->
+  <rect x="186" y="222" width="30" height="30" rx="8" fill="#FFFFFF" fill-opacity="0.9"/>
+  <circle cx="201" cy="237" r="4.5" fill="url(#heroGlyph)"/>
+
+  <!-- 4. Floating Secondary Acrylic Cards (Right Side) -->
+  <!-- Top Right Organizer Card -->
+  <rect x="254" y="164" width="130" height="50" rx="17" fill="url(#glassCardTop)" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <rect x="270" y="181" width="70" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.92"/>
+  <rect x="270" y="194" width="46" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.55"/>
+  <circle cx="360" cy="189" r="8" fill="#FFFFFF" fill-opacity="0.35"/>
+
+  <!-- Middle Right Makeover Spark Card -->
+  <rect x="254" y="222" width="130" height="50" rx="17" fill="url(#glassCardBottom)" stroke="#FFFFFF" stroke-opacity="0.60" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <rect x="270" y="239" width="54" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.88"/>
+  <rect x="270" y="252" width="78" height="6" rx="3" fill="#FFAE9E" fill-opacity="0.85"/>
+
+  <!-- 5. Floating Glass Dock Capsule (Bottom) -->
+  <rect x="146" y="292" width="220" height="46" rx="23" fill="url(#dockGlass)" stroke="#FFFFFF" stroke-opacity="0.80" stroke-width="2" filter="url(#cardShadow)"/>
+  <!-- Dock Apps (Beads) -->
+  <rect x="166" y="305" width="20" height="20" rx="6" fill="#FFFFFF" fill-opacity="0.95"/>
+  <rect x="198" y="305" width="20" height="20" rx="6" fill="#FF6F5E"/>
+  <rect x="230" y="305" width="20" height="20" rx="6" fill="#FFAE9E"/>
+  <rect x="262" y="305" width="20" height="20" rx="6" fill="#FFFFFF" fill-opacity="0.55"/>
+  <circle cx="336" cy="315" r="6" fill="#FFFFFF" fill-opacity="0.80"/>
+
+  <!-- 6. Fluent Gleams & Makeover Sparkles (4-pointed diamond stars) -->
+  <!-- Top Right Main Sparkle -->
+  <path d="M400 92 L407 114 L429 121 L407 128 L400 150 L393 128 L371 121 L393 114 Z" fill="#FFFFFF" filter="url(#sparkleGlow)"/>
+  <circle cx="400" cy="121" r="3.5" fill="#FFFFFF"/>
+
+  <!-- Bottom Left Secondary Micro Sparkle -->
+  <path d="M110 362 L114 374 L126 378 L114 382 L110 394 L106 382 L94 378 L106 374 Z" fill="#FFFFFF" fill-opacity="0.95"/>
+
+  <!-- Subtle Rim Light Spot at Bottom Right -->
+  <circle cx="432" cy="344" r="2.5" fill="#FFFFFF" fill-opacity="0.85"/>
+</svg>

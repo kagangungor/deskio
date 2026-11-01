@@ -1,0 +1,26 @@
+# Deskio (桌面美颜)
+
+> Deskio is a free, open-source (MIT) Windows desktop beautifier built with Tauri 2 and Rust. It restyles every desktop icon with one of nine hand-tuned looks, lets you draw translucent organizer zones on your wallpaper, and can swap or remove the shortcut arrow. It backs up the desktop before any change, so one click restores the exact original. It runs entirely locally: no account, no telemetry, no uploads.
+
+Supported: Windows 10 (1809+) and Windows 11, 64-bit. Not available for macOS or Linux.
+__RELEASE_STATUS_EN__
+
+## Links
+
+- [English site](https://dm.xiaominglab.com/): product overview, nine preset gallery, FAQ
+- [中文站点](https://dm.xiaominglab.com/zh/): 产品介绍、九套外观、常见问题
+- [The Pixel Engine](https://dm.xiaominglab.com/engine/): deep dive into the purpose-built deterministic pixel pipeline (byte-identical WASM/native rendering, OKLab colour science, subject/background separation) with a live in-browser demo — [中文版](https://dm.xiaominglab.com/zh/engine/)
+- [创作实录（中文）](https://dm.xiaominglab.com/story/): how v1 was built in nine days by one person directing two AI models — data-driven making-of report
+- [Full product reference](https://dm.xiaominglab.com/llms-full.txt): complete bilingual facts, features, and FAQ for quoting
+- [GitHub repository](https://github.com/kagangungor/deskio): source code, issues, releases
+__RELEASES_LINE__
+
+## Key facts
+
+- One-click apply and one-click exact restore (snapshot-based; reversibility is an architectural constraint)
+- Nine built-in icon looks: Squircle, Blueprint, Pixel Era, Gleam, Glaze, Die-Cut, Porthole, Scrapbook, Creekstone
+- Eleven icon shapes plus independent coloring, plates, finishes, and shortcut marks
+- Wallpaper zones: five materials, four title styles, ready-made layout templates
+- Free forever, MIT licensed, local-only
+
+Last reviewed: __LAST_REVIEWED__

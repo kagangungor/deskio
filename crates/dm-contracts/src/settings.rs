@@ -1,0 +1,212 @@
+//! Settings DTOs — the Rust source for the TS `SettingsDto`/`SettingsPatch` in
+//! `bridge/types.ts` (BRIDGE_SCHEMA_VERSION = 4). Field names and enum string
+//! literals mirror the TS shape exactly so the generated bindings drop in place.
+
+use serde::{Deserialize, Serialize};
+use specta::Type;
+
+/// Appearance theme. Serialized as its variant name (`"System"` | `"Dark"` |
+/// `"Light"`) to match the TS union.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub enum Theme {
+    System,
+    Dark,
+    Light,
+}
+
+/// UI language. `System` follows the OS UI culture; the two concrete tags use
+/// the BCP-47 spellings the TS dictionaries key on.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub enum Language {
+    System,
+    #[serde(rename = "tr")]
+    Tr,
+    #[serde(rename = "en")]
+    En,
+}
+
+/// The full persisted settings row (spec 03 appearance + participation coach).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "camelCase")]
+pub struct SettingsDto {
+    pub theme: Theme,
+    pub language: Language,
+    pub keep_new_icons_styled: bool,
+    pub wallpaper_coach_shown: bool,
+}
+
+impl Default for SettingsDto {
+    fn default() -> Self {
+        Self {
+            theme: Theme::System,
+            language: Language::System,
+            keep_new_icons_styled: false,
+            wallpaper_coach_shown: false,
+        }
+    }
+}
+
+/// Sparse update over [`SettingsDto`] — every field absent (or `null`) leaves
+/// the stored value untouched. Mirrors the TS `SettingsPatch = Partial<SettingsDto>`.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "camelCase", default)]
+pub struct SettingsPatch {
+    pub theme: Option<Theme>,
+    pub language: Option<Language>,
+    pub keep_new_icons_styled: Option<bool>,
+    pub wallpaper_coach_shown: Option<bool>,
+}
+
+impl SettingsDto {
+    /// Apply a patch in place, ignoring absent fields.
+    pub fn apply(&mut self, patch: &SettingsPatch) {
+        if let Some(theme) = patch.theme {
+            self.theme = theme;
+        }
+        if let Some(language) = patch.language {
+            self.language = language;
+        }
+        if let Some(keep) = patch.keep_new_icons_styled {
+            self.keep_new_icons_styled = keep;
+        }
+        if let Some(shown) = patch.wallpaper_coach_shown {
+            self.wallpaper_coach_shown = shown;
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn enum_tags_match_ts_literals() {
+        assert_eq!(serde_json::to_string(&Theme::System).unwrap(), "\"System\"");
+        assert_eq!(
+            serde_json::to_string(&Language::Tr).unwrap(),
+            "\"tr\""
+        );
+        assert_eq!(serde_json::to_string(&Language::En).unwrap(), "\"en\"");
+    }
+
+    #[test]
+    fn dto_uses_camel_case_keys() {
+        let json = serde_json::to_string(&SettingsDto::default()).unwrap();
+        assert!(json.contains("\"keepNewIconsStyled\""));
+        assert!(json.contains("\"wallpaperCoachShown\""));
+    }
+
+    #[test]
+    fn patch_leaves_absent_fields_untouched() {
+        let mut dto = SettingsDto::default();
+        let patch: SettingsPatch = serde_json::from_str("{\"theme\":\"Dark\"}").unwrap();
+        dto.apply(&patch);
+        assert_eq!(dto.theme, Theme::Dark);
+        assert_eq!(dto.language, Language::System);
+        assert!(!dto.keep_new_icons_styled);
+    }
+
+    #[test]
+    fn every_theme_variant_serializes_to_its_ts_literal() {
+        for (variant, literal) in
+            [(Theme::System, "\"System\""), (Theme::Dark, "\"Dark\""), (Theme::Light, "\"Light\"")]
+        {
+            assert_eq!(serde_json::to_string(&variant).unwrap(), literal);
+            let back: Theme = serde_json::from_str(literal).unwrap();
+            assert_eq!(back, variant);
+        }
+    }
+
+    #[test]
+    fn every_language_variant_round_trips() {
+        for (variant, literal) in [
+            (Language::System, "\"System\""),
+            (Language::Tr, "\"tr\""),
+            (Language::En, "\"en\""),
+        ] {
+            assert_eq!(serde_json::to_string(&variant).unwrap(), literal);
+            assert_eq!(serde_json::from_str::<Language>(literal).unwrap(), variant);
+        }
+    }
+
+    #[test]
+    fn default_dto_is_conservative() {
+        let d = SettingsDto::default();
+        assert_eq!(d.theme, Theme::System);
+        assert_eq!(d.language, Language::System);
+        assert!(!d.keep_new_icons_styled); // resident auto-format OFF by default (ADR-0020)
+        assert!(!d.wallpaper_coach_shown);
+    }
+
+    #[test]
+    fn full_dto_round_trips_field_by_field() {
+        let dto = SettingsDto {
+            theme: Theme::Light,
+            language: Language::Tr,
+            keep_new_icons_styled: true,
+            wallpaper_coach_shown: true,
+        };
+        let back: SettingsDto =
+            serde_json::from_str(&serde_json::to_string(&dto).unwrap()).unwrap();
+        assert_eq!(dto, back);
+    }
+
+    #[test]
+    fn patch_applies_every_field() {
+        let mut dto = SettingsDto::default();
+        let patch = SettingsPatch {
+            theme: Some(Theme::Dark),
+            language: Some(Language::En),
+            keep_new_icons_styled: Some(true),
+            wallpaper_coach_shown: Some(true),
+        };
+        dto.apply(&patch);
+        assert_eq!(dto.theme, Theme::Dark);
+        assert_eq!(dto.language, Language::En);
+        assert!(dto.keep_new_icons_styled);
+        assert!(dto.wallpaper_coach_shown);
+    }
+
+    #[test]
+    fn empty_patch_is_a_noop() {
+        let original = SettingsDto {
+            theme: Theme::Dark,
+            language: Language::En,
+            keep_new_icons_styled: true,
+            wallpaper_coach_shown: true,
+        };
+        let mut dto = original.clone();
+        dto.apply(&SettingsPatch::default());
+        assert_eq!(dto, original);
+    }
+
+    #[test]
+    fn absent_and_explicit_null_both_decode_to_none() {
+        // Partial<SettingsDto>: a missing key and an explicit null must both mean "leave alone".
+        let from_missing: SettingsPatch = serde_json::from_str("{}").unwrap();
+        let from_null: SettingsPatch = serde_json::from_str("{\"theme\":null,\"language\":null}").unwrap();
+        assert_eq!(from_missing, SettingsPatch::default());
+        assert_eq!(from_null.theme, None);
+        assert_eq!(from_null.language, None);
+    }
+
+    #[test]
+    fn dto_and_patch_tolerate_unknown_fields() {
+        // Forward-compat: a newer frontend sending an extra key must not break the decode.
+        let dto: SettingsDto = serde_json::from_str(
+            r#"{"theme":"Dark","language":"en","keepNewIconsStyled":true,"wallpaperCoachShown":false,"futureFlag":1}"#,
+        )
+        .unwrap();
+        assert_eq!(dto.theme, Theme::Dark);
+        let patch: SettingsPatch =
+            serde_json::from_str(r#"{"theme":"Light","somethingNew":true}"#).unwrap();
+        assert_eq!(patch.theme, Some(Theme::Light));
+        assert_eq!(patch.language, None);
+    }
+
+    #[test]
+    fn invalid_enum_literal_is_rejected() {
+        assert!(serde_json::from_str::<Theme>("\"Neon\"").is_err());
+        assert!(serde_json::from_str::<Language>("\"fr\"").is_err());
+    }
+}

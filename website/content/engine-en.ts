@@ -1,0 +1,161 @@
+import type { EngineDict } from "./engine-types";
+
+const GH = "https://github.com/kagangungor/deskio";
+const CORE = `${GH}/tree/main/crates/dm-icon-core`;
+const BLOB = `${GH}/blob/main/crates/dm-icon-core`;
+
+export const ENGINE_EN: EngineDict = {
+  meta: {
+    title: "The Pixel Engine: the in-house core that powers Deskio",
+    description:
+      "Underneath Deskio sits a purpose-built, fully deterministic pixel-compute engine: it reads real Windows icons, separates them cleanly, rescues colour collisions and renders finishes live. The desktop app and this page run the same engine, and you can drive it yourself.",
+  },
+  hero: {
+    eyebrow: "ENGINE · DM-ICON-CORE",
+    title: "This pixel engine is built in-house",
+    sub: "Every restyle in Deskio is driven by dm-icon-core: a deterministic pixel-compute engine written in nearly twelve thousand lines of pure Rust. It reads each icon before touching it, and the same input always yields the same pixels. The desktop app and this page run the same engine; everything below is computed by it on the spot.",
+    stats: [
+      { value: 11946, unit: " lines", label: "of engine code, pure Rust" },
+      { value: 1487, unit: " icons", label: "verified byte by byte" },
+      { value: 57, unit: " tests", label: "over the core algorithms" },
+      { value: 88, unit: " KB", label: "the whole engine, in this page" },
+    ],
+    stack: {
+      raw: "The original icon",
+      plate: "The derived plate",
+      final: "The finished tile",
+      caption: "The engine's assembly line, like an exploded engine diagram: read the original, derive the plate, compose the tile. Every layer is real engine output. Drag to rotate.",
+    },
+  },
+  read: {
+    index: "01",
+    kicker: "READ",
+    title: "The engine's eyes: read first, act second",
+    body: "Every icon entering the engine goes through a full analysis: its dominant colour, whether it carries its own background, whether its outline is a standard shape. The findings are written into a profile that every later stage reads. Nothing is guessed. This is the foundation of everything the engine can do.",
+    steps: [
+      { key: "KIND", label: "Type" },
+      { key: "BG", label: "Background" },
+      { key: "COLOR", label: "Colour" },
+      { key: "SHAPE", label: "Outline" },
+      { key: "PROFILE", label: "Report" },
+    ],
+    caption: "The scan passes over the real This PC icon: the outline layer lifts, the dominant colour is extracted, the profile is built. Drag to rotate.",
+  },
+  cut: {
+    index: "02",
+    kicker: "CUT",
+    title: "Clean separation: artwork from base, one cut",
+    body: "This Recycle Bin carries its own base: the whole glass basket, litter included. The engine recognises that the real artwork is just the recycle glyph — it shatters the base layer away, leaves the glyph exactly where it was, and lays a freshly derived plate underneath. The judgement is the engine's real output, not a hand trace.",
+    caption: "Every scattering cube is a real pixel the engine judged to be base. That per-pixel verdict matches the desktop engine exactly. Drag to rotate.",
+    replay: "Replay",
+    maskNote: "01 recognise the base · 02 shatter it away · 03 lay a new plate",
+    layers: { bg: "The basket, judged base", art: "The real artwork", final: "On its new plate" },
+  },
+  rescue: {
+    index: "03",
+    kicker: "RESCUE",
+    title: "Auto rescue: colours collide, the engine handles it",
+    body: "A blue envelope lands on a blue plate and starts to disappear. The engine samples along the edge, finds both the colour gap and the lightness gap too small, and immediately draws an outline and lays a shadow. Not a hand-made special case: a live judgement the engine makes for every icon.",
+    beats: [
+      { key: "01", title: "Collide", detail: "Blue on blue; the envelope's edge is vanishing" },
+      { key: "02", title: "Detect", detail: "Edge samples fail both the colour and lightness checks" },
+      { key: "03", title: "Rescue", detail: "The rescue layer merges in; the envelope is back" },
+    ],
+    offLabel: "Rescue off",
+    onLabel: "Rescue on",
+    caption: "The floating layer is exactly what the engine computed as the rescue: one outline plus one shadow. Both states are real engine renders.",
+    layers: { tile: "The colliding tile", rescue: "The computed rescue layer" },
+  },
+  promise: {
+    index: "04",
+    kicker: "PROMISE",
+    title: "Iron law: brand colours never move a pixel",
+    body: "One rule is hard-coded into this engine: the artwork itself is never recoloured. Distinction comes entirely from plate, outline and shadow. When several plates collide in colour, the engine nudges the plates apart so each icon stays recognisable, and the artwork does not move.",
+    rule: "Artwork pixels are never recoloured",
+    before: "Before",
+    after: "After",
+    caption: "Three blue-family icons, plates pushed apart until each reads clearly. The artwork has not changed by a single pixel.",
+  },
+  finish: {
+    index: "05",
+    kicker: "FINISH",
+    title: "Finish rendering: glass, pixel, sticker, all computed",
+    body: "A finish is not a filter image; it is the engine's rendering stage. Reflections, grain, borders and shadows are computed pixel by pixel against the current icon. Switch icons and everything is recomputed.",
+    finishes: [
+      { key: "glass", kicker: "GLASS", name: "Glass", line: "Reflections and rim refraction follow the artwork" },
+      { key: "pixel", kicker: "PIXEL", name: "Pixel", line: "Each cell averaged, then mapped to a candy palette" },
+      { key: "sticker", kicker: "STICKER", name: "Sticker", line: "A white border grows along the outline" },
+    ],
+  },
+  live: {
+    index: "06",
+    kicker: "LIVE",
+    title: "The engine is in this page",
+    body: "No install needed; the engine is already loaded into this page. 88 KB, the exact Rust code the desktop app ships. Pick a real icon or drop in your own image; every drag is computed on the spot, not a recording.",
+    badge: "Byte-identical with the desktop build",
+    castLabel: "Real icons",
+    uploadCta: "Try your own image",
+    uploadNote: "Your image is processed in your browser and never leaves it.",
+    controls: {
+      shape: "Shape",
+      look: "Look",
+      hue: "Plate hue",
+      finish: "Finish",
+      original: "Compare original",
+    },
+    options: {
+      shapes: [
+        { tag: "Apple", label: "Squircle" },
+        { tag: "Circle", label: "Circle" },
+        { tag: "Tile", label: "Tile" },
+        { tag: "Diamond", label: "Diamond" },
+        { tag: "Flower", label: "Flower" },
+        { tag: "Pebble", label: "Pebble" },
+      ],
+      looks: [
+        { tag: "Original", label: "Original" },
+        { tag: "BlackWhite", label: "Black & white" },
+        { tag: "Mono", label: "Mono" },
+      ],
+      finishes: [
+        { tag: "None", label: "None" },
+        { tag: "Glass", label: "Glass" },
+        { tag: "Pixel", label: "Pixel" },
+        { tag: "Sticker", label: "Sticker" },
+      ],
+    },
+    autoHue: "Auto",
+    loading: "Loading the engine",
+    fallbackNote: "This browser cannot run WASM; below is a sheet pre-rendered by the engine.",
+  },
+  receipts: {
+    index: "07",
+    kicker: "RECEIPTS",
+    title: "Receipts, for engineers",
+    body: "Every claim above can be audited in source: 1,487 real icons verified byte by byte, and the demo in this page renders byte-identical with the desktop build. Every number is a link.",
+    receipts: [
+      { value: "11,946 lines", label: "pure-Rust pixel core", href: CORE },
+      { value: "forbid(unsafe_code)", label: "unsafe banned in the core", href: `${BLOB}/src/lib.rs` },
+      { value: "1,487 icons", label: "byte-parity corpus", href: `${BLOB}/tests/parity_determinism.rs` },
+      { value: "57 tests", label: "over the core algorithms", href: `${CORE}/tests` },
+      { value: "88 KB", label: "the WASM build (gzip)", href: `${GH}/tree/main/crates/dm-icon-wasm` },
+      { value: "MIT", label: "all of it open source", href: `${GH}/blob/main/LICENSE` },
+    ],
+  },
+  cta: {
+    title: "This engine is waiting for your desktop",
+    body: "It is not a demo piece; it works on real desktops every day. It snapshots your desktop before touching anything, and one click puts everything back.",
+    download: "Download Deskio",
+    github: "Read the source on GitHub",
+  },
+  castNames: {
+    folder: "Folder",
+    pics: "Pictures folder",
+    bin: "Recycle Bin",
+    thispc: "This PC",
+    camera: "Camera",
+    mail: "Mail",
+    maps: "Maps",
+    panel: "Control Panel",
+  },
+};

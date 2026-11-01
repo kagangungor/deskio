@@ -1,0 +1,279 @@
+//! The port traits that separate the pure operations layer from the platform layer.
+//!
+//! The transaction driver (`dm-operations`) never touches COM, the registry, or the
+//! filesystem directly — it drives these traits. `dm-windows` implements them with real
+//! `windows-rs` COM behind its STA actor; Mac unit tests implement them with in-memory fakes
+//! over a virtual desktop, which is what makes the whole state machine (including kill-point
+//! recovery) testable without Windows.
+
+use crate::asset::{ApplyAssets, AssetRef};
+use crate::error::PortResult;
+use crate::fingerprint::Fingerprint;
+use crate::item::{DesktopItem, ItemTarget};
+use crate::restore::RestoreAnchor;
+use crate::wallpaper::{DecodedImage, WallpaperSnapshot, WallpaperTopology};
+
+/// Reads the current on-disk/registry state of an item: its fingerprint (the CAS anchor) and
+/// its exact-restore material. Both are captured against the *live* item, so the driver can
+/// detect external modification and can always walk back to the true original.
+pub trait ItemStateReader {
+    /// The fingerprint of the item's current state (spec 07 §4 identity).
+    fn read_fingerprint(&self, target: &ItemTarget) -> PortResult<Fingerprint>;
+
+    /// Captures the exact-restore anchor for the item BEFORE any mutation
+    /// (oracle: `RestoreMetadataCollector`).
+    fn capture_anchor(&self, target: &ItemTarget) -> PortResult<RestoreAnchor>;
+
+    /// The CAS fingerprint AND, for a shortcut (`.lnk`), its raw icon location `(path, index)` — both
+    /// derived from ONE read, so the two never disagree (the fingerprint of a shortcut IS its icon
+    /// location). The operations layer threads the returned icon location to the elevated helper as
+    /// its compare-and-swap anchor: because it comes from the SAME read as the accepted fingerprint, a
+    /// value the preflight rejected can never be handed to the helper as "expected" (trust-first,
+    /// §P1-1). The second element is EVERY live icon location the surface carries — one for a
+    /// shortcut/`.url`/folder/System item, all THREE registry values for the Recycle Bin (a
+    /// partial write can leave OUR asset in `empty`/`full` while `default` is still original, so a
+    /// single representative location under-reports styled residue — codex 2026-07-17 P1), empty
+    /// for a kind with no icon-location surface. Only the privileged SHORTCUT elevated path
+    /// consumes the FIRST location as its CAS anchor; the provenance guards consume them all. The
+    /// default is `(read_fingerprint, [])`; the Windows reader overrides per kind, each mirroring
+    /// its `read_fingerprint` arm so the two can never disagree.
+    fn read_styleable_surface(
+        &self,
+        target: &ItemTarget,
+    ) -> PortResult<(Fingerprint, Vec<(String, i32)>)> {
+        Ok((self.read_fingerprint(target)?, Vec::new()))
+    }
+}
+
+/// Applies owned fields to one item (points it at a generated asset) and restores it from a
+/// previously captured anchor. Dispatch by [`ItemTarget::kind`] happens inside the impl.
+///
+/// Ported from the per-kind writers (`ShellLinkShortcutIconWriter`, `UrlShortcutIconWriter`,
+/// `FolderIconWriter`, `RegularFileWrapperWriter`, `RecycleBinIconWriter`) unified behind the
+/// journaled-operation contract (`IJournaledOperation.Apply`/`Rollback`).
+pub trait IconApplier {
+    /// Points `target` at `assets` (e.g. `IShellLink::SetIconLocation` + `IPersistFile::Save`) and
+    /// returns the fingerprint the item's styleable surface SHOULD now carry — derived from the
+    /// asset the apply was asked to point at, INDEPENDENTLY of re-reading the just-written state.
+    /// The driver compares this against an independent read-back (spec 07 §5), so a COM write that
+    /// reports success but silently leaves the old icon is caught (P1-1/P1-4), not merely a "state
+    /// changed" check. The Recycle Bin's paired empty ref travels in [`ApplyAssets::empty`], so the
+    /// applier references the exact asset the driver materialized, never a guessed path (P2-1).
+    fn apply(&self, target: &ItemTarget, assets: &ApplyAssets) -> PortResult<Fingerprint>;
+
+    /// Restores `target` to the captured original (e.g. replay the original `.lnk` bytes).
+    fn restore(&self, target: &ItemTarget, anchor: &RestoreAnchor) -> PortResult<()>;
+}
+
+/// Materializes generated `.ico` bytes into a content-addressed store and garbage-collects
+/// entries no ledger references (spec 07 §5). `put` is idempotent: an identical asset is
+/// reused rather than rewritten.
+pub trait AssetStore {
+    /// Writes `bytes` under `hash`, returning the reference (new-file-first semantics).
+    fn put(&self, hash: &str, bytes: &[u8]) -> PortResult<AssetRef>;
+
+    /// Materializes the paired empty-state variant of `primary` and returns its reference. Some
+    /// items have two visual states the registry references together (the Recycle Bin's
+    /// full/empty icons); the empty asset is addressed relative to the full one by the store's
+    /// convention, so the applier can reference it without guessing an unwritten path (P1-14).
+    fn put_empty_variant(&self, primary: &AssetRef, bytes: &[u8]) -> PortResult<AssetRef>;
+
+    /// Whether `asset` has actually been materialized in the store. The driver verifies a paired
+    /// asset exists before the mutation points a registry value at it (P1-14).
+    fn exists(&self, asset: &AssetRef) -> PortResult<bool>;
+
+    /// Deletes any stored asset whose hash is not in `live`.
+    fn gc(&self, live: &[String]) -> PortResult<()>;
+
+    /// Whether `path` points INTO this store — i.e. the file is one of our own generated assets.
+    /// This is the provenance oracle for "styled residue": a desktop item whose live icon location
+    /// resolves into the store is wearing OUR output, so that state must never be captured as "the
+    /// true original" or extracted as a bake source (owner rule 2026-07-17: 任何时候都基于最原始的
+    /// 图标计算 — a lost ledger row must degrade honestly, never compound Style(Style(orig))).
+    /// Default `false` for stores with no path identity (test fakes opt in explicitly).
+    fn contains_path(&self, path: &str) -> bool {
+        let _ = path;
+        false
+    }
+}
+
+/// Enumerates the desktop (user + public) into classified items (oracle: `DesktopScanner`).
+pub trait DesktopScanner {
+    fn scan(&self) -> PortResult<Vec<DesktopItem>>;
+}
+
+/// One desktop icon's live on-screen slot (top-left, desktop pixels). Matched to scan items BY
+/// DISPLAY NAME — the shell view names items the way the desktop shows them, which is exactly how
+/// the oracle's mirror matched positions (`DesktopPreviewService`: "matched to its real position
+/// by name like every other icon").
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DesktopIconSlot {
+    pub name: String,
+    pub x: i32,
+    pub y: i32,
+}
+
+/// The desktop grid's OBSERVED cell geometry (`IFolderView::GetSpacing` +
+/// `IFolderView2::GetViewModeAndIconSize`): the true snap-cell pitch and the true icon size,
+/// reflecting the user's spacing tweaks and ctrl+scroll icon sizing. The icon sits horizontally
+/// centered inside its cell (the SM_CXICONSPACING contract), so the visual left inset is
+/// `(cell_width - icon_px) / 2` — fabricating a wider cell shifts every rendered icon right
+/// (owner report 2026-07-16: the preview's left padding read larger than the real desktop).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DesktopIconGrid {
+    pub cell_width: u32,
+    pub cell_height: u32,
+    pub icon_px: u32,
+}
+
+/// The desktop's observed geometry: full screen dims + the taskbar's reserved height (screen
+/// minus work area). The frontend assembles its grid from these — never fabricated dims.
+/// `icon_grid` is `None` only when the shell view walk fails (headless session, denied QI);
+/// the frontend then falls back to its approximation constants.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DesktopGeometry {
+    pub screen_width: u32,
+    pub screen_height: u32,
+    pub taskbar_height: u32,
+    pub icon_grid: Option<DesktopIconGrid>,
+}
+
+/// Reads the desktop's live geometry + icon positions (oracle: `FolderViewInterop` technique A —
+/// `IShellWindows` → `IShellBrowser` → `IFolderView2::GetItemPosition`). Every step can
+/// legitimately fail (headless session, denied QI), so impls degrade to an Err/empty result the
+/// host replaces with its synthetic layout — positions are a preview-mirror nicety, never on the
+/// apply/restore critical path.
+pub trait DesktopGeometryReader {
+    fn geometry(&self) -> PortResult<DesktopGeometry>;
+    fn positions(&self) -> PortResult<Vec<DesktopIconSlot>>;
+}
+
+/// Nudges Explorer to re-read icons without a disruptive restart
+/// (oracle: `ExplorerRefresh.NotifyIconsChanged` → `SHChangeNotify`).
+pub trait ExplorerRefresher {
+    fn notify_icons_changed(&self) -> PortResult<()>;
+
+    /// Per-item shell notification for one just-written desktop item. The global association
+    /// refresh does NOT make Explorer re-read a FOLDER's `desktop.ini` — its custom icon stays
+    /// cached until a directory-scoped update event, which the owner saw as "the folder lags one
+    /// apply behind" (2026-07-17). Default no-op for platforms/fakes without a shell.
+    fn notify_item_changed(&self, path: &str, is_dir: bool) -> PortResult<()> {
+        let _ = (path, is_dir);
+        Ok(())
+    }
+
+    /// Restart the shell (Explorer) so the DESKTOP re-resolves every custom icon. This is the ONLY
+    /// reliable way to refresh a re-styled desktop icon whose kind is cached by the DESKTOP container
+    /// rather than its own file — a FOLDER (`desktop.ini`), a `.url`, the Recycle Bin, a System icon.
+    /// `.lnk` shortcuts self-refresh on their file change and honor `notify_*`; the container kinds do
+    /// NOT — owner box 2026-07-17 pixel-verified that every in-place refresh (ASSOCCHANGED / UPDATEDIR
+    /// / UPDATEITEM / `ie4uinit -show` / F5 / toggle-desktop-icons) is non-deterministic, while an
+    /// Explorer restart flips the icon 100% of the time both ways. Default no-op for fakes / platforms
+    /// without a shell (a browser dev host must NOT kill the user's Explorer).
+    fn restart_shell(&self) -> PortResult<()> {
+        Ok(())
+    }
+}
+
+/// The privileged global shortcut-overlay verb pair (ADR-0021), invoked out-of-process via the
+/// elevated helper. The background process NEVER calls this (ADR-0020 §4).
+pub trait OverlayControl {
+    /// Applies the overlay (one batched UAC). `ico_path` is the rendered overlay `.ico` (the
+    /// caller owns the icon core); the helper validates it and copies it into ProgramData before
+    /// the registry ever references it (LPE guard, ADR-0021 §4).
+    fn apply(&self, style: OverlayStyle, ico_path: &str) -> PortResult<OverlayOutcome>;
+    /// Restores the exact original overlay registry state.
+    fn restore(&self) -> PortResult<OverlayOutcome>;
+}
+
+/// Whether the desktop is currently busy under the user (spec 07 §11): drag/capture on the
+/// desktop list view, or a desktop-class foreground window with recent input. A UX-layer signal
+/// ONLY — data safety is the driver's CAS check, never timing. The resident reconciler re-checks
+/// this between EVERY icon in a batch; impls err on the side of "busy".
+pub trait ActivityMonitor {
+    fn is_desktop_busy(&self) -> PortResult<bool>;
+}
+
+/// Extracts an item's normalized 256px source image(s) for the compositor to render from (oracle:
+/// the C# shell icon extraction — `SHGetFileInfo`/WIC/package-asset read). Returns `[0]` the
+/// primary source; a two-state item (the Recycle Bin) also returns `[1]` its empty-state source.
+/// The pixels are served to the webview over a custom protocol (`dmicon://`) so they never ride
+/// the JSON bridge — the same discipline the wallpaper `dmwallpaper://` decode uses.
+///
+/// Icon source extraction is genuine platform work with no cross-platform Rust core (unlike the
+/// pure-Rust wallpaper decoder): Windows extracts from the shell/package ([WINDOWS-VERIFY]); the
+/// Mac dev host synthesizes distinct stand-in sources so the real scan→render→apply→restore
+/// pipeline is exercised end to end on Mac.
+pub trait IconSourceExtractor {
+    /// `original`: when the caller's ledger proves the LIVE surface is this app's own styled
+    /// output (live fingerprint == last-applied), the captured original anchor rides along so the
+    /// impl derives the user's TRUE source from the anchor material instead of re-reading the
+    /// styled icon — otherwise every re-scan compounds `Style(Style(orig))`. `None` means the live
+    /// state IS the source of truth (unowned, externally modified, or never styled). An impl that
+    /// cannot resolve the anchor (stale material) falls back to the live read rather than failing.
+    fn extract(
+        &self,
+        item: &DesktopItem,
+        original: Option<&RestoreAnchor>,
+    ) -> PortResult<Vec<DecodedImage>>;
+}
+
+/// The overlay styles the helper accepts (oracle: `OverlayCommands.Apply` style whitelist).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum OverlayStyle {
+    Refined,
+    Transparent,
+    Custom,
+}
+
+/// The result of an overlay verb; `Declined` maps a UAC cancel (oracle: `OverlayOutcome`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum OverlayOutcome {
+    Applied,
+    Declined,
+    Failed,
+}
+
+// ---- Wallpaper ports (M6-WIRE, owner ruling D1) --------------------------------
+//
+// Rust is thin platform I/O: read the multi-monitor topology, get/set the wallpaper
+// image, and capture/restore the pre-first-apply snapshot. Reconcile, per-monitor
+// draft persistence, and `WallpaperStateDto` assembly are FRONTEND — no port here
+// touches a look, a zone, or a grid.
+
+/// Reads the multi-monitor wallpaper topology: every present monitor's geometry, its
+/// current source path, its slideshow flag, plus the global position. Pure read — no
+/// mutation. (oracle: `IDesktopWallpaper::GetMonitorDevicePathAt`/`GetMonitorRECT`/
+/// `GetPosition`/`GetStatus`/`GetWallpaper`).
+pub trait MonitorTopology {
+    fn enumerate(&self) -> PortResult<WallpaperTopology>;
+}
+
+/// Gets/sets the wallpaper image and captures/restores the pre-first-apply snapshot —
+/// the exact shape `WindowsWallpaper` already has (capture/set/restore), lifted behind
+/// the port so the operations layer's snapshot-once policy drives it and Mac fakes it.
+///
+/// [`capture`](WallpaperApplier::capture) records the byte-level restore material
+/// (global colour + position + per-monitor images) and MUST run before the first
+/// [`set`](WallpaperApplier::set), or the first apply irreversibly destroys the user's
+/// original desktop — the single highest-severity trap in the feature.
+pub trait WallpaperApplier {
+    /// Captures the full restore snapshot (global colour + position, per-monitor
+    /// images) — the pre-first-apply desktop state.
+    fn capture(&self) -> PortResult<WallpaperSnapshot>;
+
+    /// Points `monitor_id` at `image_path` (`SetWallpaper`).
+    fn set(&self, monitor_id: &str, image_path: &str) -> PortResult<()>;
+
+    /// Restores a previously captured snapshot: global colour + position, then each
+    /// monitor's image (or a cleared image so a solid-colour monitor's background
+    /// shows through).
+    fn restore(&self, snapshot: &WallpaperSnapshot) -> PortResult<()>;
+}
+
+/// Decodes a wallpaper image file into its true dims + re-encoded PNG bytes the
+/// compositor renders from (oracle: WIC decode → PNG encode). The I/O happens in the
+/// impl; the trait itself is pure so the operations layer stays msvc-clean and Mac-fakes.
+pub trait ImageDecoder {
+    fn decode(&self, path: &str) -> PortResult<DecodedImage>;
+}

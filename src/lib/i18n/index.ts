@@ -1,0 +1,78 @@
+import { create } from 'zustand'
+import { en } from './en'
+import { tr } from './tr'
+
+// Runtime i18n: typed keys (missing key = compile error), instant re-render on
+// language change. 'System' resolves like the host's UiText: Windows UI culture
+// tr* → Türkçe, anything else → English.
+
+export type StringKey = keyof typeof en
+export type Language = 'System' | 'tr' | 'en'
+export type ResolvedLanguage = 'tr' | 'en'
+
+const tables: Record<ResolvedLanguage, Record<StringKey, string>> = {
+  tr,
+  en,
+}
+
+export function resolveLanguage(preference: Language): ResolvedLanguage {
+  if (preference === 'tr' || preference === 'en') return preference
+  const locale = (typeof navigator !== 'undefined' && navigator.language) || 'en'
+  return locale.toLowerCase().startsWith('tr') ? 'tr' : 'en'
+}
+
+interface I18nState {
+  lang: ResolvedLanguage
+  setPreference: (preference: Language) => void
+}
+
+/** Keep `<html lang>` truthful — :lang() CSS and a11y/spellcheck read it, and the
+ *  static index.html value would otherwise lie the moment the user switches to English. */
+function syncDocumentLang(lang: ResolvedLanguage): void {
+  if (typeof document !== 'undefined') document.documentElement.lang = lang
+}
+
+export const useI18n = create<I18nState>((set) => {
+  const initial = resolveLanguage('System')
+  syncDocumentLang(initial)
+  return {
+    lang: initial,
+    setPreference: (preference) => {
+      const lang = resolveLanguage(preference)
+      syncDocumentLang(lang)
+      set({ lang })
+    },
+  }
+})
+
+/** Reactive translate — use inside components. */
+export function useT(): (key: StringKey) => string {
+  const lang = useI18n((s) => s.lang)
+  return (key) => tables[lang][key]
+}
+
+/** Non-reactive translate — for stores/imperative code. */
+export function t(key: StringKey): string {
+  return tables[useI18n.getState().lang][key]
+}
+
+/** .NET-style composite formatting for the {0}/{1} placeholders the tables use. */
+export function format(template: string, ...args: (string | number)[]): string {
+  return template.replace(/\{(\d+)\}/g, (_, i) => String(args[Number(i)] ?? ''))
+}
+
+/** Reactive localizer for a HOST-emitted status reason: a stable i18n key, optionally `\t`-joined
+ *  with one interpolation arg (e.g. `"Icons_Reason_ExtractFailed\t<detail>"`). The host has no
+ *  locale, so it ships the KEY and the frontend localizes here. Falls back to the raw text for an
+ *  unrecognized key so a newly-added host reason still shows something rather than blank. */
+export function useHostReason(): (raw: string) => string {
+  const lang = useI18n((s) => s.lang)
+  return (raw) => {
+    const sep = raw.indexOf('\t')
+    const key = sep < 0 ? raw : raw.slice(0, sep)
+    const arg = sep < 0 ? undefined : raw.slice(sep + 1)
+    const template = (tables[lang] as Record<string, string>)[key]
+    if (!template) return raw
+    return arg !== undefined ? format(template, arg) : template
+  }
+}

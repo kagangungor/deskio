@@ -1,0 +1,119 @@
+name: release
+
+# Windows release build on a SELF-HOSTED runner — the signing PC that has the Certum code-signing
+# certificate + SimplySign Desktop. Signs both the app .exe and the NSIS installer via Tauri's
+# signCommand, then publishes a GitHub Release. INERT until a runner labelled [self-hosted, windows]
+# is registered. Full runbook: docs/signing-setup.md.
+#
+#   - tag push (v*)          → signed build + GitHub Release
+#   - manual dispatch        → signed build + artifact (no Release), OR an UNSIGNED dry-run when the
+#                              `sign` input is false (validates the runner + build without the cert /
+#                              a live SimplySign session — useful for first shakeout).
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      sign:
+        description: 'Code-sign (needs SimplySign logged in + DM_SIGN_THUMBPRINT). Uncheck for an unsigned dry-run.'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write # create the Release + upload the signed installer
+  actions: write # dispatch the website workflow after publishing
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-sign-release:
+    runs-on: [self-hosted, windows]
+    env:
+      # Not a secret — a cert thumbprint is a public identifier. Set as a repo VARIABLE.
+      DM_SIGN_THUMBPRINT: ${{ vars.DM_SIGN_THUMBPRINT }}
+      # Sign on every tag push; on manual dispatch honour the `sign` input.
+      DM_SIGN: ${{ (github.event_name == 'workflow_dispatch' && inputs.sign == false) && 'no' || 'yes' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify the tag matches the bundle version (tag pushes only)
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $tag = '${{ github.ref_name }}'
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "tag '$tag' is not a vX.Y.Z release tag" }
+          $want = $tag.Substring(1)
+          $pkg = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $tauri = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          if ($pkg -ne $want -or $tauri -ne $want) {
+            throw "tag $tag does not match versions (package.json=$pkg, tauri.conf.json=$tauri) — run 'bun run release' before tagging"
+          }
+          "tag $tag matches bundle version $want"
+
+      - name: Preflight — toolchain (+ live signing session when signing)
+        shell: pwsh
+        run: |
+          foreach ($tool in 'bun', 'cargo') {
+            if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) { throw "$tool is not on PATH on this runner" }
+          }
+          if ($env:DM_SIGN -eq 'yes') {
+            if (-not $env:DM_SIGN_THUMBPRINT) { throw 'repo variable DM_SIGN_THUMBPRINT is not set' }
+            # The cert is only in the store while SimplySign Desktop is logged in — fail early otherwise.
+            $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $env:DM_SIGN_THUMBPRINT }
+            if (-not $cert) { throw "signing cert $env:DM_SIGN_THUMBPRINT not found in CurrentUser\My — log into SimplySign Desktop" }
+            "Will sign as: $($cert.Subject)"
+          } else {
+            "UNSIGNED dry-run (sign=false) — validates the runner + build only, no certificate needed"
+          }
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Clean stale NSIS output (the self-hosted runner persists target/ between runs)
+        shell: pwsh
+        run: |
+          $nsis = Join-Path $PWD 'target/release/bundle/nsis'
+          if (Test-Path $nsis) { Remove-Item -Recurse -Force $nsis }
+
+      - name: Build (Tauri signCommand signs the exe AND the NSIS installer when signing)
+        shell: pwsh
+        run: |
+          if ($env:DM_SIGN -eq 'yes') {
+            bunx tauri build --config src-tauri/tauri.release.conf.json
+          } else {
+            bunx tauri build
+          }
+
+      - name: Upload the installer as a build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deskio-setup${{ env.DM_SIGN == 'yes' && '-signed' || '-unsigned' }}
+          path: target/release/bundle/nsis/*-setup.exe
+          if-no-files-found: error
+
+      - name: Publish GitHub Release (tag pushes only)
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $installers = @(Get-ChildItem target/release/bundle/nsis/*-setup.exe)
+          if ($installers.Count -ne 1) { throw "expected exactly one NSIS installer, found $($installers.Count)" }
+          $installer = $installers[0]
+          $want = '${{ github.ref_name }}'.Substring(1)
+          if ($installer.Name -notmatch [regex]::Escape($want)) { throw "installer $($installer.Name) does not carry version $want" }
+          gh release create "${{ github.ref_name }}" "$($installer.FullName)" --title "${{ github.ref_name }}" --generate-notes
+
+      # Releases created with GITHUB_TOKEN do not fire other workflows'
+      # `release:` triggers (GitHub's recursion guard) — workflow_dispatch is
+      # the documented exception, so kick the website rebuild explicitly. The
+      # site then bakes this release's facts in at build time.
+      - name: Rebuild the website with the new release facts
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run website.yml --ref main

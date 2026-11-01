@@ -1,0 +1,41 @@
+[package]
+name = "dm-operations"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[dependencies]
+dm-contracts = { path = "../dm-contracts" }
+dm-domain = { path = "../dm-domain" }
+# Laddered ICO packaging (B2 icon apply): the frontend bakes 256px masters, Rust packages them
+# into multi-resolution content-addressed .ico. Pure Rust (compiles natively on Mac); dm-operations
+# is already off the msvc cross-check (rusqlite/bundled), so this adds no msvc regression.
+dm-icon-codec = { path = "../dm-icon-codec" }
+# Native headless render for the resident/version-switch path (spec 07 §15): the resolve
+# ladder port + RenderSession bake live behind icons::style_resolve / icons::native bake.
+dm-icon-core = { path = "../dm-icon-core" }
+# `bundled` builds SQLite from source so the app never depends on a system copy.
+# NOTE (Mac-first): this C-compiling dep is why the *workspace* msvc cross-check is blocked
+# on Mac. The transaction/ledger machinery below is pure Rust with no rusqlite and no
+# cfg(windows), so its msvc-cleanliness is structural; rusqlite only backs `settings_store`.
+rusqlite = { version = "0.32", features = ["bundled"] }
+base64 = "0.22"
+# Pure-Rust wallpaper decode (png/jpeg/bmp/gif/webp) — the SAME production decode path
+# on Windows and the Mac dev host, so it is Mac-testable instead of a blind WIC seam.
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "bmp", "gif", "webp"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+
+[features]
+# `fast` forwards to the byte-safe optimized core (M6 kernel-speed). It gates the
+# content-addressed OUTPUT cache in the native version-switch bake: only a `fast` build
+# has `OutputCache::{get,insert}`, so a repeat switch to an already-rendered look clones
+# the master instead of recomputing it. The DEFAULT (scalar) build ignores the cache and
+# renders every tile — the determinism reference the four-way parity cert diffs against.
+default = []
+fast = ["dm-icon-core/fast"]
+
+[dev-dependencies]
+serde_json = "1"
+tempfile = "3"

@@ -1,0 +1,749 @@
+// The TS dictionaries ARE the i18n source (ADR-0019: the resx pipeline is retired).
+export const en = {
+  "About_Author": "Kağan Güngör (kagangungor)",
+  "About_AuthorTagline": "Do the same thing twice, write a tool",
+  "About_Back": "Back",
+  "About_BackToAbout": "← About",
+  "About_Changelog": "Changelog",
+  "About_CheckUpdate": "Check for updates",
+  "About_Chip_Local": "Runs locally",
+  "About_Chip_NoAccount": "No account",
+  "About_Chip_NoTelemetry": "No telemetry",
+  "About_Chip_OpenSource": "Free & open source",
+  "About_Chip_Reversible": "Fully reversible",
+  "About_Feedback": "Send feedback",
+  "About_Footer": "© 2026 kagangungor · Windows 10 / 11",
+  "About_Homepage": "github.com/kagangungor/deskio",
+  "About_Link_Bilibili": "Bilibili",
+  "About_Link_Douyin": "Douyin",
+  "About_Link_GitHub": "GitHub",
+  "About_Link_Home": "Homepage",
+  "About_Link_X": "X",
+  "About_Ok": "OK",
+  "About_RepoTitle": "Open source · Star welcome",
+  "About_RepoUrl": "github.com/kagangungor/deskio",
+  "About_Slogan": "Calm, crafted desktops for Windows",
+  "About_Tagline": "Calm, crafted desktops for Windows",
+  "About_Trust": "Runs fully offline · no network · no data uploaded",
+  "About_VersionFormat": "Version {0}",
+  "About_VersionLine": "Deskio · v1.0.0",
+  "AppTitle": "Deskio",
+  "Appearance_Custom": "Custom",
+  "Applying": "Beautifying your desktop…",
+  "ArrowGate_Body": "If you can stomach something this ugly, even like it, then surely you won't mind waiting another sixty seconds.", // PENDING-RESX (owner decree, 60s re-affirmed 2026-07-09)
+  "ArrowGate_Cancel": "Misclick, go back", // PENDING-RESX
+  "ArrowGate_Confirm": "I'm sure. Ugly and proud.", // PENDING-RESX
+  "ArrowGate_Stare1": "Take a good look at it.", // PENDING-RESX
+  "ArrowGate_Stare2": "Still looking? It won't get prettier.", // PENDING-RESX
+  "ArrowGate_Stare3": "Fine. You really do love it.", // PENDING-RESX
+  "ArrowGate_Title": "Seriously?", // PENDING-RESX
+  "ArrowGate_Wait": "You can confirm in {0}s", // PENDING-RESX
+  "ArrowRestore_Title": "Restore the system shortcut arrow?", // PENDING-RESX (arrow-restore panel 2026-07-11)
+  "ArrowRestore_Body": "Every shortcut will show the default Windows arrow again, including the icons you beautified on the desktop. Your shapes and colours stay the same. Windows will ask for permission once when restoring.", // PENDING-RESX
+  "ArrowRestore_Confirm": "Restore arrow", // PENDING-RESX
+  "ArrowRestore_Cancel": "Cancel", // PENDING-RESX
+  "Axis_Color": "Colour",
+  "Axis_Dist": "Shortcut mark",
+  "Axis_Filter": "Filter",
+  "Axis_Kind": "Beautified types",
+  "Axis_Shape": "Shape",
+  "BadgeCleanWarning": "",
+  "BadgeStyle_Arrow": "Arrow",
+  "BadgeStyle_Chamfer": "Chamfer",
+  "BadgeStyle_Dock": "Dock",
+  "BadgeStyle_Fold": "Fold",
+  "BadgeStyle_Gem": "Gem",
+  "BadgeStyle_Matte": "Matte",
+  "BadgeStyle_Stacked": "Stacked",
+  "Badge_Clean": "Remove",
+  "Badge_Keep": "Keep arrow",
+  "Badge_Refined": "Beautify",
+  "Badge_RowLabel": "Shortcuts",
+  "Calm_CanQuiet": "Can quiet {0} spots · restore anytime",
+  "Calm_Confirm_Body": "Your account only. No admin rights. One click restores everything.",
+  "Calm_Confirm_Cancel": "Not now",
+  "Calm_Confirm_Go": "Go",
+  "Calm_Confirm_GuidedNote": "Things like the widgets feed need your hand; we walk you there when you are ready.",
+  "Calm_Confirm_List": "This will turn off: {0}.",
+  "Calm_Confirm_Title": "Make it calm",
+  "Calm_Cta": "Make it calm",
+  "Calm_Cta_Awaiting": "Set, waiting for sign in",
+  "Calm_Cta_Done": "All calm",
+  "Calm_Cta_Working": "Quieting things down",
+  "Calm_FinishSetup": "Finish setup reminders",
+  "Calm_FinishSetup_Desc": "No more finish setting up this device prompts after you sign in",
+  "Calm_FinishSetup_Route": "We take you to System > Notifications; switch finish setting up this device off yourself, then come back",
+  "Calm_GoGuided": "Take me there",
+  "Calm_Group_Guided": "Yours to switch off, we lead the way",
+  "Calm_Group_Guided_Sub": "We open the matching system settings and walk you through turning it off",
+  "Calm_Group_Held": "Left alone on this PC for now",
+  "Calm_Group_Held_Sub": "Not yet verified on your Windows build; support grows with updates",
+  "Calm_Group_OneClick": "What one click can quiet",
+  "Calm_Group_OneClick_Sub": "Make it calm turns these off automatically; restore anytime. Untick a row to leave it out",
+  "Calm_Guided_Again": "Take me there again",
+  "Calm_Guided_ConfirmAsk": "Did you turn it off?",
+  "Calm_Guided_ConfirmYes": "Done",
+  "Calm_Held_Managed": "Managed by your organization",
+  "Calm_Held_NotYet": "Not yet on this build",
+  "Calm_Held_Reason_Uncertified": "To avoid breaking anything, these are not yet verified on your Windows build, so we leave them alone.",
+  "Calm_HeroPromise": "Quiet the recommendations Windows keeps pushing at you.",
+  "Calm_ListJoin": ", ",
+  "Calm_LockStatus": "Lock screen extras",
+  "Calm_LockStatus_Desc": "No more weather and news cards",
+  "Calm_LockStatus_Route": "We take you to Lock screen settings; set the status to None yourself, then come back",
+  "Calm_Notice_ReClose": "Turn off again",
+  "Calm_Notice_Reopened": "After a Windows update, {0} quieted items turned back on",
+  "Calm_NotifSuggestions": "Notification suggestions",
+  "Calm_NotifSuggestions_Desc": "No more try this feature suggestions",
+  "Calm_NotifSuggestions_Route": "We take you to System > Notifications; switch suggestion notices off yourself, then come back",
+  "Calm_Restore": "Restore Windows suggestions",
+  "Calm_RestoreOne": "Restore",
+  "Calm_Restore_Working": "Restoring",
+  "Calm_SearchHighlights": "Search highlights",
+  "Calm_SearchHighlights_Desc": "No more daily trends and seasonal art",
+  "Calm_SearchHighlights_Route": "We take you to Privacy & security > Search permissions; switch Show search highlights off yourself, then come back",
+  "Calm_SettingsSuggestions": "Settings suggestions",
+  "Calm_SettingsSuggestions_Desc": "No more suggested content cards",
+  "Calm_SettingsSuggestions_Route": "We take you to Privacy & security > General; switch suggested content in Settings off yourself, then come back",
+  "Calm_SkipReason_Changed": "Skipped this time: the system state changed; recheck and retry",
+  "Calm_StartRecs": "Start menu recommendations",
+  "Calm_StartRecs_Desc": "Stops recommending apps you never installed (your own recent files stay)",
+  "Calm_StartRecs_Route": "We take you to Personalization > Start; switch Show recommendations off yourself, then come back",
+  "Calm_State_Awaiting": "Set, takes effect after you sign in again",
+  "Calm_State_ConfirmedOff": "Confirmed off",
+  "Calm_State_External": "Changed by you, left alone",
+  "Calm_State_NeedsReconfirm": "Needs a fresh look after the Windows update",
+  "Calm_State_Pending": "Verifying",
+  "Calm_State_Quiet": "Already quiet",
+  "Calm_State_Reverted": "Could not apply, rolled back",
+  "Calm_State_UserAttested": "You turned it off",
+  "Calm_State_Verified": "Active",
+  "Calm_Summary": "{0} surfaces quieted",
+  "Calm_SyncNotif": "File Explorer promo notices",
+  "Calm_SyncNotif_Collateral": "Also hides sync provider status notices",
+  "Calm_SyncNotif_Desc": "No more OneDrive and Office promo banners",
+  "Calm_TaskView": "Task view button",
+  "Calm_TaskView_Desc": "Hide the task view button on the taskbar (Win+Tab still works)",
+  "Calm_TaskView_Route": "We take you to Personalization > Taskbar; switch Task view off yourself, then come back",
+  "Calm_TaskbarSearch": "Taskbar search box",
+  "Calm_TaskbarSearch_Desc": "Hide the search box on the taskbar (Win+S search still works)",
+  "Calm_TaskbarSearch_Route": "We take you to Personalization > Taskbar; set Search to Hide yourself, then come back",
+  "Calm_ToastJoin": "; ",
+  "Calm_ToastPart_Awaiting": "{0} take effect after you sign in again",
+  "Calm_ToastPart_Failed": "{0} could not be applied this time",
+  "Calm_ToastPart_Quieted": "Quieted {0} surfaces",
+  "Calm_Toast_ExcludeLoadFailed": "Your saved exclusions could not be read; everything is selected this time",
+  "Calm_Toast_ExcludeNotSaved": "That exclusion could not be saved; it lasts this session only",
+  "Calm_Toast_GoLook": "Go take a look at your Start menu",
+  "Calm_Toast_NothingToDo": "Nothing left to quiet",
+  "Calm_Toast_Restored": "Restored {0} Windows suggestions",
+  "Calm_Toast_RestoredOne": "Restored {0}",
+  "Calm_Toast_RestoredSkipped": "Restored {0}; left {1} you changed yourself untouched",
+  "Calm_Toast_Unconfirmed": "Could not confirm the result; rechecking now",
+  "Calm_Toast_ScanFailed": "Could not check the system; tap retry", // probe rejection surfaced honestly
+  "Calm_Toast_RouteFailed": "Could not open that Windows setting; try again", // guided route launch failed
+  "Calm_ScanFailed_Head": "The check did not finish",
+  "Calm_ScanFailed_Sub": "Reading your system got interrupted. Tap retry to check again.",
+  "Calm_ScanFailed_Retry": "Check again",
+  "Calm_Tray": "System tray icons",
+  "Calm_Tray_Desc": "Pick what shows; the rest tucks away",
+  "Calm_Tray_Route": "We take you to Taskbar settings; pick the icons to show yourself, then come back",
+  "Calm_Welcome": "Welcome experience",
+  "Calm_Welcome_Desc": "No more full screen welcome pages after updates",
+  "Calm_Welcome_Route": "We take you to System > Notifications; switch the welcome experience off yourself, then come back",
+  "Calm_WidgetsButton": "Taskbar widgets button",
+  "Calm_WidgetsButton_Desc": "The corner weather entry; you flip it yourself",
+  "Calm_WidgetsButton_Route": "We take you to Personalization > Taskbar; switch Widgets off there yourself, then come back",
+  "Calm_WidgetsFeed": "Widgets feed and badges",
+  "Calm_WidgetsFeed_Desc": "Turn off the feed, hover open, badges and announcements",
+  "Calm_WidgetsFeed_Route": "We take you to Personalization > Taskbar; switch Widgets off there yourself. To keep Widgets but drop the feed and badges, press Win+W and adjust the board settings",
+  "Canvas_Placeholder": "Desktop preview",
+  "Canvas_Refresh_Tip": "Re-read the desktop (icons, arrangement, wallpaper)",
+  "Canvas_ScanFailed": "The desktop couldn't be read just yet.", // PENDING-RESX
+  "Canvas_ScanRetry": "Try again", // PENDING-RESX
+  "Cap_Close": "Close",
+  "Cap_Maximize": "Maximize",
+  "Cap_Minimize": "Minimize",
+  "Cap_Restore": "Restore Down",
+  "Changelog_Title": "Changelog",
+  "Clarity_Off": "Off",
+  "Clarity_Soft": "Soft",
+  "Clarity_Strong": "Strong",
+  "Color_Bw": "B&W",
+  "Color_Field": "Colour field", // PENDING-RESX (ADR-0016 default mode)
+  "Field_Quiet": "Soft", // PENDING-RESX
+  "Field_Vivid": "Vivid", // PENDING-RESX
+  "Type_FollowGlobal": "Follows global",
+  "Type_Custom": "Custom",
+  "Type_ResetFollow": "Reset to global",
+  "Type_ResetAll": "Reset all",
+  "Type_PlateAuto": "Auto plate",
+  "Type_Plate": "Plate",
+  "Subject_Label": "Subject",
+  "Plate_Label": "Plate",
+  "Subject_Orig": "Original",
+  "Plate_None": "System default",
+  "Plate_Auto": "Auto",
+  "Plate_Faithful": "Faithful",
+  "Plate_White": "White",
+  "Plate_NeedShape": "Pick a shape to set a plate",
+  "Shortcut_UniformShape": "Shortcut shape",
+  "Shortcut_ShapeGhost": "Shortcut uniform shape overrides type shapes",
+  "Color_Mono": "Mono",
+  "Color_Orig": "Original",
+  "ComboLabel": "Style",
+  "Combo_Apple": "Apple",
+  "Combo_Bw": "Mono",
+  "Combo_Candy": "Candy",
+  "Combo_Wallpaper": "Wallpaper",
+  "Compare_After": "After",
+  "Compare_Before": "Before",
+  "Compare_Held": "The original look",
+  "Compare_Idle": "Hold to compare · Space",
+  "Compare_Short": "Compare",
+  "ComingSoon": "Coming soon", // PENDING-RESX (v3 filter roadmap slot)
+  "ConsentAgree": "OK, beautify",
+  "ConsentArrow": "When you apply a look, we hide the small shortcut arrow Windows adds and let Deskio draw a cleaner one instead. This takes effect for the whole computer, so it also touches shortcuts outside the desktop and on other accounts on this PC; you can restore it any time in Settings with one click.", // PENDING-RESX (arrow-restore panel 2026-07-11)
+  "ConsentCancel": "Not yet",
+  "ConsentNot": "What does not happen: no files are deleted, moved, or modified",
+  "ConsentRefresh": "To refresh the desktop icons, any open folder windows will be closed",
+  "ConsentTitle": "Before we start, a few plain facts",
+  "ConsentUac": "One administrator approval is needed; Windows will show a confirmation",
+  "ConsentWhatFormat": "What happens: {0} icons get a new look, and the shortcut arrow becomes a refined mark",
+  "Corner_Square": "Square",
+  "Cta_Apply": "Beautify",
+  "Cta_Scanning": "Scanning…",
+  "Cta_Synced": "✓ In sync with the desktop",
+  "Cta_Update": "Update desktop",
+  "Cta_Working": "Applying…",
+  "Cta_RestoreDefault": "Restore system default", // A1: bare look + styled desktop → the crossing is a restore, never an apply
+  "Custom_Badge": "Custom",
+  "Dist_Keep": "Default arrow", // PENDING-RESX: was "Classic arrow" (owner: name the native artifact)
+  "Dist_Mark": "Beautified", // PENDING-RESX: was "Beautified mark" (v3 segmented width)
+  "Dist_None": "None", // PENDING-RESX: was "No mark"
+  "DoneArrow": "The system shortcut arrow is now hidden and your desktop looks cleaner. To bring the small arrow back, one click in Settings restores it.", // PENDING-RESX (arrow-restore panel 2026-07-11)
+  "DoneHeadline": "✨ Done. Your desktop looks brand new",
+  "Done_GoOrganize": "Organize my desktop", // PENDING-RESX
+  "Done_LastStep": "Last step: drag your icons into the zones. The Windows grid lines them up.", // PENDING-RESX
+  "Drawer_AboutRow": "About Deskio",
+  "Drawer_AboutRowDesc": "v1.0.0 · Calm, crafted desktops for Windows",
+  "Drawer_Appearance": "Appearance",
+  "Drawer_ChangelogRow": "Changelog",
+  "Drawer_CheckUpdate": "Check for updates",
+  "Drawer_Comparison": "Before / after image",
+  "Drawer_ComparisonDesc": "Make a shareable comparison picture",
+  "Drawer_Export": "Export",
+  "Drawer_Feedback": "Help & feedback",
+  "Drawer_KeepUp": "Auto-beautify new icons",
+  "Drawer_KeepUpDesc": "Style new desktop icons in the current look",
+  "Drawer_Snapshot": "Restore snapshot",
+  "Drawer_SnapshotNone": "None yet · created automatically on apply",
+  "Drawer_SnapshotSaved": "1 saved · just now, automatically",
+  "Drawer_Title": "Settings",
+  "EmptyStateLine": "Your desktop is about to look brand new",
+  "ErrorDetails": "Technical details",
+  "ErrorHeadline": "Something went wrong",
+  "ErrorNextStep": "Try again later; if it keeps happening, export diagnostics from settings",
+  "ErrorNothingChanged": "Your desktop was not changed",
+  "ErrorRolledBack": "The change was undone automatically. Your desktop is back to how it was",
+  "Filter_Glass": "Glass",
+  "Filter_Gloss": "Gloss", // PENDING-RESX (v3 coming-soon filter slot)
+  "Filter_None": "None",
+  "Filter_Pixel": "Pixel",
+  "Filter_Sticker": "Sticker",
+  "Glyph_Arrow": "Arrow",
+  "Glyph_Dot": "Bare",
+  "Glyph_Fold": "Line",
+  "GoSeeDesktop": "Go take a look",
+  "Gradient_Bottom": "Bottom",
+  "Gradient_Custom": "Custom", // PENDING-RESX (v3 dial↔direction sync)
+  "Gradient_Left": "Left",
+  "Gradient_Right": "Right",
+  "Gradient_Top": "Top",
+  "Gradient_Vignette": "Corners", // PENDING-RESX: was Vignette (fits the compact trigger; matches zh 四角)
+  "Hero_CleanStatus": "Beautified {0} icons · snapshot saved",
+  "Hero_DirtyStatus": "Beautified {0} icons · new style waiting",
+  "Hero_ReadyStatus": "Ready to beautify {0} icons · fully reversible",
+  "Hero_ResumedStatus": "Resumed your last design", // A3: draft matches the live desktop
+  "Hero_UnappliedStatus": "Last unapplied draft · {0} to apply", // A3: draft differs from the desktop — never reads as applied
+  "Hero_Scanning": "Scanning the desktop…",
+  "Hero_Title": "Your desktop, about to look brand new",
+  "Hero_TitleClean": "Looking brand new",
+  "Hero_TitleDirty": "A new style is waiting",
+  "History_BackToInitial": "Back to start",
+  "History_Current": "Current",
+  "History_GoTo": "Back to this",
+  "History_Header": "Version history · last 10 looks",
+  "History_Initial": "Start",
+  "History_Custom": "Custom", // PENDING-RESX
+  "History_InitialDesc": "Native Windows desktop",
+  "History_Redo": "Redo", // PENDING-RESX
+  "History_Undo": "Undo", // PENDING-RESX
+  "Icons_ApplyProgress": "Writing to the desktop {0}/{1}", // PENDING-RESX
+  "Icons_ClearExceptions": "Clear all exceptions", // PENDING-RESX
+  "Icons_BareStatus": "System default · desktop untouched", // A1: bare look, desktop already un-styled
+  "Icons_BareDirtyStatus": "System default · restore pending", // A1: bare look, desktop still styled
+  "KindBucket_App": "programs",
+  "KindBucket_Folder": "folders",
+  "KindBucket_File": "files",
+  "Icons_KeepAllKind": "Don't beautify {0}",
+  "Icons_ReincludeKind": "Beautify {0}",
+  "Icons_KeptCount": "{0} kept as-is",
+  "Icons_ClearKept": "Clear",
+  "Icons_ReincludeCancel": "Include",
+  "Icons_ExceptionCount": "{0} exceptions", // PENDING-RESX
+  "Icons_MenuIconSize": "Icon size", // PENDING-RESX
+  "Icons_MenuRefresh": "Refresh", // PENDING-RESX
+  "Icons_PeekHint": "Hold to peek at the original", // PENDING-RESX
+  "Icons_SizeHonesty": "Windows rearranges positions after applying", // PENDING-RESX
+  "Icons_Unstyleable": "Windows manages this icon; it can't be changed", // PENDING-RESX
+  "Icons_Reason_RepairPending": "Pending repair: the last operation didn't finish — refresh and retry", // PENDING-RESX
+  "Icons_Reason_Unreadable": "Couldn't read this icon's state", // PENDING-RESX
+  "Icons_Reason_StyledResidue": "Styled residue: the original-icon record is missing, so it was skipped to avoid stacking on the old style", // PENDING-RESX
+  "Icons_Reason_ExtractFailed": "Couldn't read the icon: {0}", // PENDING-RESX
+  "Icons_Reason_TooMany": "Too many icons: this scan's preview budget is used up, so some icons have no preview", // PENDING-RESX
+  "Ink_Auto": "Auto",
+  "Ink_Black": "Black",
+  "Ink_White": "White",
+  "ItemCountFormat": "{0} items",
+  "KeepUpNote": "New icons catch up automatically when the app opens",
+  "Keymap_Compare": "Compare with original",
+  "Keymap_CompareKey": "Hold Space",
+  "Keymap_DeleteZone": "Delete zone",
+  "Keymap_DeleteZoneKey": "Del",
+  "Keymap_Deselect": "Deselect zone", // PENDING-RESX (v3 keymap by page)
+  "Keymap_DeselectKey": "Esc", // PENDING-RESX
+  "Keymap_Modules": "Switch module",
+  "Keymap_ModulesKey": "Ctrl+1/2/3/4",
+  "Keymap_NewZone": "New zone",
+  "Keymap_NewZoneKey": "Drag empty space", // PENDING-RESX: was "Drag on canvas" (page-scoped now)
+  "Keymap_Open": "Keyboard shortcuts",
+  "Keymap_Pan": "Pan canvas", // PENDING-RESX (v3 keymap by page)
+  "Keymap_PanIconsKey": "Drag empty space", // PENDING-RESX
+  "Keymap_PanPaperKey": "Middle-drag", // PENDING-RESX
+  "Keymap_Redo": "Redo", // PENDING-RESX (v3 keymap by page)
+  "Keymap_RedoKey": "Ctrl+Shift+Z", // PENDING-RESX
+  "Keymap_Title": "Keyboard shortcuts",
+  "Keymap_Undo": "Undo",
+  "Keymap_UndoKey": "Ctrl+Z",
+  "Keymap_Zoom": "Zoom canvas", // PENDING-RESX (v3 keymap by page)
+  "Keymap_ZoomKey": "Ctrl+Wheel", // PENDING-RESX (owner: keyboard+mouse only, no touch gestures)
+  "KeymapSec_General": "General", // PENDING-RESX (v3 keymap by page)
+  "KeymapSec_Icons": "Icons", // PENDING-RESX
+  "KeymapSec_Paper": "Wallpaper", // PENDING-RESX
+  "Kind_AppxShortcut": "Store app",
+  "Kind_Folder": "Folder",
+  "Kind_Other": "Other",
+  "Kind_RecycleBin": "Recycle Bin",
+  "Kind_RegularFile": "File",
+  "Kind_Shortcut": "Shortcut",
+  "Kind_UrlShortcut": "Web shortcut",
+  "Language_English": "English",
+  "Language_System": "Follow system",
+  "Language_Tr": "Türkçe",
+  "Link_Compare": "Compare",
+  "Link_Compare_Tip": "Save a before / after image",
+  "Link_History": "History",
+  "Link_History_Tip": "Version history",
+  "Link_Prev": "Previous",
+  "Link_Prev_Tip": "Go back to the previous look",
+  "Link_Restore": "Restore",
+  "Link_Restore_Tip": "Restore to the native Windows desktop",
+  "MarkColor_Auto": "Auto",
+  "MarkColor_Label": "Mark colour",
+  "Mark_Comet": "Arrow badge",
+  "Mark_Arc": "Enamel arc",
+  "Mark_Halo": "Halo",
+  "Mark_Shadow": "Drop shadow",
+  "Mark_Fold": "Dog-ear",
+  "Mark_Ring": "Thin ring",
+  "Mark_Satin": "Satin corner",
+  "Material_Brushed": "Brushed metal", // PENDING-RESX
+  "Material_Fluted": "Fluted glass", // PENDING-RESX
+  "Material_Frost": "Frosted glass", // PENDING-RESX
+  "Material_LiquidGlass": "Liquid glass", // PENDING-RESX
+  "Material_Outline": "Outline card", // PENDING-RESX
+  "Material_Paper": "Matte paper", // PENDING-RESX
+  "Menu_Follow": "Follow global style",
+  "Menu_FollowToast": "「{0}」 now follows the global style",
+  "Menu_Keep": "Keep original",
+  "Menu_KeptToast": "「{0}」 will keep its original",
+  "Menu_TintHeader": "Single colour",
+  "Menu_TintToast": "Coloured 「{0}」 on its own",
+  "Menu_UnkeptToast": "「{0}」 follows the global style again",
+  "MirrorReadyFormat": "Turn on to unify all {0} desktop icons into one clean look",
+  "MirrorSubtitle": "{0} icons",
+  "MirrorSubtitleSkipped": "{0} icons · {1} left as is",
+  "MirrorTitle": "Your desktop",
+  "Palette_Button": "Palette",
+  "PlateColor_Auto": "Auto",
+  "ColorTab_Bg": "Background",
+  "ColorTab_Fg": "Foreground",
+  "Mono_Flat": "Solid",
+  "Mono_Tonal": "Tonal",
+  "Panel_CalmTitle": "Calm Windows",
+  "Panel_IconsTitle": "Beautify icons",
+  "Panel_PaperTitle": "Beautify wallpaper",
+  "Panel_Placeholder": "Control panel",
+  "Panel_SettingsTitle": "Settings",
+  "Paper_AddZone": "+ Add zone",
+  "Paper_Advanced": "Advanced",
+  "Paper_Angle": "Angle",
+  "Paper_Clarity": "Dim wallpaper", // PENDING-RESX: owner 2026-07-09 — name the ACTION (gradient dim), not the goal
+  "Paper_Coach": "Zones are painted into the wallpaper. Icons won't move in on their own. Drag them into a panel and the Windows grid lines them up. Your original wallpaper is backed up; bring it back anytime.",
+  "Paper_CoachOk": "Got it",
+  "Paper_Corner": "Corner radius",
+  "Paper_Cta_Apply": "Apply to wallpaper",
+  "Paper_Cta_Synced": "✓ In sync with your desktop",
+  "Paper_Cta_Update": "Update wallpaper",
+  "Paper_Cta_Working": "Composing…",
+  "Paper_Dim": "Darken strength",
+  "Paper_DropHint": "Drop to design on this image", // PENDING-RESX
+  "Paper_DropReject": "Images only", // PENDING-RESX
+  "Paper_PreviewFailed": "Couldn't load the wallpaper preview, showing your original wallpaper", // PENDING-RESX
+  "Paper_ApplyScreenSyncing": "The preview is still switching screens — try applying again in a moment", // PENDING-RESX
+  "Paper_EmptyDrawHint": "Or drag a frame on the wallpaper to draw your own", // PENDING-RESX
+  "Paper_EmptyImportHint": "Or import your own image", // PENDING-RESX
+  "Paper_EmptyLead": "Pick a layout to start", // PENDING-RESX
+  "Paper_Export": "Export image", // PENDING-RESX
+  "Paper_Export_Tip": "Save as an image to share", // PENDING-RESX
+  "Paper_FillColor": "Fill colour",
+  "Paper_FillOpacity": "Opacity",
+  "Paper_Footer": "Zones are painted onto the wallpaper · drag icons in yourself · the original is backed up",
+  "PaperHow_Title": "How this works", // PENDING-RESX (v3 how-it-works card)
+  "PaperHow_Zones": "Zones are painted into the wallpaper image itself", // PENDING-RESX (v3 how-it-works card)
+  "PaperHow_Icons": "You drag the icons into place yourself", // PENDING-RESX (v3 how-it-works card)
+  "PaperHow_Backup": "The original is backed up · restore anytime", // PENDING-RESX (v3 how-it-works card)
+  "Paper_Gradient": "Gradient direction",
+  "Paper_Hero": "Zone your wallpaper",
+  "Paper_HeroApplied": "Your desktop is in order",
+  "Paper_Import": "Import image", // PENDING-RESX
+  "Paper_ImportCancel": "Cancel import", // PENDING-RESX
+  "Paper_ImportCancel_Tip": "Back to current wallpaper", // PENDING-RESX
+  "Paper_Import_Tip": "Design on your own image", // PENDING-RESX
+  "Paper_Mismatch": "Your desktop changed; zones may be misaligned",
+  "Paper_PaleHint": "Pale wallpaper; dimming helps icons read", // PENDING-RESX
+  "Paper_Regenerate": "Recompose",
+  "Paper_ReplaceConfirm": "Apply this layout? It replaces all current zones.", // PENDING-RESX: presets
+  "Paper_Restore": "Bring my wallpaper back",
+  "Paper_ScrimLabel": "Dim colour", // PENDING-RESX: Scrim is banned vocabulary (spec 04 §1)
+  "Paper_SourceImported": "Designing on imported image", // PENDING-RESX
+  "Paper_StatusApplied": "Applied · your original wallpaper is backed up",
+  "Paper_StatusDirty": "New changes waiting to apply",
+  "Paper_StatusIdle": "What you see is what you get", // PENDING-RESX (v3 short status, never truncates)
+  "Paper_StatusWorking": "Composing wallpaper…",
+  "Paper_TitleLabel": "Title", // PENDING-RESX
+  "Paper_ZoneStyle": "Panel style",
+  "Paper_Zones": "Zones",
+  // Multi-screen wallpaper (spec 04 §B4–B6 / A4)
+  "Paper_Cta_ApplyScreen": "Apply to screen {0}",
+  "Paper_DynamicChip": "Live",
+  "Paper_DynamicImport": "Import a still image",
+  "Paper_DynamicReplaceConfirm": "Applying replaces this screen's live wallpaper with a still image.",
+  "Paper_DynamicReplaceCta": "Apply anyway",
+  "Paper_DynamicWallpaper": "This screen uses a live or video wallpaper and can't be restyled directly",
+  "Paper_EditingScreen": "Editing · Screen {0}",
+  "Paper_Landscape": "landscape",
+  "Paper_Portrait": "portrait",
+  "Paper_ScreenPrimary": "Primary",
+  "Paper_SelectScreen": "Switch to screen {0}",
+  "Paper_SlideshowWarn": "This screen runs a Windows slideshow; applying stops the rotation.",
+  "Paper_SpanNote": "Spanned wallpaper · one image shared across all screens, can't be designed per screen.",
+  "PlanNeedsSnapshot": "Save a snapshot before building an apply plan.",
+  "PlanReadyFormat": "Apply plan ready: {0} safe preview steps. Your desktop has not been modified.",
+  "Preset_Apply": "Apply layout", // PENDING-RESX
+  "Preset_Gallery": "Layout presets", // PENDING-RESX
+  "Preset_MinimalDuo": "Minimal duo", // PENDING-RESX
+  "Preset_Quadrants": "Quadrants", // PENDING-RESX
+  "Preset_SideRail": "Side rail", // PENDING-RESX
+  "Preset_Workbench": "Workbench", // PENDING-RESX
+  "Preset_Ladder": "Ladder", // PENDING-RESX
+  "Preset_Horizon": "Horizon", // PENDING-RESX
+  "Preset_FocusSplit": "Focus split", // PENDING-RESX
+  "Preset_Totem": "Totem", // PENDING-RESX
+  "Preset_squircle": "Squircle", // preset v3, owner-curated 2026-07-16
+  "Preset_squircle_Desc": "One squircle, every type its own shape",
+  "Preset_porthole": "Porthole",
+  "Preset_porthole_Desc": "Round apps; files keep their places",
+  "Preset_pixel": "Pixel Era",
+  "Preset_pixel_Desc": "An afternoon back in 8-bit",
+  "Preset_creek": "Creekstone",
+  "Preset_creek_Desc": "Stones rounded by the stream",
+  "Preset_scrapbook": "Scrapbook",
+  "Preset_scrapbook_Desc": "A page pasted together by hand",
+  "Preset_gleam": "Gleam",
+  "Preset_gleam_Desc": "Icons as they are, brushed with light",
+  "Preset_diecut": "Die-Cut",
+  "Preset_diecut_Desc": "Stickers cut along every outline",
+  "Preset_blueprint": "Blueprint",
+  "Preset_blueprint_Desc": "A full set of engineering drawings",
+  "Preset_glaze": "Glaze",
+  "Preset_glaze_Desc": "Cool porcelain under a glaze",
+  "Preset_SystemDefault": "System default", // A1: reset escape hatch, first in the style deck
+  "Preset_SystemDefault_Desc": "Back to the untouched original desktop",
+  "Preset_CurrentCustom": "Custom",
+  "Preset_Current_Tip": "Current style · click to return to this draft",
+  "Preset_Library": "Style library",
+  "Preset_LibraryN": "Style library +{0}",
+  "Library_Import": "Import style pack",
+  "Library_ExportCurrent": "Export current style",
+  "Library_SaveCurrent": "Save as my style",
+  "Library_Mine": "Mine",
+  "Library_More": "More actions",
+  "Library_Rename": "Rename",
+  "Library_Delete": "Delete",
+  "Library_ExportOne": "Export",
+  "Library_ImportTitle": "Import style pack",
+  "Library_ImportConfirmN": "Import {0}",
+  "Library_ImportedSuffix": " (imported)",
+  "Library_IncludeKindPolicy": "Include participation policy",
+  "Library_ExportTitle": "Export current style",
+  "Library_ExportConfirm": "Choose location & export",
+  "Library_SaveTitle": "Save as my style",
+  "Library_SaveConfirm": "Save",
+  "Library_NamePlaceholder": "Style name (required)",
+  "Library_AuthorPlaceholder": "Author (optional, ships with the pack)",
+  "Library_NeedsDesktop": "This needs the desktop app",
+  "Library_InvalidEntry": "Unreadable: pack is damaged or needs a newer Deskio",
+  "Toast_PresetSaved": "Saved to the style library",
+  "Toast_PresetExported": "Exported to",
+  "Toast_PresetImportedN": "Imported {0} style(s)",
+  "Preset_minimal": "Minimal white", // PENDING-RESX
+  "Preset_minimal_Desc": "The quiet white board", // PENDING-RESX
+  "Preset_quiet": "Quiet pastel", // PENDING-RESX
+  "Preset_quiet_Desc": "Soft plates · each keeps its hue", // PENDING-RESX
+  "PreviewApplyPlan": "Preview apply plan",
+  "PreviewScanComplete": "Preview scan complete. Your desktop has not been modified.",
+  "ProductName": "Deskio",
+  "Rail_Calm": "Calm",
+  "Rail_Icons": "Icons",
+  "Rail_Paper": "Wallpaper",
+  "Rail_Settings": "Settings",
+  "ReadyToScan": "Ready to scan your desktop.",
+  "Reason_RecycleBin": "This is the system Recycle Bin; Windows does not allow changing its icon",
+  "Reason_RegularFile": "Regular files stay as they are; file styling can be enabled in settings",
+  "Reason_Unsupported": "This item cannot be styled yet; it will not be touched",
+  "RefreshNotice": "The desktop will blink for about 2 seconds; your open windows and files are unaffected",
+  "RestoreConfirm": "Restore everything to how it was?",
+  "Restored": "Restored to system defaults · nothing left behind",
+  "Restoring": "Restoring…",
+  "Restyling": "Updating…",
+  "RetryBadge": "Retry arrow styling",
+  "SaveComparison": "Save before/after image",
+  "SaveSnapshot": "Save snapshot",
+  "ScanDesktop": "Scan desktop",
+  "ScanFailedPrefix": "Scan failed. Nothing was modified.",
+  "Scanning": "Taking a look at your desktop…",
+  "Scrim_Dark": "Dark",
+  "Scrim_Light": "Light",
+  "Scrim_Tint": "Wallpaper tone",
+  "Section_Custom": "Customize",
+  "Section_Style": "Style",
+  "SettingsTitle": "Settings",
+  "Settings_AboutHelp": "About and help",
+  "Settings_Appearance": "Appearance",
+  "Settings_AppearanceDesc": "Follow Windows by default. Override only when you want this app to look different.",
+  "Settings_ArrowRestore": "Shortcut arrow", // PENDING-RESX (arrow-restore panel 2026-07-11)
+  "Settings_ArrowStatusHidden": "Now: hidden, drawn by Deskio", // PENDING-RESX
+  "Settings_ArrowStatusNative": "Now: Windows default", // PENDING-RESX
+  "Settings_ArrowStatusChecking": "Checking desktop status…", // PENDING-RESX (unknown until scan resolves)
+  "Settings_ArrowFaq": "Where did the little arrow go?", // PENDING-RESX (Help safety net → deep-links to the row)
+  "Settings_ArrowRestoreAction": "Restore system arrow", // PENDING-RESX
+  "Settings_ArrowConstraint": "Windows only lets this switch for the whole machine.", // PENDING-RESX
+  "Settings_Backup": "Backup location",
+  "Settings_Badge": "Distinguish shortcuts",
+  "Settings_BadgeDesc": "Shortcuts get a soft bottom-left mark by default; or keep the arrow / remove entirely",
+  "Settings_Diagnostics": "Diagnostics",
+  "Settings_Export": "Export",
+  "Settings_Diag": "Diagnostics", // PENDING-RESX (v3 error reporting)
+  "Settings_DiagDesc": "Copy the error log, or report a problem with your environment attached", // PENDING-RESX (v3 error reporting)
+  "Diag_CopyLog": "Copy error log", // PENDING-RESX (v3 error reporting)
+  "Diag_Report": "Report on GitHub", // PENDING-RESX (v3 error reporting)
+  "Diag_Email": "Email the author", // PENDING-RESX (v3 error reporting)
+  "Diag_Copied": "Error log copied", // PENDING-RESX (v3 error reporting)
+  "Diag_CopyFailed": "Copy failed · select and copy manually", // PENDING-RESX (v3 error reporting)
+  "Settings_ExportCompare": "Save before/after image",
+  "Settings_Feedback": "Contact & feedback",
+  "Settings_General": "General",
+  "Settings_KeepUp": "Auto-format new icons",
+  "Settings_KeepUpDesc": "New desktop icons are styled to your saved look automatically; complete one Beautify first to enable", // resident (spec 07 §2)
+  "Settings_ResetAll": "Restore the original system look", // spec 07 §13 level 4 (Settings › Advanced)
+  "Settings_ResetAllDesc": "Removes every icon change Deskio made; the desktop returns to how it started",
+  "ResetAll_Title": "Restore all icons to the original system look?", // spec 07 §13.2 binding copy
+  "ResetAll_Body1": "This removes every change Deskio made to all {0} icons, whether you set them by hand or automation did, returning the desktop to how it looked before Deskio.",
+  "ResetAll_Body2": "· Your {0} saved appearance(s) are kept and can be reapplied any time.",
+  "ResetAll_Body3": "· Auto-format turns off too, until you next apply an appearance.",
+  "ResetAll_Confirm": "Restore original look",
+  "ResetAll_Cancel": "Cancel",
+  "Settings_Language": "Language",
+  "Settings_LocalData": "Local data",
+  "Settings_LocalDataDesc": "Restore snapshots and comparison images stay on this PC.",
+  "Settings_MarkColor": "Mark colour",
+  "Settings_OpenDataFolder": "Open data folder",
+  "Settings_OpenFolder": "Open folder",
+  "Settings_PageSubtitle": "Preferences, local backups, updates, and the product identity in one place.",
+  "Settings_Theme": "Theme",
+  "ShapeLabel": "Shape",
+  "Shape_Apple": "Apple",
+  "Shape_Bookmark": "Bookmark",
+  "Shape_Folder": "Folder",
+  "Shape_File": "Document",
+  "Shape_Circle": "Circle",
+  "Shape_Diamond": "Diamond",
+  "Shape_Flower": "Flower",
+  "Shape_Lemon": "Lemon",
+  "Shape_More": "More", // PENDING-RESX (v3 inspector)
+  "Plate_More": "More", // PENDING-RESX (v3 inspector)
+  "Mark_More": "More", // PENDING-RESX (v3 inspector)
+  "Shape_None": "Original",
+  "Shape_Pebble": "Pebble",
+  "Shape_Samsung": "Samsung",
+  "Shape_Teardrop": "Teardrop",
+  "Shape_Tile": "Tile",
+  "Size_Big": "Large",
+  "Size_Mid": "Medium",
+  "Size_Small": "Small",
+  "SkippedDetailsFormat": "{0} items will stay as they are (see why)",
+  "Slogan": "Give your Windows desktop a one-click makeover. Restore everything anytime.",
+  "SnapshotSavedFormat": "Snapshot saved. Restore data is at {0}.",
+  "StandingPromise": "Only icon looks change: your files stay untouched · Fully offline · Turning off restores everything",
+  "State_Error": "Could not read",
+  "State_Other": "Unknown",
+  "State_PreviewOnly": "Left as is",
+  "State_Ready": "Ready to beautify",
+  "State_RequiresConsent": "Needs confirmation",
+  "State_Unsupported": "Stays as is",
+  "StyleLabel": "Colour",
+  "Swatch_Amber": "Amber",
+  "Swatch_Black": "Black",
+  "Swatch_Coral": "Brand coral",
+  "Swatch_Teal": "Lake",
+  "Swatch_WallPrimary": "Wallpaper primary (auto)",
+  "Swatch_WallSecondary": "Wallpaper secondary (auto)",
+  "Swatch_White": "White",
+  "SwitchOffAction": "Turn off and fully restore",
+  "SwitchOnAction": "Turn on desktop makeover",
+  "SwitchOnStateFormat": "Makeover on · {0} icons unified",
+  "Theme_Dark": "Dark",
+  "Theme_Light": "Light",
+  "Theme_System": "Follow system",
+  "TitleFont_Default": "Default font", // PENDING-RESX
+  "TitleStyle_Bar": "Header bar", // PENDING-RESX
+  "TitleStyle_Bare": "Bare label", // PENDING-RESX
+  "TitleStyle_Chip": "Pill chip", // PENDING-RESX
+  "TitleStyle_Etched": "Etched glass", // PENDING-RESX
+  "TitleStyle_None": "Hidden", // PENDING-RESX
+  "ToastApplied": "Makeover done: {0} icons styled",
+  "ToastCaughtUp": "Styled {0} newly added icons",
+  "ToastRestored": "Restored to defaults, nothing left behind",
+  "ToastSaved": "Comparison image saved to your Pictures folder",
+  "Toast_Applied": "Done · restore snapshot saved",
+  "Toast_AppliedNoOverlay": "Icons beautified · the arrow-hide step was skipped (no admin)",
+  "Toast_ApplyFailed": "Couldn't apply · nothing changed, your desktop is safe",
+  "Toast_ApplyNoEffect": "No icons were beautified · they may have changed elsewhere; refresh and try again",
+  "Toast_ApplySkipped": "Beautified · skipped {0} (they changed elsewhere; refresh to retry them)",
+  "Toast_ApplyDegraded": "Partly applied · it didn't fully complete; please apply again to confirm",
+  "Toast_ApplySuperseded": "Superseded by a newer change · apply again",
+  "Toast_ResetSkipped": "Skipped {0} item(s) you'd edited yourself",
+  "Toast_ResetDegraded": "Restored · but cleanup didn't fully finish; you can restore again",
+  "Toast_ArrowRestored": "System arrow restored", // PENDING-RESX (arrow-restore panel 2026-07-11)
+  "Toast_AutoFormatNeedsApply": "Complete one Beautify to save a look first, then enable auto-format", // resident §2 precondition
+  "Toast_NoHistoryYet": "No history yet · every Beautify records a version here", // tray history deep-link, empty state
+  "Toast_OpenLinkFailed": "Could not open it — the link stays here in Settings", // opener rejection surfaced honestly
+  "Toast_WallpaperApplyFailed": "Could not apply the wallpaper; nothing was changed", // apply rejection surfaced honestly
+  "Toast_WallpaperRestoreFailed": "Could not restore the wallpaper; your backup is safe", // restore rejection surfaced honestly
+  "Toast_WallpaperResetFailed": "Could not reset to the original; the current source stays", // resetSource rejection
+  "Toast_DialogFailed": "Could not open the file picker; try again", // native dialog open/save rejection
+  "Toast_ResidentProposal": "{0} new icon(s) found · formatted on confirm or in 2 hours", // resident §2 item 4
+  "Toast_ResidentApplied": "{0} new icon(s) auto-formatted · undo from the tray menu", // resident batch applied
+  "Toast_ResidentUndone": "Undone · {0} icon(s) back to their original look", // resident undo (§13 level 2)
+  "Toast_ArrowRestoreDeclined": "Cancelled; the little arrow stays hidden", // PENDING-RESX (UAC declined)
+  "Toast_RestoreArrowFailed": "Couldn't restore the arrow. Please try again.", // PENDING-RESX (restore-specific failure)
+  "Toast_BackTo": "Back to: {0}",
+  "Toast_CompareFailed": "Couldn't save the comparison image; try again",
+  "Toast_CompareSaved": "Comparison image saved: {0}",
+  "Toast_ComparisonSaved": "Comparison image saved to the desktop",
+  "Toast_ImportFailed": "Couldn't open that image, try another", // PENDING-RESX
+  "Toast_PaperApplied": "Wallpaper applied · original backed up",
+  "Toast_PaperAppliedSlideshow": "Wallpaper applied · slideshow paused until you restore",
+  "Toast_PaperApplyFailed": "Apply failed; your desktop was not changed",
+  "Toast_PaperExportFailed": "Export failed, please try again", // PENDING-RESX
+  "Toast_PaperExported": "Wallpaper exported: {0}", // PENDING-RESX
+  "Toast_PaperRestoreFailed": "Restore failed; the backup is intact, try again",
+  "Toast_PaperRestored": "Your original wallpaper is back",
+  "Toast_ExceptionsCleared": "All exceptions cleared", // PENDING-RESX
+  "Toast_Refreshed": "Desktop re-read",
+  "Toast_RefreshFailed": "Refresh failed; the current view is unchanged, please try again",
+  "Toast_RestoreFailed": "Couldn't fully restore; kept for a retry; your desktop's original is safe",
+  "Toast_Restored": "Restored · your desktop is back to normal",
+  "Toast_SnapshotExported": "Snapshot exported",
+  "Toast_UpToDate": "You are on the latest version v1.0.0",
+  "Tune_Header": "Fine-tune the current style",
+  "Tune_Label": "Tune",
+  "UacDeclined": "Arrow styling was skipped (not authorized). Everything else was applied; you can retry anytime.",
+  "Updating_Cue": "Updating preview…",
+  "VersionChip": "v1.0.0",
+  "Welcome_BluffBody": "Still here? Knew you couldn't. The mouth argues; the hands are honest. You're holdout #{0} today, and every single one before you copied out the line below in the end.", // PENDING-RESX (welcome gate)
+  "Welcome_BluffCta": "Submit the confession", // PENDING-RESX (typed-recant gate)
+  "Welcome_BluffCtaLocked": "Finish copying to enter", // PENDING-RESX
+  "Welcome_Confession": "I was wrong. Windows desktop icons and the shortcut arrow really are ugly.", // PENDING-RESX (owner verbatim, typed by hand)
+  "Welcome_Continue": "Continue", // PENDING-RESX
+  "Welcome_CopyPrompt": "Copy this line, word for word:", // PENDING-RESX
+  "Welcome_EnterCta": "Start beautifying", // PENDING-RESX
+  "Welcome_Gate2No": "Tidy enough. Never bothered me.", // PENDING-RESX
+  "Welcome_Gate2Question": "And third-party app icons, do they sit tidily on your desktop?", // PENDING-RESX
+  "Welcome_Gate2Yes": "A mess. Hard to look at.", // PENDING-RESX
+  "Welcome_GateNo": "It's fine. Never bothered me.", // PENDING-RESX
+  "Welcome_GateQuestion": "How do you feel about the native Windows shortcut arrow?", // PENDING-RESX (innocent survey face — never reveal it's a gate)
+  "Welcome_GateTitle": "One quick question before we start", // PENDING-RESX
+  "Welcome_GateYes": "Ugly. I've suffered long enough.", // PENDING-RESX
+  "Welcome_GateYesNote": "Don't worry: telling shortcuts apart stays. It just isn't allowed to be ugly.", // PENDING-RESX
+  "Welcome_In": "Come in. Everyone here is your kind.", // PENDING-RESX
+  "Welcome_NoPaste": "Nice try. Pasting doesn't count.", // PENDING-RESX
+  "Welcome_Promise": "Turn a cluttered desktop into one finished piece.", // PENDING-RESX
+  "Welcome_RoastBody": "You're not who this app is for. Please uninstall, quickly.", // PENDING-RESX (owner verbatim)
+  "Welcome_RoastRethink": "Wait, let me think again", // PENDING-RESX
+  "Welcome_RoastTitle": "Then let's be blunt", // PENDING-RESX
+  "Welcome_RoastUninstall": "Fine, I'll go uninstall", // PENDING-RESX
+  "Welcome_Start": "Begin", // PENDING-RESX
+  "Welcome_TypeHere": "Type it here", // PENDING-RESX
+  "Zone_Accent": "Accent", // PENDING-RESX
+  "Zone_ApplyAll": "Apply to all zones",
+  "Zone_MenuDelete": "Delete zone",
+  "Zone_MenuDuplicate": "Duplicate zone",
+  "Zone_MenuHideTitle": "Hide title",
+  "Zone_MenuRename": "Rename",
+  "Zone_MenuShowTitle": "Show title",
+  "Zone_CopySuffix": "copy", // PENDING-RESX
+  "Zone_DefaultTitle": "New zone",
+  "Zone_DeletedToast": "Deleted {0}", // PENDING-RESX
+  "Zone_EditingHeader": "Editing {0}",
+  "Zone_EditingNone": "No zone selected",
+  "Zone_EmojiCustom": "Type any emoji", // PENDING-RESX
+  "Zone_EmojiNone": "None", // PENDING-RESX
+  "Zone_EmojiOsHint": "Press Win + . for the system emoji panel", // PENDING-RESX
+  "Zone_EmojiTabFaces": "Faces", // PENDING-RESX
+  "Zone_EmojiTabObjects": "Things", // PENDING-RESX
+  "Zone_Material": "Material", // PENDING-RESX
+  "Zone_Multiple": "Multiple zones",
+  "Zone_SelectHint": "Select a zone to adjust its style",
+  "Zone_Shadow": "Shadow", // PENDING-RESX
+  "Zone_TitleApps": "Apps",
+  "Zone_TitleArchive": "Archive", // PENDING-RESX
+  "Zone_TitleChat": "Chat", // PENDING-RESX
+  "Zone_TitleDoing": "Doing",
+  "Zone_TitleInbox": "Inbox", // PENDING-RESX
+  "Zone_TitleMedia": "Media", // PENDING-RESX
+  "Zone_TitleNow": "Now", // PENDING-RESX
+  "Zone_TitleRest": "Everything else", // PENDING-RESX
+  "Zone_TitleStyle": "Title style", // PENDING-RESX
+  "Zone_TitleWork": "Work",
+  "Zone_ToneAuto": "Auto", // PENDING-RESX
+  "Zone_ToneDark": "Dark", // PENDING-RESX
+  "Zone_ToneLight": "Light", // PENDING-RESX
+  "Zoom_FitAll_Tip": "View the whole desktop",
+  "Zoom_FitHeight_Tip": "Fit height · left",
+  "Zoom_FitWidth_Tip": "Fit width",
+  "Zoom_In_Tip": "Zoom in",
+  "Zoom_Out_Tip": "Zoom out",
+} as const

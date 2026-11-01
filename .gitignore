@@ -1,0 +1,72 @@
+# ── Rust / Cargo ──────────────────────────────────────────────
+target/
+
+# ── Web (Bun + Vite) ──────────────────────────────────────────
+node_modules/
+dist/
+dist-ssr/
+coverage/
+*.local
+.env
+.env.*
+!.env.example
+
+# ── Credentials & Secrets ─────────────────────────────────────
+*.pem
+*.pfx
+*.p12
+*.key
+*.cer
+*.crt
+*.p8
+
+# dm-icon-wasm release artifact copied into public/ by scripts/build-icon-wasm.mjs
+public/dm_icon_wasm.wasm
+# per-kernel artifacts + generated page for the WebView2 scalar-vs-fast bench (tests/icon-parity/m6/bench.ts)
+public/dm_icon_wasm.scalar.wasm
+public/dm_icon_wasm.fast.wasm
+public/icon-kernel-bench.html
+
+# ── Tauri (build-time generated ACL schemas, regenerated every build) ──
+src-tauri/gen/
+# dm-elevated sidecar staged by scripts/stage-sidecar.mjs (externalBin), rebuilt every ship build
+src-tauri/binaries/
+
+# ── Legacy .NET tree (frozen oracle under legacy/, deleted at M8) ──
+# bin/ and obj/ are scoped to legacy/ ON PURPOSE: bare `bin/` / `obj/`
+# also match Rust `src/bin/`, silently dropping tracked Rust binaries.
+legacy/**/bin/
+legacy/**/obj/
+legacy/**/TestResults/
+legacy/**/artifacts/
+legacy/**/publish/
+# Verify.NET snapshot fixtures are committed — never ignore them.
+!legacy/**/Snapshots/**
+
+# ── Local SDK / tooling ───────────────────────────────────────
+.dotnet/
+.tools/
+.cache/
+
+# ── Logs / generated app data ─────────────────────────────────
+logs/
+*.log
+/generated-icons/
+/snapshots/
+
+# ── IDE / user files ──────────────────────────────────────────
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ── OS files ──────────────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ── Agent worktrees (git worktree add .worktrees/<task>) ──────
+.worktrees/
+target-review/

@@ -1,0 +1,3726 @@
+{
+  "cells": [
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-alarm.png",
+      "rasterHash": "dffe01ccbd05387aa559b1cf38541a18315ce1d8af8be695a3eecab7405055ee",
+      "showOriginal": false,
+      "sourceId": "real-app-alarm",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2465C5",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-board.png",
+      "rasterHash": "8e5991a1d4081bad17d7cb2440ab7b0aadbbcace75fa7d4e2efb6f36c35feed4",
+      "showOriginal": false,
+      "sourceId": "real-app-board",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#D9EC40",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-buyme.png",
+      "rasterHash": "3ee2c285f546c2284ac743c48b2b560ab085ac02731fe1d5fe7a483687f97243",
+      "showOriginal": false,
+      "sourceId": "real-app-buyme",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-calculator.png",
+      "rasterHash": "f2a4c70bc5058d6af90b9023b99a54f3b1b8a306798401aeedbcb8b015c5ac25",
+      "showOriginal": false,
+      "sourceId": "real-app-calculator",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#0A96BB",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-calendar.png",
+      "rasterHash": "c2b490f1adaa465cd2f28b2548b2a8197ca68ccfabf96156bf66959d73ec882c",
+      "showOriginal": false,
+      "sourceId": "real-app-calendar",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-camera.png",
+      "rasterHash": "1b1c530b1f473a3c7c97a58aa0baafc8b8d5bab2171e8c1f9dc76e8c03800d00",
+      "showOriginal": false,
+      "sourceId": "real-app-camera",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3694B4",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-code.png",
+      "rasterHash": "2e53ca94555f86229cd03fcdcc98b00ff0e33d176fbc7772e6213dff5c992350",
+      "showOriginal": false,
+      "sourceId": "real-app-code",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-cortana.png",
+      "rasterHash": "bddb34e06e7c6eaf3e7adb067467b9645f1a2849c5f9dd0e59557fe376ccd491",
+      "showOriginal": false,
+      "sourceId": "real-app-cortana",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1A779F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-defender.png",
+      "rasterHash": "d9b314ea66ae9dab816bd868e95cdf55fab2fea58a4e38f37886c7e9ed94c9ae",
+      "showOriginal": false,
+      "sourceId": "real-app-defender",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#6D5AF2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-discord.png",
+      "rasterHash": "824e068d1daae85fdcd94d7a05b90cfa022604098319d7d4c9b6a0c28a1aea12",
+      "showOriginal": false,
+      "sourceId": "real-app-discord",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#267C9F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-edge.png",
+      "rasterHash": "64e6325f9fa364613959f31771e91a071a9dcc051cb643bff19eaa49c6166c78",
+      "showOriginal": false,
+      "sourceId": "real-app-edge",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#188B6E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-excel.png",
+      "rasterHash": "45d38234627aaf48a0ddacdcf3347db3a9bb902d30fe47b16af3fd33c6279191",
+      "showOriginal": false,
+      "sourceId": "real-app-excel",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FEBB31",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-explorer.png",
+      "rasterHash": "cfcaebb56449415d5fde0cba481bb7200fa463dcaa5a5277ae5c5c9fdefd402f",
+      "showOriginal": false,
+      "sourceId": "real-app-explorer",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-feedback.png",
+      "rasterHash": "67665ba10c7c4498d96917f90616fd4fbdec05879e3477118365a3bcc3925465",
+      "showOriginal": false,
+      "sourceId": "real-app-feedback",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#159DC1",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-getstarted.png",
+      "rasterHash": "193fd61bf0b0eea7fbb247b8fd96e18b23a6e69b6a39ef98a9a0d23aee0ab5ff",
+      "showOriginal": false,
+      "sourceId": "real-app-getstarted",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-github.png",
+      "rasterHash": "2855a9b92b1646d76d6d583b6d1ca4106e02c12da0078e4eb3d519c48927a7b3",
+      "showOriginal": false,
+      "sourceId": "real-app-github",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#E67F81",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-groove.png",
+      "rasterHash": "0cd4ab3286b825a6fd613029e61fabe72b8e26475ac7843d0de28f881d2f22e9",
+      "showOriginal": false,
+      "sourceId": "real-app-groove",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1A698D",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-help.png",
+      "rasterHash": "d810f48f3b8178ea3b85346dc5b5158f3c93e58ebbbc0f36321708af02d78715",
+      "showOriginal": false,
+      "sourceId": "real-app-help",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3CBCE0",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-home.png",
+      "rasterHash": "7e61392b2684ce5db92ae43bcebd0fa99610a88506d61bda801f03907be91754",
+      "showOriginal": false,
+      "sourceId": "real-app-home",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#0495BB",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-mail.png",
+      "rasterHash": "b634578f574b20dcbf6b800d873bea2c48e3d57003eede23a6c145f746e9e2ed",
+      "showOriginal": false,
+      "sourceId": "real-app-mail",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#CF334A",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-maps.png",
+      "rasterHash": "2bbf9877413145c93f16b9ed06fa149b8bf90f53e3e3c22c05db5ed1849d37d8",
+      "showOriginal": false,
+      "sourceId": "real-app-maps",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "full-square",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#9B5B3F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-minecraft.png",
+      "rasterHash": "49e5ac818177e3af9d9f7190f8c8b3c7828b4104a915b48f57ce8155e78a5500",
+      "showOriginal": false,
+      "sourceId": "real-app-minecraft",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#328AAC",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-movies.png",
+      "rasterHash": "cdd4753d59edd7da2cb3d95730271d2382375b2f5887a0da98aacbf0f3fcf91f",
+      "showOriginal": false,
+      "sourceId": "real-app-movies",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#C8294C",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-msoffice.png",
+      "rasterHash": "e1f20d86e34b463d0c301e4a29c0629620348d3733d19b76bc15576ed1bf0b33",
+      "showOriginal": false,
+      "sourceId": "real-app-msoffice",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-narrator.png",
+      "rasterHash": "9754e79eb1373e8eb97db90af91bb3c2dd0d33623c8e6c2565d1cce50714edd3",
+      "showOriginal": false,
+      "sourceId": "real-app-narrator",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#DA306E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-news.png",
+      "rasterHash": "a82372362254308f83f77665d2fb4225ae7ce2f12dede97509590cdec9bfb498",
+      "showOriginal": false,
+      "sourceId": "real-app-news",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#45B8C2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-notepad.png",
+      "rasterHash": "aea6c0624fd87a35d6e8d1a50b4cc32dcda5e0472defd5675d1809d841e3a9ec",
+      "showOriginal": false,
+      "sourceId": "real-app-notepad",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#E5D520",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-notes.png",
+      "rasterHash": "4f3a83e481a9b2d09507add6717bafe25a8d8ae526ab3c214a78d490ad55ac14",
+      "showOriginal": false,
+      "sourceId": "real-app-notes",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2E8DB2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-oneDrive.png",
+      "rasterHash": "fc86a26cf43f621cbcf118f9e300d25a611d29e5771c33ef93505281651f4be8",
+      "showOriginal": false,
+      "sourceId": "real-app-oneDrive",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#AB40C7",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-onenote.png",
+      "rasterHash": "2f476da4121fa5642418d18c6b628b6cd5ccef54ef3d55234563ad46e600df87",
+      "showOriginal": false,
+      "sourceId": "real-app-onenote",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2C88AE",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-outlook.png",
+      "rasterHash": "e6ae095cfce38fd92a80c80814b412c93d4646c920302d5438bae9884fb1f0b4",
+      "showOriginal": false,
+      "sourceId": "real-app-outlook",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#34B2CD",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-paint.png",
+      "rasterHash": "4850d2acb8957e23d0a71e581514babf15ff1464c57fe88eba26003e9d86dc9b",
+      "showOriginal": false,
+      "sourceId": "real-app-paint",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#0E8EB1",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-people.png",
+      "rasterHash": "678a01a4186e58b6c024189ead1bc50490c3a2068a83bcd8d4838fc69983145d",
+      "showOriginal": false,
+      "sourceId": "real-app-people",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2189AD",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-photos.png",
+      "rasterHash": "3eb8f65333cc97264c7eea418eaf0e78833d9ce5eaf5f8b78488dab5bee33b52",
+      "showOriginal": false,
+      "sourceId": "real-app-photos",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#DA1A5F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-pinterest.png",
+      "rasterHash": "32e06cfd30e39b8b4641b8a23f24bd6cf465f5f75604887fd56c4aa2bee36e86",
+      "showOriginal": false,
+      "sourceId": "real-app-pinterest",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#DA5661",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-powerpoint.png",
+      "rasterHash": "a405d891fdbf70b2085cd339cf6cc7e23f1511ff464ee2c4d56dbb92cc9f57aa",
+      "showOriginal": false,
+      "sourceId": "real-app-powerpoint",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-search.png",
+      "rasterHash": "3f24c0a1a3e2a0d8ee4e835fb01ef35bb87ea73a1ad64ea3edbe7860fc14a181",
+      "showOriginal": false,
+      "sourceId": "real-app-search",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1D789F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-security.png",
+      "rasterHash": "47d546eca4cc486877b8be1044dd0b6221078115c1fe3fe7cc3501966c857339",
+      "showOriginal": false,
+      "sourceId": "real-app-security",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-settings.png",
+      "rasterHash": "6d2953485b445d1b960a79bd9706954990f30eecf192126412db1b60aa116852",
+      "showOriginal": false,
+      "sourceId": "real-app-settings",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#138B87",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-share.png",
+      "rasterHash": "346dbf596b039fb032fa184e8c390b139011e1c346f723bcb0660e2ed4297ef4",
+      "showOriginal": false,
+      "sourceId": "real-app-share",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3799B8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-skype.png",
+      "rasterHash": "6d3595a48de2576d8632479ce81a6c9ca79ee7da23306ab94cc014dff0625592",
+      "showOriginal": false,
+      "sourceId": "real-app-skype",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-snip.png",
+      "rasterHash": "cc5acd5ad0ef2e64fc3e6af73674300b6aea0e65ca505bae048a6f65bfb9eccb",
+      "showOriginal": false,
+      "sourceId": "real-app-snip",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-soltaire.png",
+      "rasterHash": "a67cdc0894ee6bc955c901e8101b67968c01c02264e2844084ba2d2a9eee1e19",
+      "showOriginal": false,
+      "sourceId": "real-app-soltaire",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#49CC94",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-spotify.png",
+      "rasterHash": "cfb51fbc70a1329c7864df96552abb7b48a282cbad6464455739141ef98ee5d7",
+      "showOriginal": false,
+      "sourceId": "real-app-spotify",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1C607F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-store.png",
+      "rasterHash": "50921bebecac5822d45ee4e74a797891a86c26480827e1eff4fa0809f5400238",
+      "showOriginal": false,
+      "sourceId": "real-app-store",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-taskmanager.png",
+      "rasterHash": "e13233303c034623987be6f57f9c80bfcc7bf0177259270520254cceda940472",
+      "showOriginal": false,
+      "sourceId": "real-app-taskmanager",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#7B5BC5",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-teams.png",
+      "rasterHash": "d800145cd364ca60934d33476718a29071f9d1c2f4e63632920ac9495f094428",
+      "showOriginal": false,
+      "sourceId": "real-app-teams",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-terminal.png",
+      "rasterHash": "383a0f0ba5b2a28acd667bc4a6026163c5c4a8ccd3a533b43900855a310c557d",
+      "showOriginal": false,
+      "sourceId": "real-app-terminal",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#118FB2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-tips.png",
+      "rasterHash": "68bda686e20fbba56a375f918baddada0ef825a3dab0fdd91229162e228f4d6d",
+      "showOriginal": false,
+      "sourceId": "real-app-tips",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1B95C5",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-todo.png",
+      "rasterHash": "5b757111e134734dbd1bc34375e647b5b8e9ac89a3debee7d985ed0a1d8e08c8",
+      "showOriginal": false,
+      "sourceId": "real-app-todo",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3BA1C8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-twitter.png",
+      "rasterHash": "12c8f873b1c08ba2b12c46e334da62f81749022a8806554667adc0517f6b25ca",
+      "showOriginal": false,
+      "sourceId": "real-app-twitter",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#475DF8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-unescape.png",
+      "rasterHash": "037e532e03e83128e6ab2f7e021666d9a8f1dff542ece58377b28b6058af9bab",
+      "showOriginal": false,
+      "sourceId": "real-app-unescape",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-voice.png",
+      "rasterHash": "e82bca6ad1ab7ab0e18c5efa52230d76090602fbc09637f69ccee6eb4d402b19",
+      "showOriginal": false,
+      "sourceId": "real-app-voice",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#F69C18",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-weather.png",
+      "rasterHash": "65738e8a21e8043e6ac64863e54fd5da1dfaa8da7c4725aa4363ada8d9a75bd2",
+      "showOriginal": false,
+      "sourceId": "real-app-weather",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1C739F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-widget.png",
+      "rasterHash": "d48154700d88981f08c28bb84d2f5db7b66787b1bc89d532bfe1c7416783360b",
+      "showOriginal": false,
+      "sourceId": "real-app-widget",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#23729E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-winWord.png",
+      "rasterHash": "df56550aee78c7dd2705e9f51bc41c04bacba4932a8289c00ad1288f17a0dd1c",
+      "showOriginal": false,
+      "sourceId": "real-app-winWord",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3B771F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-xbox.png",
+      "rasterHash": "64931e506beb58026070a538e5dc58bf2cbf284c7ecde81b43ea36d30480407d",
+      "showOriginal": false,
+      "sourceId": "real-app-xbox",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2282AC",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-yammer.png",
+      "rasterHash": "6e6284a68974c61c502dbff97dc65729da8b066bea296d458a8e3661845fc955",
+      "showOriginal": false,
+      "sourceId": "real-app-yammer",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-app-yphone.png",
+      "rasterHash": "4ae65233d5e1f8bdef6161303da4f2f3f279f392f802bc800c8fedc77e2300e6",
+      "showOriginal": false,
+      "sourceId": "real-app-yphone",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-106.png",
+      "rasterHash": "b6b8914906ecc8f354faddacef25262ecda0567f04de802e97833a42947d0919",
+      "showOriginal": false,
+      "sourceId": "real-win-106",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1077.png",
+      "rasterHash": "bcb280e5309216885f5ddc12640fd719dc1c09577adf4d11ac2d876cd48a7233",
+      "showOriginal": false,
+      "sourceId": "real-win-1077",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1085.png",
+      "rasterHash": "7e5cdcebf52f493583a23b098ee12091deb5af104ba6490e4e623f788266d284",
+      "showOriginal": false,
+      "sourceId": "real-win-1085",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1093.png",
+      "rasterHash": "a4f0149febb1ef6447adc23a314927d37c52c2300102fb53d3864024761272c4",
+      "showOriginal": false,
+      "sourceId": "real-win-1093",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1101.png",
+      "rasterHash": "d480b345e49957d66466a3b395b41d8db7d4b2c3693c5dc00bb6a953cbad5c31",
+      "showOriginal": false,
+      "sourceId": "real-win-1101",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-114.png",
+      "rasterHash": "0f397431b3c5e0fd4348b0a6cf23fd789b3ccc80b8894c04350f7748147de6f7",
+      "showOriginal": false,
+      "sourceId": "real-win-114",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-122.png",
+      "rasterHash": "5459ebef21e970f1861b7f019be59c10792d10176df0fe9796b04f3a751b9cf7",
+      "showOriginal": false,
+      "sourceId": "real-win-122",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1278.png",
+      "rasterHash": "49ea459c6c320145c221cc0802d4db3da6225626667334e463b40a61f763caa7",
+      "showOriginal": false,
+      "sourceId": "real-win-1278",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1294.png",
+      "rasterHash": "fea7f3e4b38e54d3ae46d00dfefa6256c132889160a40c61141569d9cf00808f",
+      "showOriginal": false,
+      "sourceId": "real-win-1294",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-130.png",
+      "rasterHash": "c37a47be44f17719f8b0bbc006f37eee1f76d09bd035cd93c9439efbd1cbcafe",
+      "showOriginal": false,
+      "sourceId": "real-win-130",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1569.png",
+      "rasterHash": "2f2c24fa1cea99879d7933edca4ef7c995188982bd6d5c73d3d20cf8c9cc59ae",
+      "showOriginal": false,
+      "sourceId": "real-win-1569",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1577.png",
+      "rasterHash": "00b10beb81331b4aacb01b4caa00b115d9ef8d62dc9a31b68936c209b7bded06",
+      "showOriginal": false,
+      "sourceId": "real-win-1577",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1593.png",
+      "rasterHash": "6cad6942d701804ae2cfcc0005f699e30e74beef7be282e85ea9bac324838735",
+      "showOriginal": false,
+      "sourceId": "real-win-1593",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1669.png",
+      "rasterHash": "41e4ab21c7b538e26423a1df3e62b681d6b91db4347f9fed8ce2aad68d8d421e",
+      "showOriginal": false,
+      "sourceId": "real-win-1669",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1693.png",
+      "rasterHash": "5210744211eae6f6b51ff3e95ee6076f531e0454a2101b36300a0d887d1a68cd",
+      "showOriginal": false,
+      "sourceId": "real-win-1693",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-170.png",
+      "rasterHash": "c8e59f431572669c4da4a79e8d10a4324726bd1800da042bd4408240c6b30ffd",
+      "showOriginal": false,
+      "sourceId": "real-win-170",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-2000.png",
+      "rasterHash": "5d02907620d94a312fcac9b6e5620604e25cc6d3a7bab845846ef9100ae63320",
+      "showOriginal": false,
+      "sourceId": "real-win-2000",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-3.png",
+      "rasterHash": "d31393fb6897d5a54bf3d150fce0424f2aadcb9ff834d8c9f0ae23a150777088",
+      "showOriginal": false,
+      "sourceId": "real-win-3",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-67.png",
+      "rasterHash": "9ebb8bec1c8144db2fbfbe0aef1b8f49ea6f15e135aac48ad54324e86fb5987c",
+      "showOriginal": false,
+      "sourceId": "real-win-67",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-805.png",
+      "rasterHash": "7301a14b3789a6513d0973f1a9d58de280c07443003b6cf4e1dbdbfd27e0f4df",
+      "showOriginal": false,
+      "sourceId": "real-win-805",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-893.png",
+      "rasterHash": "3b20db8aea97bb302efb2407b2ab9ddb08ff88fb5e996da6175fe62c3b44ab97",
+      "showOriginal": false,
+      "sourceId": "real-win-893",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-90.png",
+      "rasterHash": "700db54a2e8ff102120126eb879eee5e9078b3409d9913a0890781bdcf90e1de",
+      "showOriginal": false,
+      "sourceId": "real-win-90",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#E9E2D4",
+        "plateFallback": "derived",
+        "shape": "Tile",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "user-plate-bare",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "File"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-98.png",
+      "rasterHash": "80e4760a0f44a7f89b29d682d2c3684ba97535e83bc821cb47f24d809f31effb",
+      "showOriginal": false,
+      "sourceId": "real-win-98",
+      "styleKey": "Tile|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#E9E2D4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-50.png",
+      "rasterHash": "8d15f3bcff6d3af914980918f251577cad282ad3e9452ff134a38a9fc2b28267",
+      "showOriginal": false,
+      "sourceId": "real-win-50",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1E92AD",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-58.png",
+      "rasterHash": "7528c9e5b2c54e8fab10bf0cd8825cda1e42f591c08a76060a2b5508afa2d354",
+      "showOriginal": false,
+      "sourceId": "real-win-58",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1487A3",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-desk.png",
+      "rasterHash": "97dacff8e567eb5042a3aa3c4bb6eacfd2e86f7024c72b2a7774a13e1033b473",
+      "showOriginal": false,
+      "sourceId": "real-win-desk",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#789BAC",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-docs.png",
+      "rasterHash": "ef211027db59ae7033b1627d7c9e47c54dfe303e7ec1682993ed6c5c2539b1ff",
+      "showOriginal": false,
+      "sourceId": "real-win-docs",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#0D9F8F",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-down.png",
+      "rasterHash": "7d3b148d7454612d9ae6ff02e72fae677a5721aefcc8687710342565e994373b",
+      "showOriginal": false,
+      "sourceId": "real-win-down",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#F7D050",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-folder.png",
+      "rasterHash": "c07669d5949b95d5731e98a6ab2e652c461deeaf9f1854a354dfa5cefc3f54f0",
+      "showOriginal": false,
+      "sourceId": "real-win-folder",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#4A88BE",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-folder3d.png",
+      "rasterHash": "2dafcb3aa864af08d6c96fd61e398731ecca4acce24d7e15196e37f94b7b744b",
+      "showOriginal": false,
+      "sourceId": "real-win-folder3d",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#D57361",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-music.png",
+      "rasterHash": "f164759abf0fb65b7648f09583e7b7586cc67010e7dbdf92eea56cc9f8543929",
+      "showOriginal": false,
+      "sourceId": "real-win-music",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#338AAC",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-pics.png",
+      "rasterHash": "a5cb3afa62d7717d6ba49086b75b0663f0f87382b4d376830e56d2c98c54a332",
+      "showOriginal": false,
+      "sourceId": "real-win-pics",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Folder",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": false,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#9D57D7",
+        "kindBucket": "Folder"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-vid.png",
+      "rasterHash": "3adf7dfa9ad673c68099842538b9b609de144143a0c01c54ebe0b66ab0355280",
+      "showOriginal": false,
+      "sourceId": "real-win-vid",
+      "styleKey": "Folder|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#EDEAE4",
+        "plateFallback": "derived",
+        "shape": "Circle",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "BlackWhite",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": null,
+      "isShortcut": false,
+      "lane": "bare-white",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "System"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-p11-control_panel.png",
+      "rasterHash": "63380ffde32b06d48ebab6f9bc934238b29321d2c8addaadecdadb53706c41ff",
+      "showOriginal": false,
+      "sourceId": "real-p11-control_panel",
+      "styleKey": "Circle|BlackWhite|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#EDEAE4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1154.png",
+      "rasterHash": "bd0d1a90d5a65642a7e70a0495bbb780a5a319233a26391f10b8ce05e2be1de8",
+      "showOriginal": false,
+      "sourceId": "real-win-1154",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1247.png",
+      "rasterHash": "43fff76e5e04ca9e53f05f7fb2c39d2b888c3ad175d735b6d053cf45a9d1b425",
+      "showOriginal": false,
+      "sourceId": "real-win-1247",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#028DB2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1286.png",
+      "rasterHash": "154320f98b2c628b68fa77c8f183331e9dccd51047bbe470d6e0ec1fdf6c10cf",
+      "showOriginal": false,
+      "sourceId": "real-win-1286",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1437.png",
+      "rasterHash": "c011c4887f4bff1cfff4492c365bc6663844717352acb8ef6e9d91aac437790b",
+      "showOriginal": false,
+      "sourceId": "real-win-1437",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1479.png",
+      "rasterHash": "793383cfe5605272a10a851aee3c2dd53f364538334634633bff3506e4f20945",
+      "showOriginal": false,
+      "sourceId": "real-win-1479",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1585.png",
+      "rasterHash": "4dc6ad21329a50b96a4c2ad044e72d19c3739ae70896212132d2bb8b7d142d73",
+      "showOriginal": false,
+      "sourceId": "real-win-1585",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#08BD56",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1609.png",
+      "rasterHash": "5ab678b5434b84c45bfa6592bd4b962e31def5c5fda2b39a73a07fa9c41cad93",
+      "showOriginal": false,
+      "sourceId": "real-win-1609",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#DD4550",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1677.png",
+      "rasterHash": "d5a1d3e3781af42cd985f822c370b0f261a224db1de524d4ebf34a684de3c49d",
+      "showOriginal": false,
+      "sourceId": "real-win-1677",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1736.png",
+      "rasterHash": "91310f33f6d870d04f0370e31ca9c5d069f76d725406a5f9977cdcdc9c8be27c",
+      "showOriginal": false,
+      "sourceId": "real-win-1736",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#539AA7",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-175.png",
+      "rasterHash": "4586bfb14a0453772c8d0158a84bf473e18a9631daf2f3b328311f94e2a7fba4",
+      "showOriginal": false,
+      "sourceId": "real-win-175",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#7C5438",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1780.png",
+      "rasterHash": "b107e4dc4741a51529be71ba656516b64a3fa132b7806e95ffda81eb67d033e4",
+      "showOriginal": false,
+      "sourceId": "real-win-1780",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#ABE0F3",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1788.png",
+      "rasterHash": "9df2fa89510e8c278f6e2f6eb1df8807c7d7491e0593dbca04da4bf30590e167",
+      "showOriginal": false,
+      "sourceId": "real-win-1788",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#389BAF",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-183.png",
+      "rasterHash": "ef19b090e7f048363b9d0605a752025b5a31709c576d99a8cc254377fcd5eae1",
+      "showOriginal": false,
+      "sourceId": "real-win-183",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#52BDE5",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-1836.png",
+      "rasterHash": "21f3d54869dbfb1fd27892964e51bf489c7df1b927cb42c2829901240c562892",
+      "showOriginal": false,
+      "sourceId": "real-win-1836",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-199.png",
+      "rasterHash": "af4cd3c074bc5a5b0d044fa52fb74ed2604b147ac1c9e3c4dcf5d3fc20dbf8ea",
+      "showOriginal": false,
+      "sourceId": "real-win-199",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#2D8CB1",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-255.png",
+      "rasterHash": "690410bc395cdf3dd387594e094467b378c114cbba2e3ab6d19a5865957abe7d",
+      "showOriginal": false,
+      "sourceId": "real-win-255",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#DC454F",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-797.png",
+      "rasterHash": "5aaa4c53715fe4d6483673d70d207f32706b366b8b87adcc39cf00abbb3fd27c",
+      "showOriginal": false,
+      "sourceId": "real-win-797",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-837.png",
+      "rasterHash": "90cf18b87d38a061b109b8714b90dd79e7f30ce9b4bd1be45fccf03811d2c8ee",
+      "showOriginal": false,
+      "sourceId": "real-win-837",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#1BBEDB",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-877.png",
+      "rasterHash": "a407c032f2dd424c9e0ca508413c5a01e5c9bb96d47844d03d93bfc5ee5bc74f",
+      "showOriginal": false,
+      "sourceId": "real-win-877",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#EDEAE4",
+        "plateFallback": "derived",
+        "shape": "Circle",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "BlackWhite",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": null,
+      "isShortcut": false,
+      "lane": "bare-white",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "System"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-bin.png",
+      "rasterHash": "43a692627850dd6f6286b3a11631e514776317627420b502b65df5382bbe7772",
+      "showOriginal": false,
+      "sourceId": "real-win-bin",
+      "styleKey": "Circle|BlackWhite|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#EDEAE4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#127DAA",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-info.png",
+      "rasterHash": "f68d7bcaa3fc9841d7c2bbcea32b5326dc927f8872482d4f9b274de0890201b8",
+      "showOriginal": false,
+      "sourceId": "real-win-info",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#369FB4",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-net.png",
+      "rasterHash": "c676720c1fc00102e248c4feab87c9f8b4c2b25c42ae3b47a5aa4cd7810c2794",
+      "showOriginal": false,
+      "sourceId": "real-win-net",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3692B2",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-onedrive.png",
+      "rasterHash": "893b1b93603384b214cb572ca3a9f3240e3be8a008bcc6a11945bb64aee0bd7e",
+      "showOriginal": false,
+      "sourceId": "real-win-onedrive",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-pinned.png",
+      "rasterHash": "c478e95f8d1d9c686839de9e07b7983a7160de3d9eae8770933438dda6666636",
+      "showOriginal": false,
+      "sourceId": "real-win-pinned",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-shield.png",
+      "rasterHash": "8f526c6b039f7c9d7c25b6098eb59e6a01cbb930c9707d7fa9779e9a0a95322a",
+      "showOriginal": false,
+      "sourceId": "real-win-shield",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-store.png",
+      "rasterHash": "be935fd55d36d5213e1d1d9a62a45dd49c69207f4fb73814f8bf1a7880fd8d26",
+      "showOriginal": false,
+      "sourceId": "real-win-store",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "derived-bare-shadow",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#37A1B1",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-themes.png",
+      "rasterHash": "311fbef2f01d1b6cea89395c461f8131fbee8cb11fb2fa133e5c0387679cc936",
+      "showOriginal": false,
+      "sourceId": "real-win-themes",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#EDEAE4",
+        "plateFallback": "derived",
+        "shape": "Circle",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "BlackWhite",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": null,
+      "isShortcut": false,
+      "lane": "bare-white",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "System"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-thispc.png",
+      "rasterHash": "158f5658c7d4ef705c3fff1f000b19fc5da3839ef4271267344204a36991689d",
+      "showOriginal": false,
+      "sourceId": "real-win-thispc",
+      "styleKey": "Circle|BlackWhite|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#EDEAE4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": "#EDEAE4",
+        "plateFallback": "derived",
+        "shape": "Circle",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "BlackWhite",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": null,
+      "isShortcut": false,
+      "lane": "bare-white",
+      "opts": {
+        "fieldSeed": null,
+        "kindBucket": "System"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-user.png",
+      "rasterHash": "b43a3d19deb5d16d8f5e9a7a84de59ae8da1e4fdb2145551f683ec3a3dd1abfc",
+      "showOriginal": false,
+      "sourceId": "real-win-user",
+      "styleKey": "Circle|BlackWhite|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|#EDEAE4|None|false|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#3FB6A8",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-viewinfo.png",
+      "rasterHash": "9e8885cebe86128a4a714d4ab2237427d4e9dd157e6e5efc7a69fc0cb311a2cf",
+      "showOriginal": false,
+      "sourceId": "real-win-viewinfo",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    },
+    {
+      "config": {
+        "distinction": "Mark",
+        "filter": "None",
+        "markColor": null,
+        "markStyle": "Halo",
+        "monoStyle": "Tonal",
+        "plateBand": "Vivid",
+        "plateColor": null,
+        "plateFallback": "derived",
+        "shape": "Apple",
+        "shortcutShape": null,
+        "size": "Mid",
+        "subject": "Original",
+        "tint": "#FF6F5E"
+      },
+      "fieldLane": "own-board",
+      "isShortcut": true,
+      "lane": "derived-field",
+      "opts": {
+        "fieldSeed": "#FF6F5E",
+        "kindBucket": "App"
+      },
+      "passThrough": false,
+      "path": "tier-a/masters/real-win-viewlarge.png",
+      "rasterHash": "ea16de951bcc7890f2562c701bbc84aaa3eb9295fce4dc3773bef857c7c94b0c",
+      "showOriginal": false,
+      "sourceId": "real-win-viewlarge",
+      "styleKey": "Apple|Original|#FF6F5E|Tonal|Vivid|derived||Mark|Halo|-|-|None|true|256"
+    }
+  ],
+  "look": "spectrum",
+  "set": "8a6c19ee69235d95092cf6b593a89b6c334690d1a3b8c71baf7376bb65b773df"
+}

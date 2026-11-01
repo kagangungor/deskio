@@ -1,0 +1,439 @@
+# DeskMakeover Visual Language (v3 · "Premium Flat")
+
+**Source of truth:** this spec (ADR-0013; supersedes v2 "Quiet Material" chrome
+language, ADR-0012). The engine rendering law (shape geometry, colour treatments,
+mark algorithms — the WYSIWYG sections at the bottom) is unchanged law shared with
+the bake. Panel evidence and owner dispositions:
+`docs/reviews/2026-07-08-ui-v3-premium-flat-panel.md`.
+
+## Personality
+
+**扁平 · 偏白 · 苹果味 · 丰盈微动效 · 自定义拉满** — flat, white-leaning, Apple-flavored,
+alive with restrained-but-plentiful micro-motion, customization maxed. The audience is
+aesthetics-driven customizers: the app itself must clear the bar it sells. Reference
+composition remains macOS System Settings (grouped, spacious, calm); the reference
+*material* changes from "material dark" to **crisp flat white** — separation comes
+from cool-neutral surface steps, hairline precision, and soft (not heavy) elevation.
+
+Governing rules:
+
+1. **Light-first, follow the system.** The light theme is the design first-citizen —
+   its neutral ramp is authored in OKLCH as a *cool/true-white* system (never warm
+   taupe). Dark is derived from the same ramp logic and ships at equal quality.
+   Default theme = System; both themes are always test-gated together.
+2. **Flat with intent.** Elevation exists but whispers: hairlines + one soft ambient
+   shadow tier for floating surfaces (popover/menu/coach). Cards on the base surface
+   separate by luminance step + hairline, not drop shadows. No pure-black voids in
+   chrome: the canvas stage is a neutral matte, letterboxing included.
+3. **Saturation is an event.** Coral `#FF6F5E` stays the only accent; blue/violet
+   remain permanently banned. Two coral registers: `--coral` (identity, chips, small
+   marks) and `--coral-ink` — a deeper, less-orange register for LARGE solid fills on
+   white (the CTA) and accent-as-text on light. Selection is never wash-only: wash +
+   ink text + hairline border. *Reviewed exceptions (test-gated allowlists in
+   `tests/banned-colors.test.ts`): OS-authentic depictions inside the desktop mirror,
+   and the ONE-shot celebration confetti (multicolour by owner decree, single file —
+   persistent UI stays coral).*
+4. **Type carries the premium.** Bundled dual-script system (below); hierarchy from
+   size + colour + the 400/500 weight pair only.
+5. **Customization is maxed, layered, never dumped.** Every engine capability is
+   reachable in the UI (owner law — nothing is cut for "restraint"); the FIRST screen
+   of each axis is curated (e.g. 6 shape chips), the full set lives one fold deeper
+   (「更多形状」). Progressive disclosure, zero capability loss.
+6. **App chrome and the simulated OS are different layers.** OS-mirror surfaces
+   (taskbar strip, desktop tile labels) keep OS-faithful fonts/colours — exempt from
+   brand tokens; they may use OS blues/grays. The user must never confuse app chrome
+   with the mirrored desktop.
+7. **Status is never colour-only** — glyph/text + colour.
+8. **Motion is a feature** (owner directive 2026-07-08): plentiful Framer Motion
+   micro-interactions everywhere state changes — but one family of curves, purposeful,
+   and fully degraded under reduced-motion. See §Motion.
+
+## Colour Tokens
+
+Token roles are law; the exact OKLCH values are finalized in the build's design phase
+and locked by three gates: banned-colour scan (no hue 195-290 in chrome), WCAG ≥ 4.5:1
+for t1/t2 on their surfaces, and the light-first authoring rule (dark derives from
+light, never the reverse).
+
+| Token | Role | Light authoring constraint |
+|---|---|---|
+| `--bg` | window base | near-white, cool-neutral (OKLCH chroma ≈ 0, L ≈ 0.97+) |
+| `--raised` | card | pure `#FFFFFF` |
+| `--raised-hov` | hover | one visible step below raised, cool-neutral |
+| `--chip` | control base | cool light gray (NO warm taupe) |
+| `--t1/--t2/--t3` | text ranks | cool-neutral grays; t2 must not read brown |
+| `--hair` | hairline | low-alpha neutral |
+| `--coral` | accent identity | `#FF6F5E` (fixed) |
+| `--coral-ink` | large-solid / text register | deeper, de-oranged mix of coral (fixed recipe at build) |
+| `--cta-ink` | text on coral | warm white `#FFF7F3` |
+| teal / amber | success / attention | kept from v2 |
+| `--canvas-stage` | mirror stage + letterbox | neutral matte (not `#000`), same family both themes |
+| `--glass` family | floating app pills on canvas | derived from raised, cool-neutral |
+
+Derived washes stay `color-mix` recipes (no new hexes). Dark theme: same roles, ramp
+re-derived (raised above bg, real luminance step), coral unchanged.
+
+### Elevation
+
+Two tiers only: `--elev-soft` (floating surfaces: popover, menu, coach, toast,
+compact overlay) and `--elev-stage` (the single inset/ambient treatment framing the
+canvas mirror). Base-surface cards use **no** shadow — hairline + luminance step.
+
+## Typography (bundled — ADR-0013 D2)
+
+**Families:** `Inter` (Latin, variable, subset ~100 KB) + `HarmonyOS Sans SC` (CJK,
+static Regular 400 + Medium 500). *Status correction 2026-07-10: the CJK faces ship
+as FULL TTFs today (~15.7 MB the pair) — the "3-5 MB subset" target was never
+executed. Subsetting (≈ GB2312) is an open release-engineering (M8) task; the fallback-chain
+design below already assumes it.* About page carries the attribution line
+"Fonts: HarmonyOS Sans (Huawei) · Inter" (NOT yet rendered — M8 release engineering).
+
+```css
+--font-sans: 'Inter', 'HarmonyOS Sans SC', 'Segoe UI', 'Microsoft YaHei UI',
+             'PingFang SC', system-ui, sans-serif;   /* app chrome */
+--font-os-mirror: 'Segoe UI', 'Microsoft YaHei UI', system-ui, sans-serif;
+                  /* ONLY .mirror-tile-label + taskbar strip (OS-faithful) */
+```
+
+- Loading: local woff2, `<link rel=preload>`, `font-display: block`, metric overrides
+  frozen; `main.tsx` gates the first render on `document.fonts.ready` — zero FOUT.
+- Rare glyphs/emoji in user text fall through the chain to system CJK — fallback
+  chain, not full-coverage delusion (subset ≈ GB2312).
+- Numerals: global `font-variant-numeric: tabular-nums` (they land in Inter).
+- Tracking: `.text-display/.text-section` Latin −0.01em; CJK letter-spacing always 0;
+  ≤15px never tracked. CJK titles use `word-break: keep-all` (no orphan-char wraps).
+
+**The ladder — six steps, weights {400, 500} only (700 escape for display if needed):**
+
+| Step | Size / weight | Role | Colour |
+|---|---|---|---|
+| `display` | 26 / 500 | page title | t1 |
+| `section` | 19 / 500 | panel hero title | t1 |
+| `cardtitle` | 15 / 500 | card / group title | t1 |
+| `body-strong` | 13 / 500 | emphasized value, selected item | t1 |
+| `body` | 13 / 400 | row value, label, chip, menu, list | value t1 · label t2 |
+| `caption` | 12 / 400 | status, hint, counts | t3 |
+
+Mirror tile labels and baked zone titles remain out-of-chrome exceptions (engine/OS
+rules). *Amendment 2026-07-09 (owner "control scale is unified app-wide"): the dense
+INSPECTOR dialect is a sanctioned sub-ladder — segmented `sm` = 22px tall / 11px
+label, chip buttons 11px, fine annotations down to ~10.5px — used identically on
+every page. Page-scale adjustments touch the TEXT layer only (titles, labels, row
+rhythm), never inflate controls. The six-step ladder governs text; the control
+dialect governs controls.*
+
+## Spacing & Geometry
+
+8px soft grid `{4, 8, 12, 16, 24}` unchanged. Key metrics carried from v2 unless
+listed: window regular ≈1340×840, compact <1100, min 1024×700 (D12). Radius: card 16 ·
+control 10-12 · chip 9. **Inspector RIGHT, 280px (248px compact)** — the old left
+300px panel is superseded (ADR-0013 amendment 2026-07-10). CTA 44px solid
+`--coral-ink` on light.
+**Segmented control is macOS-true**: inset gray track + a sliding WHITE thumb
+(spring, soft shadow) carrying the selected segment; max-width 360px — never a
+full-card slab. Settings pages use inset list rows (label left, control right,
+hairline dividers) at macOS density — no empty slabs, no duplicated identity blocks.
+
+## Module IA touchpoints (visual layer of ADR-0013)
+
+- **Shape axis**: first row = 无 · 苹果 · 纯圆 · 三星 · 方块 · 水滴 (无 sits FIRST —
+  the slash-circle law, see Addenda); 「更多形状」fold reveals the other 5 (书签 ·
+  柠檬 · 菱形 · 花瓣 · 卵石). **11 options total.** All chip names Chinese-first.
+- **Filter axis**: all five (无/光泽/玻璃/像素/贴纸) stay visible (owner D6; 光泽/Gloss
+  went live 2026-07-09 — an aqua specular sweep over the upper third; authored in
+  `dm-icon-core` (ADR-0019), the frozen TS `icon-compositor/filters.ts` is its parity oracle).
+- **Wallpaper hero**: clarity-first narrative; **blank left-drag on the canvas
+  CREATES a zone directly** (ADR-0013 amendment 2026-07-10 — the explicit-tool
+  model was reversed; pan is middle-drag / compare-hold). Zone list never leaks
+  grid units (no 7×12.5).
+- **Axis summary strips** pair label:value (`外形 苹果 · 配色 原彩 · …`).
+- **Ceremony**: first-apply consent sheet, per-apply completion + 「去看看桌面」 +
+  the ONE-per-launch celebration confetti, restore confirm — shared components,
+  both modules.
+- **First-run wow**: REMOVED (2026-07-10). The auto-played 原样→美化 reveal was
+  built, broke the icons twice, and was rolled back by owner order. Do not
+  reintroduce without a fixed-duration always-removes-itself design + owner sign-off.
+
+## Motion (owner directive: plentiful, premium, one family)
+
+Principles: every state change explains itself; motion rewards touch; nothing moves
+without purpose; **all of it degrades to crossfades under reduced-motion** (including
+bloom/settle waves and module slides — no holes).
+
+| Name | Spec | Use |
+|---|---|---|
+| `bloom` | scale .88→1.05→1 + brightness flash, .6s `cubic-bezier(.34,1.4,.4,1)`, 42ms stagger | apply wave |
+| `settle` | scale 1.06→1 fade, .8s family ease (no outlier easings) | restore exhale |
+| `pop` | scale .95→1 + fade .12-.18s, transform-origin at anchor | EVERY menu/popover/picker/coach/toast — no dead-cut mounts |
+| `thumb-slide` | segmented white thumb spring (damping ≈ 44, no toy bounce) | segmented, toggles |
+| `press` | scale .98 on active | all buttons/chips |
+| `chip-select` | wash+ink fade .15s; NO weight-jump reflow (reserve bold width) | chips |
+| `cta-working` | indeterminate coral shimmer sweep 1.3s ∞ + label crossfade 120ms + ✓ pop on synced | CTA |
+| `restyle cue` | latency-gated: only if round-trip >200ms → 88% dim or pill, in place swaps | axis changes (kills the instant 45% dim) |
+| `zone drag` | the Pixi compositor paints the TRUE material same-source same-frame with the pointer (ADR-0014 D5 — the old DOM-approximation+reconcile model is superseded); snap-pulse 80ms on cell change | wallpaper editor |
+| `slide/rise` | compact overlay, cards entering — v2 specs carried | |
+| module switch | **INSTANT, modules stay mounted** (visibility-hidden) — the crossfade overlapped a remounting canvas and was removed (2026-07-09); reduced → same | Ctrl+1/2/3 |
+
+Motion tokens: shared durations/easings/staggers live in `lib/motion.ts` (per-index
+delay helpers + reduced-motion wrapper). *Reality note 2026-07-10: a number of
+component-local timings exist in the tree; new motion should prefer the shared
+tokens, and strays get folded in opportunistically — but "never inline" is an
+aspiration, not the current state.*
+
+Gesture model (D10 as amended 2026-07-10): icons canvas drag = pan; wallpaper canvas
+blank left-drag = CREATE zone (pan via middle-drag / while comparing); Ctrl+wheel
+zoom at pointer; **Space = global hold-to-compare** (text inputs excluded; a focused
+button activates via Enter — the old pass-through-on-button clause is dropped, see
+§Accessibility). Hold-interactions keep non-hold equivalents; `?` keymap legend stays.
+
+---
+
+The sections below are **engine rendering law (WYSIWYG, unchanged from v1/v2)** — the
+preview and the bake share this exact math. The v3 chrome renewal does not touch them.
+
+## Shape System (icon geometry)
+
+One canonical shape authoring in the Rust `dm-icon-core` (ADR-0019; the frozen TS
+`icon-compositor/shapes.ts` mirrors it as the byte-parity oracle), cached; identical math in
+preview swatch, canvas tile, and bake:
+
+- **苹果**: the TRUE iOS continuous-corner squircle — **three cubic Béziers per
+  corner** (the authentic Apple control points, verified against the public
+  reverse-engineering; constants like `1.528665/1.08849296/0.86840694…`), corner
+  radius `0.225·S` (≈ the documented 22.37%). *Corrected 2026-07-10: this replaces
+  the old "quintic Lamé superellipse" description — Apple's real shape is a cubic
+  spline, not a Lamé curve, and since `3a6ec48` the chip swatch shares the same
+  cubic path (`applePathD`) instead of a Lamé approximation. The C# oracle
+  (`IconShapeGeometry.cs`) carries the identical constants.*
+- **纯圆**: exact circle. Already-round source icons are left untouched (`IsRoundish`).
+- **三星**: the official One UI adaptive-icon mask path, scaled:
+  `M50,0 C10,0 0,10 0,50 C0,90 10,100 50,100 C90,100 100,90 100,50 C100,10 90,0 50,0`.
+- **扩展形状** (curated 2026-07-09): 方块 Tile · 水滴 Teardrop · 书签 Bookmark ·
+  柠檬 Lemon · 菱形 Diamond · 花瓣 Flower · 卵石 Pebble · 文件夹 Folder ·
+  文件 File — a 「更多」 fold below the curated 无/苹果/纯圆/三星/方块/水滴 row.
+  **13 shapes total (incl. 无).**
+  - **文件 File** (owner-disposed 2026-07-15, V2 — binding record
+    `docs/reviews/2026-07-15-icon-preset-io-file-shape-arrow.md` #5): a dog-eared
+    document silhouette — five-vertex smooth polygon, top-right 45° cut of
+    **c=30** units (interior = below `x−y = 70`), outer corners **r12** (Folder
+    family weight), cut-edge endpoints **r16 + smoothing s=0.85** (softened per
+    owner 2026-07-15 「别像狗啃」 — the fold reads as a silky rounded corner, not a
+    sharp chamfer), body smoothing s=0.6, `fit:false`. The SHAPE layer is a solid
+    cut-away; folded-page (双层纸) semantics belong to the Fold MARK
+    (bottom-right) — distinct corner, layer and meaning, and they compose.
+    Reads as "document" down to 32px; only grazes the 67% content box (1.4px
+    margin). Built for the File bucket in Beautified types but available on
+    every shape row.
+  - **Geometry engine** (owner call 2026-07-09, replaces the coarse hand-plotted
+    C# polygons): Figma-style corner rounding + `cornerSmoothing` for arbitrary
+    polygons, ported from `msurguy/squircle-path-kit` (MIT; itself derived from
+    Figma's *Desperately seeking squircles*, verified Figma-exact to 0.01px). The
+    smoothing ramp — tangent cubics flanking a shrunken arc, ξ≈0.6 — is what gives
+    the iOS-class hand-feel that plain `border-radius` corners lack. Rounded-family
+    proportions come from `progressier.com/maskable-icons-editor`; Flower + Pebble
+    are `maskable.app`'s OEM masks (MIT, arcs → cubics, normalized to full extent).
+  - **Single source of truth**: the shape authoring lives in `dm-icon-core` (ADR-0019); the
+    frozen TS `icon-compositor/shapes.ts` is its byte-parity oracle, and the chip clip-path
+    (`lib/shape-paths.ts`) + the engine raster mask both stay consistent with that authoring
+    (preview==bake, can never drift). The C# `IconShapeGeometry` is a frozen oracle too (the
+    2026-07-09 web-authoritative flip is now the Rust-authoritative port, ADR-0019).
+  - **Content inscription**: pinched shapes (Diamond/Flower/Pebble) inscribe the
+    artwork inside their largest centred square with per-shape breathing margins, so
+    square plate icons never kiss the pinched edges.
+  - **Culled** (ugly/redundant, owner 2026-07-09): Google, Brave, Squircle, Blob,
+    Rectellipse, Hexagon.
+
+The app logo always wears the 苹果 clip (title bar 24, coach 26, about 56).
+
+## Default Composition — Colour Field (ADR-0016; FINAL = the owner's five-step law, 2026-07-10)
+
+**Iron laws:** subject pixels are NEVER recoloured; an icon's OWN background is
+never altered; every derived decision flows from ONE per-icon metadata extraction
+(authored in `dm-icon-core::profile`, ADR-0019; the frozen TS `icon-compositor/profile.ts` is
+its 1:1 parity oracle — classification, own background colour/lightness, subject theme
+colour/lightness, subject mask; memoized, consumed by plates, shadows, the seed pipeline and
+any future stage).
+
+The five steps (each icon takes the FIRST matching step):
+
+1. **Full-bleed opaque square** (coverage ≥ 0.98): already a complete tile —
+   clip into the target shape, zero processing.
+2. **Own background** (square / rounded-square / circle silhouette whose
+   outermost solid ring is one colour — the ONE generic `tryDetectBackground`
+   detector, solid-edge spans + multi-depth outer-ring probing, no inner-ring
+   test, PLUS a corner-symmetry gate: those three silhouettes all have four
+   near-equal corner diagonal insets, so a dog-eared document page or clipped
+   corner is rejected even when its blank ring reads uniform): expand that
+   exact colour to fill the shape, subject re-centred. UNCHANGED — no clamps,
+   no contrast pushes, no band restyle, no shadow.
+3. **Irregular artwork**: segment the subject directly (`segmentSubject`) —
+   the background is OURS to add.
+4. **Subject colour + lightness** (recorded metadata): neighbour-hue merged
+   band (adjacent buckets join at ≥10% of peak weight, span ≤ ±65°) must cover
+   ≥50% of the SUBJECT's pixels to count as a theme; subject mean lightness
+   over the mask. Derived plates do NOT read these two — see step 5.
+5. **Derived plate — the RIM law (owner, 2026-07-10)**: the plate is decided by
+   the artwork's OUTERMOST BAND — the ring of fully-solid pixels (α ≥ 245, so
+   AA fringes and soft shadows never vote) within ~6% of the icon's dimension
+   from its silhouette edge, over the WHOLE opaque artwork (not the segmented
+   subject — the whole artwork borders the plate). The band's MAJORITY hue
+   (same merged-majority rule as step 4; a thin highlight outline or accent
+   never outvotes the ring) gives the plate its hue; the band's mean lightness
+   picks the side: rim ≥ 0.7 → deep board of that hue (亮圈配深底), rim < 0.7 →
+   pale board of that hue (暗圈配浅底). A yellow-ringed folder takes 淡黄/深黄,
+   never another hue; neutral rims take pure neutral boards. Deep boards must
+   still carry their hue: sRGB has no dark saturated yellow-green, so that
+   zone pulls to the amber side (h≈78, 深金 not 军绿) and L lifts (≤ +0.12)
+   until the FITTED chroma reaches 0.09 or the gamut ceiling. Subjects on
+   derived plates carry a silhouette-shaped shadow OPPOSING the plate (deep
+   shadow on light boards, light glow on dark boards). Glyph box ~72% (36/256);
+   composeFromPlate's no-foreground fallback centres content at the keyline —
+   nothing ever runs wall-to-wall.
+
+Cross-icon hue spread (deterministic min-gap relaxation, 12° inside a ±18°
+brand cap, identical artwork identical plates) still adjusts step-5 seeds
+through preview AND bake. 背景色 hand-pick overrides every derived plate
+(effective in Field; owner reversal). Quiet band = the same law with the
+lighter slots. Preset lineup superseded by Preset Collection v2 (the seven-preset
+set, spectrum default — see the ADR-0018 amendment under Colour Treatments);
+`kindShapes` is deleted (ADR-0017), replaced by the per-type `shortcutShape`
+(uniform shortcut shape, default OFF).
+
+Designer-recorded, owner-informed aesthetic notes (law consequences, not
+defects): dark-board population ≈35-40% of a text-heavy desktop; white-subject
+brands (Outlook/Skype/OneDrive) read neutral-boarded; folders do not group by
+colour. Changing any of these means changing the law — owner-only.
+
+## Colour Treatments (配色 — two orthogonal axes)
+
+Since 2026-07-09 the Colour row is the **foreground/subject axis**; a separate
+**background/plate colour** rides the same row's colour entry. Two axes, never a
+single tint pick (chief-UI/UX + owner). Exact channel math is authored in `dm-icon-core`
+(OKLab ramp; the frozen TS `icon-compositor/color.ts` mirrors it as the oracle) — this is the
+structural contract.
+
+> **ADR-0018 amendment (two-axis colour, 2026-07-10).** The word 「mode」 is retired
+> from the UI: there is no 「fourth foreground mode」. 满彩 (Field) is the DEFAULT
+> COORDINATE — 原彩 subject × a derived plate — not a mode peer of the three subject
+> choices. The recipe is 主体 (subject: 原彩/黑白/单色) × 底板 (plate: 随图标-first /
+> 白 / bounded swatches / 本色). The old `前景 / 背景 dual-tab popover` was replaced by
+> a two-row panel (主体行 + 底板行). The factory preset lineup is the **Preset
+> Collection v2 seven** (spectrum default · glass · ink · white · stationery · pebble ·
+> ascast — `docs/product/preset-collection-v2.md`), NOT the legacy four named below. The
+> three subject choices below stay accurate; read 「mode」 there as 「subject axis」.
+
+- **原彩 (Original)**: keep the icon's own colour. White plates take the Auto or a
+  chosen background colour.
+- **黑白 (BlackWhite)**: perceptual grayscale (luminance-preserving desaturation).
+  Its swatch is the concentric black-in-white pair. Under the two-axis model (ADR-0018) the
+  plate axis applies here too (a BlackWhite subject can sit on any plate).
+- **单色 (Mono)**: the subject maps to the tint's hue. Two depths (`monoStyle`):
+  - **渐变 (Tonal)** — the classic single-hue tonal ramp (light end 0.965/0.22:
+    white plates read near-white with a whisper of tint).
+  - **纯色 (Flat) = 极致单色** — the SEGMENTED subject in ONE flat colour on ONE
+    flat plate, hard two-tone contrast, no gradient. Subject/background split (authored in
+    `dm-icon-core`; frozen TS `icon-compositor/segment.ts` is the oracle): transparent-edge silhouette · border-flood that
+    follows gradient backdrops · a plate-split (distance-from-field Otsu + line-art
+    polarity / coherence / fragmentation guards) for opaque plates; degenerate cases
+    fall back to the whole silhouette. Mono composes LAYERED: plate colour raw,
+    subject per depth.
+- **背景色 (plateColor)**: the plate axis applies across all subjects under the two-axis model
+  (ADR-0018 — Original / BlackWhite / Mono); `null` = Auto (Original: detected bg / white; Mono:
+  the ramp's light end).
+
+Colour entry (⚠️ **SUPERSEDED** by the two-axis two-row panel — ADR-0018 / the amendment above;
+kept as the historical dual-tab design): the row-end wheel opened a **前景 / 背景 dual-tab** popover
+— 前景 picked the subject colour (selecting flipped to 单色); 背景 = Auto + swatches + full picker.
+Mono revealed a 渐变/纯色 depth segmented below the row. The standalone plate ring was removed
+(owner: it read inverted — appeared only when NO colour was chosen). Current contract: the 主体行 +
+底板行 two-row panel (spec 06 §two-axis; `docs/product/two-axis-colour-spec.md`).
+
+Swatch grammar: **concentric pair dots** — outer disc = the plate the pick produces
+(Auto = ramp light end), inner dot = the subject tint. Row: 无(原彩) · 黑白 pair ·
+壁纸主色 · 壁纸辅色 · 品牌珊瑚 · 湖水 `#3FB6A8` · 琥珀 `#D9A94E` · 调色盘 wheel.
+Continuous drags (前景/背景 picker + hue strip + mark-colour wheel) are throttled
+(leading+trailing, 140ms) so 100+ tile recomputes never pile up.
+
+## Shortcut Marks (快捷方式标识 · seven styles + classic arrow)
+
+States: **美化** / **经典箭头** (light plate `#F4F4F1`, dark ↗ `#2E3238`, bottom-left,
+size `max(14, 0.28S)`, radius 4) / **无标识** (launch default). Mark colour: **自动**
+(adaptive B/W per ADR-0006) or user colour (白/黑/珊瑚/壁纸主色/湖水/picker), mixed
+per style, never raw — EXCEPT 投影, which is always neutral (the colour wheel hides
+for it). **Silhouette-aware** (owner call 2026-07-09): on 原始外形 (free-form / 异形)
+icons a mark uses the icon's REAL alpha silhouette (`stampMask` / chamfer
+`outsideDistance`), not a phantom box or Apple substitute — the mark follows the
+actual outline whatever the form.
+
+| Style | Algorithm |
+|---|---|
+| **投影** (was 双层卡片) | a neutral DROP SHADOW: the icon's own silhouette offset down-right, blurred, blackish-translucent (`rgba(8,10,14)`×0.44). Mark colour deliberately inert (shadows are neutral by law). |
+| **光环** (was 幽灵叠影) | a floating OUTLINE tracing the silhouette at a small gap (chamfer outside-distance band ~4% out) — clearly distinct from 投影's solid offset, and it hugs free-form contours. |
+| **缎光角** | in-shape 45° satin gradient from bottom-left, 62%→30%→transparent by 46%. |
+| **珐琅光弧** | in-shape radial glow at (15%,88%), `mc` mixed 78%→`#141414` (light) / 82%→white (dark), fade by 46%. |
+| **卷角** | dog-ear bottom-right, corner cut `c=S·{apple .26,samsung .28,circle .30}`; mirrored fold, warm paper gradient, dual shadow. |
+| **细描边** | same-shape ring behind; on free-form a snug band around the icon's silhouette; colour `mc`. |
+| **箭头徽章 Comet** (owner-disposed 2026-07-15) | a self-grounded floating arrow badge, fixed bottom-left: squircle seat (`applePolygon`, cornerFactor ≈0.30, side = `max(14, 0.28·S)` — the SAME overall footprint as the native 经典箭头 badge, owner 2026-07-16) + 1px inner ring + soft drop shadow (dy≈1.4, blur≈1.6, black 0.35) — the seat+ring+shadow form the badge's OWN visual ground, so it never hangs on pointed/round shapes (Circle/Diamond/Teardrop: the shadow lands on the composited desktop). Refined ↗ glyph (round caps/joins, thin shaft tail (−.40,.40)→(.34,−.34), bold barbs (.06,−.42)/(.44,−.44)/(.42,−.06), stroke ≈0.16·seat). Adaptive at the 0.58 threshold: light tile → charcoal `#232328` seat + `#F4F4F1` arrow; dark tile → inverted. `markColor` tints the SEAT (arrow stays white/charcoal for contrast); default is neutral — never coral unless picked. Placement `over`, no carve, un-gated. |
+
+`玻璃箭头` removed from the gallery (ADR-0010); renderer stays only as legacy test
+scaffolding. Acceptance: ADR-0005 3-second misread gate; parity — mark chips, canvas
+tiles, and baked `.ico` render the same math.
+
+## Window Chrome & Platform
+
+- Frameless **Tauri 2 window** (ADR-0019; WebView2 is the webview on Windows): custom title bar
+  (logo + name + caption buttons; **no version chip**, no ⚙/⋯); titlebar follows theme; Mica
+  disabled (solid `--bg`).
+- Windows integration `[WINDOWS-VERIFY]`: PerMonitorV2 DPI, Win10/11, longPathAware, UTF-8,
+  asInvoker (the `dm-elevated` helper is requireAdministrator). Re-render previews on DPI change.
+- Win10 degradation: bundled fonts remove the Segoe-Variable gap; standard corners;
+  frosted surfaces fall back to translucent fills where blur-behind is unavailable.
+- High contrast: drop the custom skin for system colours.
+
+## Accessibility
+
+- Every interactive element: localized accessible name; status via live regions.
+- Full keyboard reachability; visible coral focus ring; Esc closes
+  menu/overlay/coach/picker. **Space is the global compare gesture** (owner decision
+  2026-07-10, reversing the old Space-activates-button clause): this UI is
+  button-dense and a just-clicked control keeps focus, so letting a focused button
+  eat Space would break compare exactly when it is reached for. Buttons activate
+  via ENTER; only text inputs own Space (it is a character there).
+- Hold-interactions (对比/peek) keep non-hold equivalents; `?` keymap legend.
+- Reduced motion: complete coverage — waves, slides, thumb springs all degrade to
+  crossfade; no exceptions.
+
+## Addenda (v3.1, owner iterations 2026-07-08)
+
+Owner-decided refinements layered onto v3 during the build; on conflict with the
+sections above, these win.
+
+- **Axis glyph keyline**: every shape/filter/mark glyph is authored on the 20/16
+  grid (ink = 0.8 × canvas); no optical exceptions. *Amended 2026-07-09 (owner
+  legibility call): the authored grid now RENDERS at a 25px canvas = 20px ink via
+  the single `GLYPH` constant in chip-preview.tsx, which MUST stay =
+  `shape-paths.SWATCH ÷ 0.8`.* Path-based `clip-path` silhouettes are authored in
+  absolute pixels and `shape-paths.SWATCH` MUST equal the swatch box.
+- **The 无 dialect**: one slash-circle glyph (`NoneGlyph`) for every axis's none
+  option, always FIRST in its row. Dashed = auto (AutoDot); slash = none; never
+  conflated. The classic-arrow mark is an ordinary BAKED option (ADR-0021: the
+  native overlay is globally transparent by default; the 60s penance gate retired
+  with it). `WinArrowGlyph`'s OS-blue `#0067C0` remains an OS-authentic depiction
+  and never takes the accent.
+- **Selection grammars**: axis rows = `SwatchPicker` (uniform 28px tiles, wrap,
+  disabled roadmap slots at 40% opacity); welcome-flow choices = `ChoiceList`
+  (inset rows, spring ✓, coral ink) + right-set content-width 继续.
+- **Compact dropdown**: `SelectPopover compact` = 22px tall (IconAction scale);
+  the option list may grow wider than the trigger so labels never truncate.
+- **Colour-entry face**: every palette entry wears `WheelRing` (conic ring,
+  centre dot = current pick; white = auto). 标识配色 lives in its row header's
+  auxiliary slot at size 18.
+- **Recompute feedback**: a 1.5px coral top light-line (`CanvasProgress`,
+  400ms min-visible); full-canvas skeletons ONLY on true first load (no frame
+  AND no original). Slow updates (>200ms) dim the canvas to 88%, never block it.
+- **Copy law**: user-facing strings never contain dashes (owner decree; AI-text
+  tell). Sentences split with 。/；/： instead.
+- **Ceremonies added**: the welcome gate (language → brand → two-question survey
+  → roast/bluff/typed confession); reduced-motion complete; cancel is always
+  instant. ArrowGateSheet (native-arrow penance) RETIRED per ADR-0021 — its
+  object no longer exists; the component is deleted at the M6 cutover.

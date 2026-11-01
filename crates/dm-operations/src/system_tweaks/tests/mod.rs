@@ -1,0 +1,461 @@
+//! End-to-end driver tests over the in-memory ports: the honest-state and reversibility
+//! contract (spec 08 §3-§7) proven on Mac. A certified manifest makes the starter slice writable;
+//! the fakes inject CAS failures, effect failures, external edits, and process interruptions.
+
+use dm_domain::system_tweaks::{
+    ApplyOutcome, ProbeOutcome, RawRegistryValue, RegistryAddress, RegistryBackend, RegistryHive,
+    RegistrySnapshot, RegistryView, RestoreOutcome, SettingId, WindowsEdition, WindowsEnvironment,
+};
+
+use super::capability::{
+    StandardVerification, VerificationManifest, VerificationRule, VerifiedBuildFamily,
+};
+use super::catalog::{first_batch, TweakCatalog};
+use super::driver::TweakDriver;
+use super::error::DriverError;
+use super::fakes::{MemoryProfileProbe, MemoryRegistry};
+use super::journal::{JournalStore, MemoryJournal, TransactionValue};
+use super::verify::MemoryVerifier;
+
+const EXPLORER_ADVANCED: &str = r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+const SEARCH: &str = r"Software\Microsoft\Windows\CurrentVersion\Search";
+const CONTENT_DELIVERY: &str = r"Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager";
+const USER_PROFILE_ENGAGEMENT: &str =
+    r"Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement";
+const SEARCH_SETTINGS: &str = r"Software\Microsoft\Windows\CurrentVersion\SearchSettings";
+
+fn env() -> WindowsEnvironment {
+    WindowsEnvironment {
+        major: 10,
+        minor: 0,
+        build: 26_100,
+        ubr: 8_737,
+        display_version: "24H2".into(),
+        edition_id: "Professional".into(),
+        edition: WindowsEdition::Pro,
+        installation_type: "Client".into(),
+        product_type: 48,
+        is_workstation: true,
+        region: "US".into(),
+        native_architecture: "x64".into(),
+        process_architecture: "x64".into(),
+        packaged: false,
+    }
+}
+
+fn addr(key: &str, value: &str) -> RegistryAddress {
+    RegistryAddress::new(RegistryHive::CurrentUser, RegistryView::Registry64, key, value)
+}
+
+/// A manifest that certifies EVERY automatic candidate on `env()` (so the driver may write).
+fn certified_manifest() -> VerificationManifest {
+    let rule = VerificationRule::Standard(StandardVerification {
+        families: vec![VerifiedBuildFamily {
+            build: 26_100,
+            min_ubr: 8_000,
+            max_ubr: Some(9_000),
+        }],
+        profiles: vec![env()],
+    });
+    VerificationManifest::new(
+        first_batch()
+            .into_iter()
+            .filter(|d| matches!(d.tier, super::catalog::TweakTier::AutomaticCandidate))
+            .map(|d| (d.id, rule.clone())),
+    )
+}
+
+/// A registry pre-seeded with every calm target key present and each recipe value at "on" (1),
+/// i.e. the surface is currently pushing content.
+fn pushing_registry() -> MemoryRegistry {
+    let mut registry = MemoryRegistry::new();
+    let on = RawRegistryValue::dword(1);
+    for (key, value) in [
+        (EXPLORER_ADVANCED, "Start_IrisRecommendations"),
+        (EXPLORER_ADVANCED, "ShowTaskViewButton"),
+        (EXPLORER_ADVANCED, "ShowSyncProviderNotifications"),
+        (SEARCH, "SearchboxTaskbarMode"),
+        (SEARCH_SETTINGS, "IsDynamicSearchBoxEnabled"),
+        (CONTENT_DELIVERY, "SubscribedContent-338389Enabled"),
+        (CONTENT_DELIVERY, "SubscribedContent-310093Enabled"),
+        (CONTENT_DELIVERY, "SubscribedContent-338393Enabled"),
+        (USER_PROFILE_ENGAGEMENT, "ScoobeSystemSettingEnabled"),
+    ] {
+        registry.set_value(addr(key, value), on.clone());
+    }
+    registry
+}
+
+type Driver = TweakDriver<MemoryRegistry, MemoryJournal, MemoryVerifier, MemoryProfileProbe>;
+
+fn driver_with(registry: MemoryRegistry, verifier: MemoryVerifier) -> Driver {
+    TweakDriver::new(
+        TweakCatalog::first_batch().unwrap(),
+        certified_manifest(),
+        registry,
+        MemoryJournal::new(),
+        verifier,
+        MemoryProfileProbe::new(env()),
+    )
+}
+
+fn driver() -> Driver {
+    driver_with(pushing_registry(), MemoryVerifier::new())
+}
+
+fn search() -> SettingId {
+    SettingId::new("taskbar.search")
+}
+
+/// The HKLM administrative-template guard `taskbar.search` declares (catalog `policy_guards`). Its
+/// presence means the setting is now policy-owned; the reverse paths must refuse to write.
+fn search_guard() -> RegistryAddress {
+    RegistryAddress::new(
+        RegistryHive::LocalMachine,
+        RegistryView::Registry64,
+        r"Software\Policies\Microsoft\Windows\Windows Search",
+        "SearchOnTaskbarMode",
+    )
+}
+
+fn search_leaf() -> RegistryAddress {
+    addr(SEARCH, "SearchboxTaskbarMode")
+}
+
+#[test]
+fn a_certified_apply_verifies_and_owns_the_feature() {
+    let mut driver = driver();
+    assert_eq!(driver.inspect(&search()).unwrap(), ProbeOutcome::Pushing);
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Verified);
+    // The live value is now 0, and a re-probe reports it owned-quiet.
+    assert_eq!(driver.inspect(&search()).unwrap(), ProbeOutcome::OwnedQuiet);
+}
+
+#[test]
+fn apply_is_idempotent_for_an_owned_feature() {
+    let mut driver = driver();
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Verified);
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Verified);
+}
+
+#[test]
+fn an_uncertified_environment_is_fail_closed() {
+    // The default (initial) manifest grants no write.
+    let mut driver = TweakDriver::new(
+        TweakCatalog::first_batch().unwrap(),
+        VerificationManifest::initial(&first_batch()),
+        pushing_registry(),
+        MemoryJournal::new(),
+        MemoryVerifier::new(),
+        MemoryProfileProbe::new(env()),
+    );
+    assert!(matches!(
+        driver.apply(&search()),
+        Err(DriverError::Unavailable(_))
+    ));
+}
+
+#[test]
+fn a_guided_feature_is_never_written() {
+    let mut driver = driver();
+    assert_eq!(
+        driver.apply(&SettingId::new("widgets.feed")),
+        Err(DriverError::Guided(SettingId::new("widgets.feed")))
+    );
+}
+
+#[test]
+fn an_effect_failure_rolls_the_write_back_to_the_original() {
+    let mut verifier = MemoryVerifier::new();
+    verifier.fail_next_effect("start did not reload");
+    let mut driver = driver_with(pushing_registry(), verifier);
+    let start = SettingId::new("start.recommendations");
+    assert_eq!(driver.apply(&start).unwrap(), ApplyOutcome::Reverted);
+    // The original value is back and the feature is NOT owned.
+    assert!(driver.managed_for_test(&start).is_none());
+    assert_eq!(driver.inspect(&start).unwrap(), ProbeOutcome::Pushing);
+}
+
+#[test]
+fn a_cas_conflict_rolls_back_and_reverts() {
+    let mut registry = pushing_registry();
+    registry.fail_compare_exchange_at(1);
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Reverted);
+}
+
+#[test]
+fn an_externally_changed_base_value_is_skipped_not_clobbered() {
+    let mut registry = pushing_registry();
+    // The live base value is a String, not the accepted DWORD → skip.
+    registry.set_value(
+        addr(SEARCH, "SearchboxTaskbarMode"),
+        RawRegistryValue::new(dm_domain::system_tweaks::RegistryValueKind::String, b"x".to_vec()),
+    );
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    assert_eq!(
+        driver.apply(&search()).unwrap(),
+        ApplyOutcome::Skipped(dm_domain::system_tweaks::SkipReason::Changed)
+    );
+}
+
+#[test]
+fn a_present_policy_guard_reports_managed_and_is_never_written() {
+    // taskbar.search carries an HKLM guard at Windows Search\SearchOnTaskbarMode. Its presence
+    // means the feature is managed by policy.
+    let guard = RegistryAddress::new(
+        RegistryHive::LocalMachine,
+        RegistryView::Registry64,
+        r"Software\Policies\Microsoft\Windows\Windows Search",
+        "SearchOnTaskbarMode",
+    );
+    let mut registry = pushing_registry();
+    registry.set_value(guard, RawRegistryValue::dword(1));
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    assert_eq!(driver.inspect(&search()).unwrap(), ProbeOutcome::Managed);
+    assert!(matches!(
+        driver.apply(&search()),
+        Err(DriverError::Unavailable(_))
+    ));
+}
+
+#[test]
+fn restore_returns_the_true_original_and_disowns() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap();
+    assert_eq!(driver.restore(&search()).unwrap(), RestoreOutcome::Restored);
+    // Back to pushing (the original 1) and no longer owned.
+    assert_eq!(driver.inspect(&search()).unwrap(), ProbeOutcome::Pushing);
+    assert!(driver.managed_for_test(&search()).is_none());
+}
+
+#[test]
+fn restore_refuses_to_overwrite_an_external_edit() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap();
+    // The user re-enables the search box themselves after our write.
+    driver.set_live_for_test(addr(SEARCH, "SearchboxTaskbarMode"), RawRegistryValue::dword(1));
+    assert_eq!(
+        driver.restore(&search()).unwrap(),
+        RestoreOutcome::SkippedExternalConflict
+    );
+    // The user's value stands; we disowned rather than clobbered.
+    assert!(driver.managed_for_test(&search()).is_none());
+}
+
+#[test]
+fn restore_of_an_unowned_feature_is_not_managed() {
+    let mut driver = driver();
+    assert_eq!(
+        driver.restore(&search()),
+        Err(DriverError::NotManaged(search()))
+    );
+}
+
+#[test]
+fn a_drifted_owned_value_probes_as_owned_drifted() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap();
+    driver.set_live_for_test(addr(SEARCH, "SearchboxTaskbarMode"), RawRegistryValue::dword(1));
+    assert_eq!(driver.inspect(&search()).unwrap(), ProbeOutcome::OwnedDrifted);
+}
+
+#[test]
+fn a_crash_mid_apply_leaves_a_recoverable_prepared_transaction() {
+    let mut registry = pushing_registry();
+    // Interrupt AFTER the first successful write (settings.suggestions has one leaf).
+    registry.interrupt_after_writes(1);
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    let feature = SettingId::new("settings.suggestions");
+    // The interrupted apply surfaces an error and leaves the transaction prepared.
+    assert!(driver.apply(&feature).is_err());
+    // A fresh write is blocked until recovery runs.
+    assert!(matches!(
+        driver.apply(&search()),
+        Err(DriverError::RecoveryRequired(_))
+    ));
+    // Recovery rolls the interrupted apply back to its original and clears the block.
+    let report = driver.recover().unwrap();
+    assert_eq!(report.recovered.len(), 1);
+    assert!(report.conflicts.is_empty());
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Verified);
+    // The interrupted feature was rolled back, never owned.
+    assert!(driver.managed_for_test(&feature).is_none());
+}
+
+
+// ── codex W2 R3: an authoritative policy guard that appears AFTER apply must block every reverse
+// write, even while the mutation leaf is still user-writable (the ACL `is_policy_managed` probe
+// alone would miss it). The guards are persisted with the transaction, so restore/rollback/recovery
+// all consult THIS transaction's guards. ─────────────────────────────────────────────────────────
+
+#[test]
+fn restore_refuses_when_a_policy_guard_appeared_after_apply() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap(); // owned; the leaf is now 0
+    // An HKLM policy guard appears; the HKCU leaf stays user-writable (default registry).
+    driver.set_live_for_test(search_guard(), RawRegistryValue::dword(1));
+    // Restore must NOT write the leaf back to the original; it stays prepared for the owner.
+    assert!(matches!(
+        driver.restore(&search()),
+        Err(DriverError::Pending { .. })
+    ));
+    // The applied value (0) stands — the now-policy-owned leaf was never clobbered back to 1.
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(0));
+    // Still owned: the restore did not complete.
+    assert!(driver.managed_for_test(&search()).is_some());
+}
+
+#[test]
+fn a_guard_appearing_mid_apply_blocks_the_rollback() {
+    let mut registry = pushing_registry();
+    // The guard value materializes right after the single write lands...
+    registry.set_value_after_writes(1, search_guard(), RawRegistryValue::dword(1));
+    // ...and the effect proof then fails, forcing a rollback that the guard must refuse.
+    let mut verifier = MemoryVerifier::new();
+    verifier.fail_next_effect("search box did not reload");
+    let mut driver = driver_with(registry, verifier);
+    // The apply cannot cleanly finish, and the guard blocks the undo → stays prepared (Pending),
+    // never clobbering the now-policy-owned leaf back to 1.
+    assert!(matches!(
+        driver.apply(&search()),
+        Err(DriverError::Pending { .. })
+    ));
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(0));
+}
+
+#[test]
+fn recovery_refuses_when_a_policy_guard_appeared() {
+    let mut registry = pushing_registry();
+    registry.interrupt_after_writes(1); // crash right after the single write
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    // The interrupted apply leaves a prepared transaction (the leaf is written to 0).
+    assert!(driver.apply(&search()).is_err());
+    // A policy guard now appears while the transaction sits prepared.
+    driver.set_live_for_test(search_guard(), RawRegistryValue::dword(1));
+    // Recovery must NOT roll the leaf back over the now-policy-owned setting; it stays a conflict.
+    let report = driver.recover().unwrap();
+    assert!(report.recovered.is_empty());
+    assert_eq!(report.conflicts.len(), 1);
+    // The applied value stands; never clobbered back to 1.
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(0));
+}
+
+// ── codex W2 R4: lock the drift-immunity + committed-write contracts so a future refactor cannot
+// silently reintroduce the bugs. ────────────────────────────────────────────────────────────────
+
+#[test]
+fn restore_uses_the_persisted_guard_not_the_current_catalog() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap(); // the search guard is persisted into the ownership anchor
+    // The catalog is UPGRADED: the current taskbar.search descriptor no longer lists that guard.
+    let mut descriptors = first_batch();
+    for descriptor in &mut descriptors {
+        if descriptor.id.as_str() == "taskbar.search" {
+            descriptor.policy_guards.clear();
+        }
+    }
+    driver.replace_catalog_for_test(TweakCatalog::try_new(descriptors).unwrap());
+    // The old guard now appears. The CURRENT catalog has NO guard for search, so a restore that
+    // (wrongly) consulted the current catalog would proceed and clobber — but the transaction's
+    // PERSISTED guard must still block it. This is the drift-immunity the Block fix promised.
+    driver.set_live_for_test(search_guard(), RawRegistryValue::dword(1));
+    assert!(matches!(
+        driver.restore(&search()),
+        Err(DriverError::Pending { .. })
+    ));
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(0));
+    assert!(driver.managed_for_test(&search()).is_some());
+}
+
+#[test]
+fn a_migrated_recipe_can_still_be_restored() {
+    let mut driver = driver();
+    driver.apply(&search()).unwrap();
+    // Simulate a recipe migration: the owned anchor's recorded version no longer matches the catalog.
+    driver.bump_managed_version_for_test(&search());
+    // Re-apply is blocked (the design says restore-before-reapply)...
+    assert!(matches!(
+        driver.apply(&search()),
+        Err(DriverError::MigrationRequired(_))
+    ));
+    // ...but restore STILL succeeds — the escape hatch is never deadlocked by a version gate (the
+    // reason the guards are persisted rather than looked up by recipe_version; codex W2 R4).
+    assert_eq!(driver.restore(&search()).unwrap(), RestoreOutcome::Restored);
+    assert!(driver.managed_for_test(&search()).is_none());
+}
+
+#[test]
+fn recovery_uses_the_persisted_guard_not_the_current_catalog() {
+    let mut registry = pushing_registry();
+    registry.interrupt_after_writes(1); // crash right after the single write
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    assert!(driver.apply(&search()).is_err()); // the prepared transaction persists the search guard
+    // The catalog is upgraded to drop the search guard...
+    let mut descriptors = first_batch();
+    for descriptor in &mut descriptors {
+        if descriptor.id.as_str() == "taskbar.search" {
+            descriptor.policy_guards.clear();
+        }
+    }
+    driver.replace_catalog_for_test(TweakCatalog::try_new(descriptors).unwrap());
+    // ...and the old guard appears. Recovery must still refuse via the transaction's PERSISTED
+    // JournalEntry.policy_guards, not the drifted catalog (the recovery half of drift-immunity).
+    driver.set_live_for_test(search_guard(), RawRegistryValue::dword(1));
+    let report = driver.recover().unwrap();
+    assert!(report.recovered.is_empty());
+    assert_eq!(report.conflicts.len(), 1);
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(0));
+}
+
+#[test]
+fn a_read_error_after_a_committed_write_routes_through_rollback() {
+    let mut registry = pushing_registry();
+    // The single write succeeds, then the confirming post-write read-back errors.
+    registry.fail_read_after_writes(search_leaf(), 1);
+    let mut driver = driver_with(registry, MemoryVerifier::new());
+    // The committed write is NOT hidden behind a bare registry error: it routes through fail_apply,
+    // which cleanly undoes it → Reverted (codex W2 R4). A plain `?` would have leaked Err(Registry)
+    // and left the transaction pretending nothing was written.
+    assert_eq!(driver.apply(&search()).unwrap(), ApplyOutcome::Reverted);
+    // The leaf is back at its original (1); the feature is not owned.
+    assert_eq!(driver.read_live_for_test(search_leaf()).as_dword(), Some(1));
+    assert!(driver.managed_for_test(&search()).is_none());
+}
+
+mod regression;
+
+// Small test-only accessors over the driver's pub(super) ports (same-crate submodule access).
+impl Driver {
+    fn managed_for_test(&self, feature: &SettingId) -> Option<super::journal::ManagedSetting> {
+        let lease = self.journal.acquire_writer_lease().unwrap();
+        self.journal.managed(&lease, feature).unwrap()
+    }
+
+    fn set_live_for_test(&mut self, address: RegistryAddress, value: RawRegistryValue) {
+        self.backend.set_value(address, value);
+    }
+
+    /// Swap the catalog (simulate a recipe/guard-set upgrade after a feature is already owned).
+    fn replace_catalog_for_test(&mut self, catalog: TweakCatalog) {
+        self.catalog = catalog;
+    }
+
+    fn read_live_for_test(&self, address: RegistryAddress) -> RawRegistryValue {
+        match self.backend.read(&address).unwrap() {
+            RegistrySnapshot::Present(value) => value,
+            other => panic!("expected a present value, got {other:?}"),
+        }
+    }
+
+    fn bump_managed_version_for_test(&mut self, feature: &SettingId) {
+        self.journal.bump_managed_version_for_test(feature);
+    }
+}
+
+// Reuse the transaction-value builder indirectly to keep the type imported (documentation of the
+// leaf shape the journal persists).
+#[allow(dead_code)]
+fn _leaf_shape(value: &TransactionValue) -> &RegistrySnapshot {
+    &value.original
+}

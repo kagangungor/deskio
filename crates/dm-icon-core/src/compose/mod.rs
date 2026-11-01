@@ -1,0 +1,492 @@
+//! The tile composer — 1:1 port of the frozen `compose.ts`. ONE function renders
+//! the on-screen preview AND the 256 bake master (same functions, two
+//! resolutions). Absorbs the Spike-4 `slice.rs` helpers (no duplication). The
+//! read-only diagnostics sink records WHICH lane executed for the stage-level
+//! differential; pixels are untouched by it.
+
+mod field;
+mod helpers;
+
+pub(crate) use helpers::*;
+
+use crate::analysis::{bounds_h, bounds_w, find_content_bounds, ContentBounds};
+use crate::color::luminance;
+use std::sync::Arc;
+
+use crate::config::{Config, Distinction, FilterStyle, IconShape, MonoStyle, PlateFallback, Subject};
+use crate::filters::apply_filter;
+use crate::marks::{draw_classic_arrow, resolve_mark, MarkContext, Placement};
+use crate::mask_cache::{MaskCache, MaskKey};
+use crate::mono::{mono_map_adaptive, mono_ramp, transform_pixel_in_place};
+use crate::profile::IconProfile;
+use crate::shape_facts::{matches_shape_of, ShapeFacts};
+use crate::source_facts::{
+    content_bounds, detected_background, segmentation, solid_bounds_of, transparent_edges,
+    SourceFacts,
+};
+use crate::raster::{clip_to_mask, from_rgb_int, over_at, shape_mask, Raster, WHITE};
+use crate::render_scratch::RenderScratch;
+use crate::sampling::{draw_scaled, sample_bilinear};
+use crate::separation::{bare_plate_stroke_ink, draw_separation_stroke};
+
+/// Per-icon inputs resolved OUTSIDE the tile (compose.ts `RenderOpts`).
+/// `field_seed` is the hue-spread-adjusted seed already parsed via `hexToInt`
+/// (None/absent = derive from artwork). `kindBucket` is not consumed by the
+/// pixel path and is omitted.
+#[derive(Clone, Debug, Default)]
+pub struct RenderOpts {
+    pub field_seed: Option<u32>,
+}
+
+/// The top-level composition lane renderTile/composeTile executed (compose.ts).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
+pub enum ComposeLane {
+    Original,
+    #[default]
+    Empty,
+    DerivedField,
+    LayeredMono,
+    PassthroughNone,
+    PassthroughMatch,
+    PlateDetect,
+    BareWhite,
+    InscribeWhite,
+    Stretch,
+}
+
+impl ComposeLane {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            ComposeLane::Original => "original",
+            ComposeLane::Empty => "empty",
+            ComposeLane::DerivedField => "derived-field",
+            ComposeLane::LayeredMono => "layered-mono",
+            ComposeLane::PassthroughNone => "passthrough-none",
+            ComposeLane::PassthroughMatch => "passthrough-match",
+            ComposeLane::PlateDetect => "plate-detect",
+            ComposeLane::BareWhite => "bare-white",
+            ComposeLane::InscribeWhite => "inscribe-white",
+            ComposeLane::Stretch => "stretch",
+        }
+    }
+}
+
+/// The sub-branch inside composeField (only when lane == DerivedField).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ComposeFieldLane {
+    FullSquare,
+    UserPlateBoard,
+    UserPlateBare,
+    OwnBoard,
+    DerivedBareShadow,
+    DerivedPlate,
+}
+
+impl ComposeFieldLane {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            ComposeFieldLane::FullSquare => "full-square",
+            ComposeFieldLane::UserPlateBoard => "user-plate-board",
+            ComposeFieldLane::UserPlateBare => "user-plate-bare",
+            ComposeFieldLane::OwnBoard => "own-board",
+            ComposeFieldLane::DerivedBareShadow => "derived-bare-shadow",
+            ComposeFieldLane::DerivedPlate => "derived-plate",
+        }
+    }
+}
+
+/// Read-only lane diagnostics (compose.ts `ComposeDiagnostics`). Always present
+/// internally (the corpus harness always requests it); pixels are unaffected.
+#[derive(Clone, Debug, Default)]
+pub struct ComposeDiagnostics {
+    pub lane: ComposeLane,
+    pub field_lane: Option<ComposeFieldLane>,
+    pub pass_through: bool,
+}
+
+/// A card mask that is either shared read-only from the cache (`Arc`) or an owned
+/// copy carved in place (Fold). `as_slice` hands both to the read-only consumers.
+enum MaskRef {
+    Shared(Arc<[f64]>),
+    Owned(Vec<f64>),
+}
+
+impl MaskRef {
+    fn as_slice(&self) -> &[f64] {
+        match self {
+            MaskRef::Shared(a) => a,
+            MaskRef::Owned(v) => v,
+        }
+    }
+}
+
+/// Render one styled tile at `size` px (compose.ts `renderTile`). The free function
+/// owns a throwaway mask cache (within-call tile/card sharing only); the hot path is
+/// `RenderSession::render`, which reuses one session-owned cache across renders.
+#[allow(clippy::too_many_arguments)]
+pub fn render_tile(
+    artwork: &Raster,
+    config: &Config,
+    is_shortcut: bool,
+    show_original: bool,
+    size: usize,
+    opts: &RenderOpts,
+    diag: &mut ComposeDiagnostics,
+) -> Raster {
+    let mut mask_cache = MaskCache::new();
+    let mut render_scratch = RenderScratch::new();
+    render_tile_cached(artwork, config, is_shortcut, show_original, size, opts, diag, None, &mut mask_cache, &mut render_scratch, None, None)
+}
+
+/// `render_tile` with an optional RenderSession-cached profile (same raster →
+/// identical to `iconProfile(artwork)`, so byte parity is preserved). The
+/// derived-field lane consumes it, skipping the per-render re-analysis.
+#[allow(clippy::too_many_arguments)]
+pub fn render_tile_cached(
+    artwork: &Raster,
+    config: &Config,
+    is_shortcut: bool,
+    show_original: bool,
+    size: usize,
+    opts: &RenderOpts,
+    diag: &mut ComposeDiagnostics,
+    profile: Option<&IconProfile>,
+    mask_cache: &mut MaskCache,
+    render_scratch: &mut RenderScratch,
+    source_facts: Option<&SourceFacts>,
+    shape_facts: Option<&ShapeFacts>,
+) -> Raster {
+    assert!(size > 0, "size must be positive");
+    let tint = config.tint;
+
+    if show_original {
+        diag.lane = ComposeLane::Original;
+        diag.pass_through = true;
+        let mut original = build_original_card(artwork, size);
+        if is_shortcut {
+            draw_classic_arrow(&mut original, size);
+        }
+        return original;
+    }
+
+    let shape = config.shape;
+    let mark = if is_shortcut && config.distinction == Distinction::Mark {
+        Some(resolve_mark(config.mark_style))
+    } else {
+        None
+    };
+
+    // The full-tile silhouette is consumed ONLY by marks (the geometry context, the
+    // stamp, the over/behind render). On the common no-mark path it is dead, so skip
+    // computing it — but NEVER skip the final composite_over below (it also
+    // canonicalizes hidden RGB under zero alpha, which is byte-load-bearing).
+    let tile_alpha: Option<Arc<[f64]>> = mark.map(|_| {
+        mask_cache.get_or_compute(MaskKey::new(shape, size, size, 0.0, 0.0), || {
+            shape_mask(shape, size, size, 0.0, 0.0)
+        })
+    });
+    let geometry_ctx = tile_alpha.as_ref().map(|ta| MarkContext {
+        size,
+        shape,
+        luminance: 0.5,
+        mark_color: config.mark_color,
+        tile_alpha: Arc::clone(ta),
+    });
+
+    // Clamp the mark inset so the inscribed card keeps at least one pixel (frozen
+    // note preserved). No-mark → pad 0 → the card key equals the tile-alpha key, so
+    // the two share one cache entry across cells of the same shape/size.
+    let pad = match (mark, &geometry_ctx) {
+        (Some(m), Some(gc)) => m.card_inset(gc).min((size - 1) / 2),
+        _ => 0,
+    };
+    let card_size = size - 2 * pad;
+    let card_shared = mask_cache.get_or_compute(MaskKey::new(shape, size, card_size, pad as f64, pad as f64), || {
+        shape_mask(shape, size, card_size, pad as f64, pad as f64)
+    });
+    let carves = mark.map(|m| m.carves_card()).unwrap_or(false);
+    // COW: the Fold carve mutates the mask in place, so copy the shared cache entry
+    // before carving; every read-only consumer aliases the cached buffer directly.
+    let card_mask = if carves {
+        let mut carved = card_shared.to_vec();
+        if let (Some(m), Some(gc)) = (mark, &geometry_ctx) {
+            m.carve_card(&mut carved, gc);
+        }
+        MaskRef::Owned(carved)
+    } else {
+        MaskRef::Shared(card_shared)
+    };
+
+    let (mut tile, pass_through) =
+        compose_tile(artwork, size, pad, card_size, shape, config, tint, opts, diag, profile, source_facts, shape_facts, render_scratch);
+    diag.pass_through = pass_through;
+
+    if !pass_through || carves {
+        clip_to_mask(&mut tile, card_mask.as_slice());
+    }
+
+    if config.filter != FilterStyle::None {
+        apply_filter(&mut tile, size, config.filter, config.subject, tint);
+    }
+
+    let mut target = Raster::new(size, size);
+    match mark {
+        Some(m) => {
+            // The mark context (composed luminance + mark alpha) is mark-only work.
+            let mark_alpha: Arc<[f64]> = if shape == IconShape::None {
+                Arc::from(alpha_field_of(&tile))
+            } else {
+                Arc::clone(tile_alpha.as_ref().expect("tile_alpha present when mark is Some"))
+            };
+            let ctx = MarkContext {
+                size,
+                shape,
+                luminance: composed_luminance(&tile),
+                mark_color: config.mark_color,
+                tile_alpha: mark_alpha,
+            };
+            if m.placement() == Placement::Behind {
+                m.render(&mut target, card_mask.as_slice(), &ctx, mask_cache, render_scratch);
+            }
+            composite_over(&mut target, &tile);
+            if m.placement() == Placement::Over {
+                m.render(&mut target, card_mask.as_slice(), &ctx, mask_cache, render_scratch);
+            }
+        }
+        None => {
+            composite_over(&mut target, &tile);
+        }
+    }
+
+    if is_shortcut && config.distinction == Distinction::Keep {
+        draw_classic_arrow(&mut target, size);
+    }
+    target
+}
+
+/// The composed tile's own alpha as a coverage field (compose.ts `alphaFieldOf`).
+fn alpha_field_of(tile: &Raster) -> Vec<f64> {
+    let n = tile.width * tile.height;
+    let mut field = vec![0.0f64; n];
+    for (i, v) in field.iter_mut().enumerate() {
+        *v = tile.data[i * 4 + 3] as f64 / 255.0;
+    }
+    field
+}
+
+/// 保留原样 / peek (compose.ts `buildOriginalCard`).
+fn build_original_card(artwork: &Raster, size: usize) -> Raster {
+    let mut card = Raster::new(size, size);
+    // A zero-dimension source has nothing to sample (and `sample_bilinear` would
+    // underflow `width - 1`); the show-original card is simply transparent.
+    if artwork.width == 0 || artwork.height == 0 {
+        return card;
+    }
+    for y in 0..size {
+        for x in 0..size {
+            let u = (x as f64 + 0.5) / size as f64;
+            let v = (y as f64 + 0.5) / size as f64;
+            let (r, g, b, a) = sample_bilinear(artwork, u, v);
+            if a == 0 {
+                continue;
+            }
+            let i4 = (y * size + x) * 4;
+            card.data[i4] = r;
+            card.data[i4 + 1] = g;
+            card.data[i4 + 2] = b;
+            card.data[i4 + 3] = a;
+        }
+    }
+    card
+}
+
+/// TileRenderer.ComposeTile — shape intelligence + colour treatment.
+#[allow(clippy::too_many_arguments)]
+fn compose_tile(
+    artwork: &Raster,
+    size: usize,
+    pad: usize,
+    card_size: usize,
+    shape: IconShape,
+    config: &Config,
+    tint: u32,
+    opts: &RenderOpts,
+    diag: &mut ComposeDiagnostics,
+    profile: Option<&IconProfile>,
+    source_facts: Option<&SourceFacts>,
+    shape_facts: Option<&ShapeFacts>,
+    render_scratch: &mut RenderScratch,
+) -> (Raster, bool) {
+    let mut content = Raster::new(size, size);
+
+    let content_b = content_bounds(source_facts, artwork);
+    if solid_bounds_of(source_facts, artwork).is_none() && bounds_w(content_b) <= 1 && bounds_h(content_b) <= 1 {
+        diag.lane = ComposeLane::Empty;
+        return (content, true);
+    }
+
+    // 派生底板 lane (ADR-0018): subject Original × plate 随图标(derived).
+    if config.subject == Subject::Original
+        && config.plate_fallback != PlateFallback::White
+        && shape != IconShape::None
+    {
+        diag.lane = ComposeLane::DerivedField;
+        field::compose_field(artwork, &mut content, size, pad, card_size, shape, config, opts, diag, profile, source_facts, shape_facts, render_scratch);
+        return (content, false);
+    }
+
+    let mut pass_through = false;
+    let plate_override = config.plate_color.map(from_rgb_int);
+    let plate = if config.subject == Subject::Original { plate_override } else { None };
+
+    // LAYERED Mono (极致单色 + custom plate).
+    if config.subject == Subject::Mono
+        && shape != IconShape::None
+        && (config.mono_style == MonoStyle::Flat || plate_override.is_some())
+    {
+        let flat = if config.mono_style == MonoStyle::Flat { Some(tint) } else { None };
+        if let Some(mut layer) = field::mono_subject_layer(artwork, flat, source_facts) {
+            diag.lane = ComposeLane::LayeredMono;
+            if config.mono_style != MonoStyle::Flat {
+                mono_map_adaptive(&mut layer, tint);
+            }
+            let fill = plate_override.unwrap_or_else(|| mono_ramp(1.0, tint));
+            fill_region(&mut content, size, pad, card_size, fill.r, fill.g, fill.b);
+            let lb = find_content_bounds(&layer);
+            draw_centred(&layer, lb, &mut content, size, pad, card_size, content_box(shape, card_size));
+            return (content, false);
+        }
+    }
+
+    if shape == IconShape::None {
+        diag.lane = ComposeLane::PassthroughNone;
+        let free = content_bounds(source_facts, artwork);
+        let (fw, fh) = fit(bounds_w(free), bounds_h(free), card_size);
+        draw_scaled(
+            artwork, free, &mut content, size,
+            pad as i32 + (card_size as i32 - fw as i32) / 2,
+            pad as i32 + (card_size as i32 - fh as i32) / 2,
+            fw, fh,
+        );
+        pass_through = true;
+    } else if matches_shape_of(shape_facts, artwork, shape) && solid_bounds_of(source_facts, artwork).is_some() {
+        diag.lane = ComposeLane::PassthroughMatch;
+        let solid = solid_bounds_of(source_facts, artwork).unwrap();
+        let (w, h) = fit(bounds_w(solid), bounds_h(solid), card_size);
+        draw_scaled(
+            artwork, solid, &mut content, size,
+            pad as i32 + (card_size as i32 - w as i32) / 2,
+            pad as i32 + (card_size as i32 - h as i32) / 2,
+            w, h,
+        );
+        pass_through = true;
+    } else {
+        let bg = detected_background(source_facts, artwork).or_else(|| segmentation(source_facts, artwork).field);
+        if let Some(bg) = bg {
+            diag.lane = ComposeLane::PlateDetect;
+            compose_from_plate(artwork, &mut content, size, pad, card_size, shape, plate.unwrap_or(bg), None, source_facts, shape_facts);
+        } else if transparent_edges(source_facts, artwork) {
+            diag.lane = ComposeLane::BareWhite;
+            let fill = plate.unwrap_or(WHITE);
+            fill_region(&mut content, size, pad, card_size, fill.r, fill.g, fill.b);
+            let free = content_bounds(source_facts, artwork);
+            let box_ = content_box(shape, card_size);
+            // 自动分离: a bare subject on the classic white/user plate — the very
+            // lane where a white glyph vanishes silently (this lane draws no
+            // shadow at all). When the rim melts, route through a layer so the
+            // die-cut stroke can ride under the subject; otherwise the original
+            // direct draw stays byte-untouched.
+            match bare_plate_stroke_ink(config, artwork, fill) {
+                Some(ink) => {
+                    let mut layer = Raster::new(size, size);
+                    draw_centred(artwork, free, &mut layer, size, pad, card_size, box_);
+                    draw_separation_stroke(&mut content, &layer, size, ink);
+                    composite_over(&mut content, &layer);
+                }
+                None => draw_centred(artwork, free, &mut content, size, pad, card_size, box_),
+            }
+        } else if inscribe_shapes(shape) {
+            diag.lane = ComposeLane::InscribeWhite;
+            let fill = plate.unwrap_or(WHITE);
+            fill_region(&mut content, size, pad, card_size, fill.r, fill.g, fill.b);
+            match bare_plate_stroke_ink(config, artwork, fill) {
+                Some(ink) => {
+                    let mut layer = Raster::new(size, size);
+                    inscribe_content(artwork, &mut layer, size, pad, card_size, shape, shape_facts);
+                    draw_separation_stroke(&mut content, &layer, size, ink);
+                    composite_over(&mut content, &layer);
+                }
+                None => inscribe_content(artwork, &mut content, size, pad, card_size, shape, shape_facts),
+            }
+        } else {
+            diag.lane = ComposeLane::Stretch;
+            let full = ContentBounds { left: 0, top: 0, right: artwork.width, bottom: artwork.height };
+            draw_scaled(artwork, full, &mut content, size, pad as i32, pad as i32, card_size, card_size);
+        }
+    }
+
+    if config.subject == Subject::Mono {
+        mono_map_adaptive(&mut content, tint);
+        return (content, pass_through);
+    }
+    if config.subject == Subject::BlackWhite {
+        let d = &mut content.data;
+        let mut i = 0;
+        while i < d.len() {
+            if d[i + 3] > 0 {
+                transform_pixel_in_place(d, i, Subject::BlackWhite, tint);
+            }
+            i += 4;
+        }
+    }
+    (content, pass_through)
+}
+
+pub(crate) fn composite_over(target: &mut Raster, over: &Raster) {
+    let od = &over.data;
+    let mut i4 = 0;
+    while i4 < od.len() {
+        if od[i4 + 3] > 0 {
+            over_at(&mut target.data, i4, od[i4], od[i4 + 1], od[i4 + 2], od[i4 + 3]);
+        }
+        i4 += 4;
+    }
+}
+
+fn composed_luminance(tile: &Raster) -> f64 {
+    let d = &tile.data;
+    let mut sum = 0.0f64;
+    let mut weight = 0.0f64;
+    let mut i4 = 0;
+    while i4 < d.len() {
+        let a = d[i4 + 3];
+        if a != 0 {
+            sum += luminance(d[i4], d[i4 + 1], d[i4 + 2]) * a as f64;
+            weight += a as f64;
+        }
+        i4 += 4;
+    }
+    if weight <= 0.0 {
+        0.5
+    } else {
+        sum / weight
+    }
+}
+
+/// Spike-4 compatibility slice (Circle + white plate + subject + dock shadow),
+/// now built from the REAL compose helpers — the dm-icon-wasm + xtask spike4
+/// gate keeps running through the ported pipeline (no duplicate implementation).
+pub fn render_slice_tile(artwork: &Raster, size: usize) -> Raster {
+    assert!(size > 0, "size must be positive");
+    let card_size = size;
+    let mut tile = Raster::new(size, size);
+    let box_size = field_content_box(IconShape::Circle, card_size);
+    fill_region(&mut tile, size, 0, card_size, WHITE.r, WHITE.g, WHITE.b);
+    let mut render_scratch = RenderScratch::new();
+    field::draw_bare_with_shadow(artwork, &mut tile, size, 0, card_size, box_size, WHITE, field::ShadowMode::Dock, None, &mut render_scratch, None);
+    let card_mask = shape_mask(IconShape::Circle, size, card_size, 0.0, 0.0);
+    clip_to_mask(&mut tile, &card_mask);
+    let mut target = Raster::new(size, size);
+    composite_over(&mut target, &tile);
+    target
+}

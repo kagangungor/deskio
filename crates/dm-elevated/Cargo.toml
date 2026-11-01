@@ -1,0 +1,40 @@
+[package]
+name = "dm-elevated"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+# The single privileged binary (ADR-0019 Amendment 1): a `requireAdministrator` helper whose
+# ONLY verbs are the global shortcut-overlay apply/restore pair (ADR-0021). No arbitrary
+# commands. The requireAdministrator manifest (dm-elevated.exe.manifest) is embedded at PACKAGING
+# by scripts/stage-sidecar.mjs (mt.exe), NOT at build — so this crate has no build script and
+# `cargo test` runs the unit tests without demanding elevation (a build-time manifest makes the
+# test harness itself require admin → os error 740).
+[[bin]]
+name = "dm-elevated"
+path = "src/main.rs"
+
+[dependencies]
+# Structural ICO validation has ONE truth source: the codec's `parse` (M5.11). The elevated
+# helper never re-implements the ICONDIR check — it consumes the codec's public API so an
+# overlay payload is validated by exactly the same reader the transaction driver bakes with.
+# Pure Rust (dm-icon-core→libm, sha2), so the host msvc cross-check stays clean.
+dm-icon-codec = { path = "../dm-icon-codec" }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55"
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Com",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_IO",
+    "Win32_System_Pipes",
+    "Win32_System_Threading",
+    "Win32_UI_Shell",
+] }
+
+[dev-dependencies]
+tempfile = "3"

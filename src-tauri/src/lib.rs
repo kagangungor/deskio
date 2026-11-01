@@ -1,0 +1,650 @@
+//! Deskio desktop shell — a thin Tauri 2 composition root (ADR-0019).
+//! It hosts the existing React app, owns settings persistence (rusqlite, via
+//! `dm-operations`), and exposes the M2 command slice. No pixel or platform
+//! logic lives here; those belong to the `dm-*` crates.
+
+use std::path::{Path, PathBuf};
+use std::sync::Arc;
+
+use dm_operations::{RustImageDecoder, SettingsStore};
+use specta_typescript::Typescript;
+use tauri::Manager;
+use tauri_specta::{collect_commands, Builder};
+
+mod commands;
+#[cfg(not(windows))]
+mod devhost;
+#[cfg(not(windows))]
+mod devhost_icons;
+mod icon_host;
+mod preset_store;
+mod resident;
+mod tweaks_host;
+mod wallpaper_host;
+
+use dm_operations::icons::scope::ScopeRoots;
+use icon_host::{IconHost, IconHostPorts};
+use preset_store::PresetStore;
+use tweaks_host::TweaksHost;
+use wallpaper_host::WallpaperHost;
+
+/// App-wide state managed by Tauri and read by commands.
+pub struct AppState {
+    /// Shared with the icon host (both persist against the one settings DB — store ② lives here).
+    pub settings: Arc<SettingsStore>,
+    pub wallpaper: WallpaperHost,
+    pub icons: IconHost,
+    pub tweaks: TweaksHost,
+    /// The user preset library + .dmpreset reader/writer (spec 09).
+    pub presets: PresetStore,
+    /// M7 resident handle (spec 07 §1/§12): read by the windowless-residency close/exit guards.
+    pub resident: resident::ResidentHandle,
+}
+
+/// The single command surface — used both to wire `invoke` at runtime and to
+/// generate the TypeScript bindings, so the two can never drift.
+fn specta_builder() -> Builder<tauri::Wry> {
+    Builder::<tauri::Wry>::new().commands(collect_commands![
+        commands::settings_get,
+        commands::settings_set,
+        commands::diagnostics_get_info,
+        commands::wallpaper_get_screens,
+        commands::wallpaper_apply_baked,
+        commands::wallpaper_restore,
+        commands::icons_scan,
+        commands::icons_get_persisted,
+        commands::icons_apply_baked_begin,
+        commands::icons_apply_baked_chunk,
+        commands::icons_apply_baked_commit,
+        commands::icons_restore,
+        commands::icons_restore_overlay,
+        commands::icons_switch_version,
+        commands::icons_export_compare,
+        commands::presets_read_package,
+        commands::presets_list,
+        commands::presets_save,
+        commands::presets_delete,
+        commands::presets_rename,
+        commands::presets_export,
+        commands::tweaks_probe,
+        commands::tweaks_apply,
+        commands::tweaks_restore,
+        commands::tweaks_restore_one,
+        commands::tweaks_open_route,
+        commands::tweaks_re_probe_guided,
+    ])
+}
+
+/// Composition root for the wallpaper stack: real COM adapters on Windows, the
+/// dev-host fakes elsewhere; the pure-Rust decoder is the SAME on both platforms.
+fn build_wallpaper_host(data_dir: &Path) -> Result<WallpaperHost, String> {
+    #[cfg(windows)]
+    {
+        let exec = Arc::new(dm_windows::StaExecutor::spawn().map_err(|e| e.to_string())?);
+        Ok(WallpaperHost::new(
+            Arc::new(dm_windows::WindowsMonitorTopology::new(exec.clone())),
+            Arc::new(dm_windows::WindowsWallpaper::new(exec)),
+            Arc::new(RustImageDecoder),
+            data_dir,
+        ))
+    }
+    #[cfg(not(windows))]
+    {
+        let desk = devhost::DevDesktop::new();
+        Ok(WallpaperHost::new(
+            Arc::new(devhost::DevMonitorTopology(desk.clone())),
+            Arc::new(devhost::DevWallpaperApplier(desk)),
+            Arc::new(RustImageDecoder),
+            data_dir,
+        ))
+    }
+}
+
+/// Composition root for the icon stack: real dm-windows shell adapters on Windows, the dev-host
+/// fakes elsewhere; the FsAssetStore + ②③ stores live inside the host (data_dir). The settings
+/// store is SHARED with `AppState` so store ② has one writer.
+fn build_icon_host(data_dir: &Path, settings: Arc<SettingsStore>) -> Result<IconHost, String> {
+    #[cfg(windows)]
+    {
+        // [WINDOWS-VERIFY] the whole icon composition is blind-wired: the shell adapters exist +
+        // msvc-check, but source extraction is deferred (WindowsIconSourceExtractor returns [WV]),
+        // the overlay helper path is a placeholder, and none of it is runtime-verified on Mac.
+        // Swapping to live = fill the extractor body + resolve the real helper path on the box.
+        let exec = Arc::new(dm_windows::StaExecutor::spawn().map_err(|e| e.to_string())?);
+        let helper = std::env::current_exe()
+            .ok()
+            .and_then(|p| p.parent().map(|d| d.join("dm-elevated.exe")))
+            .unwrap_or_else(|| data_dir.join("dm-elevated.exe"));
+        // ONE shared session-scoped elevated channel for BOTH the overlay and the desktop-items
+        // helper, so the whole app authorizes elevation once per launch (owner 2026-07-17). Each
+        // consumer falls back to a per-op `runas` if the session cannot be established.
+        let session = Arc::new(dm_windows::SessionElevated::new(helper.clone()));
+        let ports = IconHostPorts {
+            scanner: Arc::new(dm_windows::WindowsScanner::new(exec.clone())),
+            extractor: Arc::new(dm_windows::WindowsIconSourceExtractor::new(exec.clone())),
+            reader: Arc::new(dm_windows::WindowsStateReader::new(exec.clone())),
+            applier: Arc::new(dm_windows::WindowsIconApplier::new(exec.clone())),
+            overlay: Arc::new(dm_windows::WindowsOverlayControl::new(helper.clone(), session.clone())),
+            refresher: Arc::new(dm_windows::WindowsExplorerRefresher),
+            // Privileged shared items (Public Desktop / ProgramData `.lnk`s) style through the same
+            // signed helper (its own verb pair), now over the shared session. Staging (manifest +
+            // original bytes) lives under the app data dir; the helper reads it capped + re-validates.
+            elevated: Some(Arc::new(dm_windows::WindowsElevatedIconApplier::new(
+                helper,
+                data_dir.join("elevated-staging"),
+                session,
+            ))),
+            geometry: Arc::new(dm_windows::WindowsDesktopGeometry::new(exec)),
+        };
+        // Real active-profile count is a [WINDOWS-VERIFY] ProfileList enum; default single-user.
+        // §14 scope: the REAL known folders via SHGetKnownFolderPath (fail-closed to Unresolved —
+        // version-switch / auto-format / reset then style nothing rather than fail open).
+        Ok(IconHost::new(ports, settings, data_dir, 1, resolve_scope_roots()))
+    }
+    #[cfg(not(windows))]
+    {
+        let desk = devhost_icons::DevIconDesktop::new();
+        let ports = IconHostPorts {
+            scanner: Arc::new(devhost_icons::DevDesktopScanner),
+            extractor: Arc::new(devhost_icons::DevIconSourceExtractor(desk.clone())),
+            reader: Arc::new(devhost_icons::DevIconReader(desk.clone())),
+            applier: Arc::new(devhost_icons::DevIconApplier(desk)),
+            overlay: Arc::new(devhost_icons::DevOverlayControl),
+            refresher: Arc::new(devhost_icons::DevExplorerRefresher),
+            // No privileged scope on the dev host (`Unprivileged` below) → the elevated path is never
+            // taken, so no port is wired. The operations-layer unit tests exercise it with a fake.
+            elevated: None,
+            geometry: Arc::new(devhost_icons::DevDesktopGeometry),
+        };
+        // The dev host has no shared/privileged desktop scope — nothing is scope-excluded.
+        Ok(IconHost::new(ports, settings, data_dir, 1, ScopeRoots::Unprivileged))
+    }
+}
+
+/// Resolves the §14 privileged-scope roots (Public Desktop + ProgramData) via
+/// `SHGetKnownFolderPath` — the ONE resolver both the foreground icon host and the resident
+/// engine share, so they gate identically. Fail-closed: any resolution failure returns
+/// `ScopeRoots::Unresolved` (automation defers, styles nothing) rather than a partial gate.
+///
+/// [WINDOWS-VERIFY] runtime.
+#[cfg(windows)]
+pub(crate) fn resolve_scope_roots() -> ScopeRoots {
+    let Some((public, programdata)) = dm_windows::shell::known_folders::privileged_roots() else {
+        log::error!("§14 scope: known-folder resolution failed — staying fail-closed (Unresolved)");
+        return ScopeRoots::Unresolved;
+    };
+    match ScopeRoots::resolved(
+        vec![public.to_string_lossy().into_owned()],
+        vec![programdata.to_string_lossy().into_owned()],
+    ) {
+        Ok(scope) => scope,
+        Err(_) => {
+            log::error!("§14 scope: resolved roots were degenerate — staying fail-closed (Unresolved)");
+            ScopeRoots::Unresolved
+        }
+    }
+}
+
+/// Absolute path to the committed TS bindings, resolved from the crate dir so
+/// codegen works regardless of the caller's cwd.
+pub fn bindings_path() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../src/bridge/generated.ts")
+}
+
+/// Regenerate the TS bindings at `path` from the live command surface.
+pub fn export_bindings(path: &Path) -> Result<(), String> {
+    specta_builder()
+        .export(Typescript::default(), path)
+        .map_err(|e| e.to_string())
+}
+
+/// Validate whether an Origin header belongs to this application (production origin
+/// or local Vite dev server).
+fn is_allowed_origin(origin: &str) -> bool {
+    // Shipped Tauri origins
+    if origin == "tauri://localhost"
+        || origin == "http://tauri.localhost"
+        || origin == "https://tauri.localhost"
+        || origin == "http://localhost"
+        || origin == "http://127.0.0.1"
+    {
+        return true;
+    }
+    // WebView2 custom protocol origins
+    if origin.starts_with("http://dm") && origin.ends_with(".localhost") {
+        return true;
+    }
+    // Dev server on localhost or 127.0.0.1
+    if let Some(rest) = origin.strip_prefix("http://localhost:") {
+        if !rest.is_empty() && rest.chars().all(|c| c.is_ascii_digit()) {
+            return true;
+        }
+    }
+    if let Some(rest) = origin.strip_prefix("http://127.0.0.1:") {
+        if !rest.is_empty() && rest.chars().all(|c| c.is_ascii_digit()) {
+            return true;
+        }
+    }
+    false
+}
+
+/// Attach CORS headers restricting access only to trusted local/app origins.
+/// Replaces the overly permissive `Access-Control-Allow-Origin: *`.
+fn apply_cors_headers<T>(
+    mut builder: tauri::http::response::Builder,
+    request: &tauri::http::Request<T>,
+) -> tauri::http::response::Builder {
+    if let Some(origin) = request
+        .headers()
+        .get("origin")
+        .and_then(|v| v.to_str().ok())
+    {
+        if is_allowed_origin(origin) {
+            builder = builder
+                .header("Access-Control-Allow-Origin", origin)
+                .header("Vary", "Origin");
+        }
+    }
+    builder
+}
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    sanitize_webview_env();
+    let specta = specta_builder();
+
+    let mut builder = tauri::Builder::default();
+
+    // Single-instance MUST be registered first (ADR-0019): a second launch
+    // focuses the existing window instead of spawning a duplicate.
+    #[cfg(desktop)]
+    {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.set_focus();
+                let _ = window.unminimize();
+            }
+        }));
+        // Opens About/support links in the default browser + the data folder in the
+        // file manager (shell.openExternal / shell.openDataFolder).
+        builder = builder.plugin(tauri_plugin_opener::init());
+        // Preset import/export file pickers (spec 09 §6): the webview receives
+        // PATH STRINGS only (dialog:allow-open + allow-save); fs stays in Rust.
+        builder = builder.plugin(tauri_plugin_dialog::init());
+    }
+
+    builder
+        .plugin(tauri_plugin_log::Builder::new().build())
+        // Decoded wallpaper sources ride this protocol as image/png, so pixel
+        // buffers never cross the JSON bridge (M6-WIRE A6). URLs are revisioned
+        // (`?rev=N`) and rev changes with the path, so responses are immutable.
+        // The compositor reads them with `fetch()`, which is cross-origin from the
+        // webview (dev: http://localhost:5173; prod: the app origin) — so the
+        // response MUST carry `Access-Control-Allow-Origin` matching the allowed app
+        // origins, or the browser blocks the read with a CORS error.
+        .register_uri_scheme_protocol("dmwallpaper", |ctx, request| {
+            let key = request.uri().path().trim_start_matches('/');
+            let png = ctx
+                .app_handle()
+                .try_state::<AppState>()
+                .and_then(|s| s.wallpaper.png_for(key));
+            match png {
+                Some(bytes) => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .header("Content-Type", "image/png")
+                    .header("Cache-Control", "public, max-age=31536000, immutable")
+                    .body(bytes)
+                    .expect("static headers cannot fail"),
+                None => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .status(404)
+                    .body(Vec::new())
+                    .expect("static 404 cannot fail"),
+            }
+        })
+        // Extracted 256px icon sources ride this protocol as image/png (mirrors dmwallpaper://):
+        // the key is "<itemId>/<slot>", the URL revisioned (`?rev=N`) so each scan cache-busts.
+        .register_uri_scheme_protocol("dmicon", |ctx, request| {
+            let key = request.uri().path().trim_start_matches('/');
+            let png = ctx
+                .app_handle()
+                .try_state::<AppState>()
+                .and_then(|s| s.icons.png_for(key));
+            match png {
+                Some(bytes) => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .header("Content-Type", "image/png")
+                    .header("Cache-Control", "public, max-age=31536000, immutable")
+                    .body(bytes)
+                    .expect("static headers cannot fail"),
+                None => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .status(404)
+                    .body(Vec::new())
+                    .expect("static 404 cannot fail"),
+            }
+        })
+        // Library preset thumbnails ride this protocol as image/png (spec 09 §6,
+        // dmicon:// clone): key = entryId; bytes are PNG-sniffed on both write and read.
+        .register_uri_scheme_protocol("dmpreset", |ctx, request| {
+            let key = request.uri().path().trim_start_matches('/');
+            let png = ctx
+                .app_handle()
+                .try_state::<AppState>()
+                .and_then(|s| s.presets.thumb_for(key));
+            match png {
+                Some(bytes) => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .header("Content-Type", "image/png")
+                    .header("Cache-Control", "no-cache")
+                    .body(bytes)
+                    .expect("static headers cannot fail"),
+                None => apply_cors_headers(tauri::http::Response::builder(), &request)
+                    .status(404)
+                    .body(Vec::new())
+                    .expect("static 404 cannot fail"),
+            }
+        })
+        .invoke_handler(specta.invoke_handler())
+        .on_window_event(|window, event| {
+            match event {
+                // Windowless residency (spec 07 §1): while automation is enabled, closing the
+                // window keeps the process resident (hide the WebView, do not exit) — reopening
+                // via the tray works. When disabled, the close falls through to the normal exit.
+                tauri::WindowEvent::CloseRequested { api, .. } => {
+                    if let Some(state) = window.try_state::<AppState>() {
+                        if resident::on_close_requested(&state.resident, || {
+                            let _ = window.hide();
+                        }) {
+                            api.prevent_close();
+                        }
+                    }
+                }
+                tauri::WindowEvent::Resized(_) | tauri::WindowEvent::ScaleFactorChanged { .. } => {
+                    if let Some(webview) = window.app_handle().get_webview_window(window.label()) {
+                        apply_ui_zoom(&webview);
+                    }
+                }
+                _ => {}
+            }
+        })
+        .setup(move |app| {
+            #[cfg(desktop)]
+            app.handle()
+                .plugin(tauri_plugin_window_state::Builder::default().build())?;
+
+            specta.mount_events(app);
+
+            // Crash recovery MUST run before any mutation command is reachable (ADR-0019): a
+            // transaction interrupted by a previous crash is driven to a consistent terminal state
+            // first. This happens during setup, before the settings store is managed and before the
+            // window is interactive; a recovery error aborts startup (fail closed).
+            let data_dir = app.path().app_data_dir()?;
+            std::fs::create_dir_all(&data_dir)?;
+            run_startup_recovery(&data_dir)?;
+
+            let db_path = data_dir.join(SETTINGS_DB_FILE);
+            let settings = Arc::new(SettingsStore::open(&db_path)?);
+            let wallpaper = build_wallpaper_host(&data_dir)?;
+            let icons = build_icon_host(&data_dir, settings.clone())?;
+            let presets = PresetStore::new(&data_dir);
+            // Calm host: real winreg/profile ports + 「带我去关」 route launch on Windows, under
+            // the FAIL-CLOSED manifest (no writes until the W3 cert lab, ADR-0023 D2); the
+            // in-memory devhost everywhere else. Journal stays in-memory on both stacks — no
+            // transaction can exist while the manifest certifies nothing.
+            #[cfg(windows)]
+            let tweaks = TweaksHost::new_windows();
+            #[cfg(not(windows))]
+            let tweaks = TweaksHost::new_devhost();
+            // M7 (spec 07 §1/§12): register the resident tray + menu and spawn the reconcile-loop
+            // driver behind the cfg-adapter pattern (real dm-windows engine on Windows, devhost fake
+            // elsewhere). Returns the handle the windowless-residency guards read.
+            let resident = resident::setup(app.handle(), settings.clone(), data_dir.clone())?;
+            app.manage(AppState { settings, wallpaper, icons, tweaks, presets, resident });
+            log::info!("settings store ready at {}", db_path.display());
+            // First zoom pass: the window-state plugin may restore a maximized window
+            // before any Resized event reaches the handler above.
+            if let Some(webview) = app.get_webview_window("main") {
+                apply_ui_zoom(&webview);
+            }
+            Ok(())
+        })
+        .build(tauri::generate_context!())
+        .expect("error while running Deskio")
+        .run(|app, event| {
+            // Windowless residency (spec 07 §1): an implicit exit (window-close, code.is_none())
+            // never terminates the process while automation is enabled; an explicit "退出"
+            // (app.exit → code.is_some()) always exits.
+            if let tauri::RunEvent::ExitRequested { api, code, .. } = event {
+                if code.is_none() {
+                    let enabled = app
+                        .try_state::<AppState>()
+                        .map(|s| s.resident.is_enabled())
+                        .unwrap_or(false);
+                    if enabled {
+                        api.prevent_exit();
+                    }
+                }
+            }
+        });
+}
+
+/// The settings database file name under the OS app-data dir.
+const SETTINGS_DB_FILE: &str = "settings.sqlite3";
+
+/// Strip attacker-controllable WebView2 env vars before the webview is created
+/// (pitfalls doc §C, env-var hijack). Any process that can set our environment can
+/// otherwise: inject `--remote-debugging-port` (open a CDP control channel) via
+/// `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS`, redirect the profile with
+/// `WEBVIEW2_USER_DATA_FOLDER`, or — worst — point
+/// `WEBVIEW2_BROWSER_EXECUTABLE_FOLDER` at an attacker-supplied runtime and run
+/// arbitrary code INSIDE our process. A shipped build honors none of them.
+///
+/// Active in release builds EXCEPT when the `devtools` cargo feature is compiled in
+/// (off by default; `tauri build` never enables it — so shipped binaries always
+/// sanitize). `devtools` lets a locally-built binary keep the vars so our CDP debug
+/// workflow can pass `--remote-debugging-port`. The opt-out is COMPILE-TIME on purpose
+/// (codex review): a *runtime* env escape hatch would be defeatable by the very
+/// attacker who controls our environment, so a distributed binary must honor no bypass.
+/// Called at the very top of `run()`, before any thread spawns, so `remove_var` is sound.
+fn sanitize_webview_env() {
+    #[cfg(all(not(debug_assertions), not(feature = "devtools")))]
+    for key in [
+        "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
+        "WEBVIEW2_BROWSER_EXECUTABLE_FOLDER",
+        "WEBVIEW2_USER_DATA_FOLDER",
+        "WEBVIEW2_RELEASE_CHANNEL_PREFERENCE",
+    ] {
+        std::env::remove_var(key);
+    }
+}
+
+/// Auto UI zoom (owner report 2026-07-15). The app chrome is authored in fixed px
+/// against the 1280×832 design window, so on a large low-DPI monitor a maximized
+/// window dwarfs the panel type that reads correctly at design size. Scale the whole
+/// page with the window's LOGICAL size through the platform webview zoom — WebView2
+/// `ZoomFactor` on Windows (page-zoom semantics: it also raises `devicePixelRatio`,
+/// so every DPR-aware canvas re-renders sharper, and it works independently of the
+/// disabled user zoom hotkeys) and `WKWebView.pageZoom` on macOS.
+///
+/// The curve is √fit, not fit (owner call 2026-07-15 v2): linear-proportional zoom
+/// reproduces the design-window look at any size but wastes the larger canvas — the
+/// user gets the SAME content, only bigger ("无脑放大"). The square root splits
+/// window growth evenly between more content and larger chrome (maximized on a
+/// 2560×1392 desktop: fit 1.67 → zoom 1.30, viewport ≈1969 logical px), which is
+/// the density a bigger monitor is bought for. Quantized to 5% steps so a live
+/// drag-resize doesn't relayout every tick; never shrinks below 1× (the compact
+/// layout owns small windows).
+fn apply_ui_zoom(webview: &tauri::WebviewWindow) {
+    use std::sync::atomic::{AtomicU32, Ordering};
+    // The design-reference logical size — tauri.conf.json's initial main window.
+    const DESIGN_W: f64 = 1280.0;
+    const DESIGN_H: f64 = 832.0;
+    static LAST_APPLIED: AtomicU32 = AtomicU32::new(0);
+
+    let (Ok(size), Ok(scale)) = (webview.inner_size(), webview.scale_factor()) else {
+        return;
+    };
+    if size.width == 0 || size.height == 0 {
+        return; // minimized — keep the last zoom, recompute on restore
+    }
+    let logical_w = f64::from(size.width) / scale;
+    let logical_h = f64::from(size.height) / scale;
+    let fit = (logical_w / DESIGN_W).min(logical_h / DESIGN_H);
+    let zoom = fit.sqrt().clamp(1.0, 2.0);
+    let quantized = ((zoom * 20.0).round() / 20.0) as f32;
+    if LAST_APPLIED.swap(quantized.to_bits(), Ordering::Relaxed) == quantized.to_bits() {
+        return; // unchanged after quantization — skip the relayout
+    }
+    let _ = webview.set_zoom(f64::from(quantized));
+}
+
+/// The crash-recovery inputs under the app-data dir: the write-ahead journal and the active
+/// ledger the transaction machinery persists.
+fn recovery_paths(data_dir: &Path) -> (PathBuf, PathBuf) {
+    (data_dir.join("txn.log"), data_dir.join("ledger.json"))
+}
+
+/// Drive crash recovery to a consistent terminal state before any mutation command is reachable
+/// (ADR-0019). On Windows it wires the real platform adapters and replays the journal; on a dev
+/// host there is no desktop to recover, so it is a logged no-op. Fail-closed: any error propagates
+/// out of `setup` and aborts startup rather than exposing a half-recovered desktop.
+///
+/// [WINDOWS-VERIFY] the Windows branch cannot be msvc-cross-checked from the host (this crate pulls
+/// tauri + rusqlite C deps), so the adapter wiring is verified on the owner's Windows box.
+fn run_startup_recovery(data_dir: &Path) -> Result<(), String> {
+    let (journal_path, ledger_path) = recovery_paths(data_dir);
+    #[cfg(windows)]
+    {
+        use std::sync::Arc;
+
+        use dm_operations::{recover_from_journal, FileJournal, FsAssetStore, JsonLedgerStore};
+        use dm_windows::{StaExecutor, WindowsIconApplier, WindowsStateReader};
+
+        // A one-shot STA executor for the recovery pass; the resident apply/scan stack owns its own.
+        // The reader and applier share it so ALL shell COM (.lnk reads AND writes) runs on the one
+        // STA apartment thread.
+        let exec = Arc::new(StaExecutor::spawn().map_err(|e| e.to_string())?);
+        let applier = WindowsIconApplier::new(exec.clone());
+        let reader = WindowsStateReader::new(exec);
+        let mut journal = FileJournal::new(&journal_path);
+        let mut ledger = JsonLedgerStore::new(&ledger_path);
+        // §14 scope: the SAME fail-closed known-folder resolution the icon host uses. Recovery is now
+        // scope-aware — a privileged item a prior crash left wearing the elevated helper's style
+        // (which the unelevated applier here can never revert) is ADOPTED FORWARD into the ledger
+        // rather than driven into a doomed restore that would wedge every future apply/reset.
+        let scope = resolve_scope_roots();
+        // The SAME asset store the icon host mounts (icon-assets under the app data dir): recovery's
+        // assets-provenance arm uses it to recognise our own half-landed write (a live icon pointing
+        // into the store) and self-heal it from the durable anchor instead of preserving it as
+        // untouchable residue (the 2026-07-19 vanish fix).
+        let assets = FsAssetStore::new(data_dir.join("icon-assets"));
+        let outcome = recover_from_journal(&mut journal, &reader, &applier, &assets, &mut ledger, &scope)
+            .map_err(|e| e.to_string())?;
+        log::info!(
+            "startup recovery: {} aborted, {} reconciled, {} preserved (left as found), {} clean txns",
+            outcome.aborted.len(),
+            outcome.reconciled.len(),
+            outcome.preserved.len(),
+            outcome.clean_txns
+        );
+        if !outcome.preserved.is_empty() {
+            // Never-clobber (recovery:265): a prior crash left items whose live state we could not
+            // confirm was ours — a user edit or a torn write. We deliberately did NOT overwrite them.
+            log::warn!(
+                "startup recovery PRESERVED {} item(s) exactly as found (edited or uncertain since a \
+                 prior crash) rather than restore over them — surfaced for the user to review",
+                outcome.preserved.len()
+            );
+        }
+        // A DEGRADED recovery (codex R5-#6): a restore/ledger op faulted while replaying a prior crash's
+        // journal, so the desktop is only PARTIALLY recovered. `recover_from_journal` deliberately did
+        // NOT checkpoint — the unreconciled records stay so the next (idempotent) recovery finishes the
+        // job (the user's first apply/reset re-runs it, and `get_persisted` reports `applied: true` off
+        // the retained in-flight journal, keeping the restore affordance reachable). We do NOT abort
+        // startup (that would strand the user with no way to reach the very reset that heals it) — but
+        // we must NOT swallow it either: log loudly so the fault is diagnosable.
+        if !outcome.degraded.is_empty() {
+            log::error!(
+                "startup recovery DEGRADED — a prior crash could not be fully recovered ({} fault(s)); \
+                 the journal was retained for the next pass and the restore affordance stays reachable: {}",
+                outcome.degraded.len(),
+                outcome.degraded.join("; ")
+            );
+        }
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = (&journal_path, &ledger_path);
+        log::info!("startup recovery skipped: no desktop platform adapters on this host");
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn bindings_path_points_at_the_committed_ts_file() {
+        let p = bindings_path();
+        assert!(p.ends_with("generated.ts"), "got {}", p.display());
+        assert!(p.to_string_lossy().contains("bridge"));
+    }
+
+    #[test]
+    fn recovery_reads_the_journal_and_ledger_from_the_app_data_dir() {
+        let (journal, ledger) = recovery_paths(Path::new("/data/Deskio"));
+        assert!(journal.ends_with("txn.log"));
+        assert!(ledger.ends_with("ledger.json"));
+        // Both must sit under the passed app-data dir, never a caller-relative path.
+        assert!(journal.starts_with("/data/Deskio"));
+        assert!(ledger.starts_with("/data/Deskio"));
+    }
+
+    #[test]
+    fn startup_recovery_is_a_clean_noop_on_the_dev_host() {
+        // On non-Windows there is no desktop to recover; the seam must succeed so startup proceeds.
+        let dir = std::env::temp_dir();
+        assert!(run_startup_recovery(&dir).is_ok());
+    }
+
+    #[test]
+    fn test_is_allowed_origin() {
+        assert!(is_allowed_origin("tauri://localhost"));
+        assert!(is_allowed_origin("http://tauri.localhost"));
+        assert!(is_allowed_origin("https://tauri.localhost"));
+        assert!(is_allowed_origin("http://localhost:5173"));
+        assert!(is_allowed_origin("http://127.0.0.1:5173"));
+        assert!(is_allowed_origin("http://dmwallpaper.localhost"));
+        assert!(is_allowed_origin("http://dmicon.localhost"));
+        assert!(is_allowed_origin("http://dmpreset.localhost"));
+
+        assert!(!is_allowed_origin("https://evil.com"));
+        assert!(!is_allowed_origin("http://evil.com"));
+        assert!(!is_allowed_origin("http://localhost.evil.com"));
+        assert!(!is_allowed_origin("http://tauri.localhost.evil.com"));
+        assert!(!is_allowed_origin("http://localhost:abc"));
+        assert!(!is_allowed_origin("null"));
+    }
+
+    #[test]
+    fn test_cors_headers_applied_for_trusted_origins_and_omitted_for_untrusted() {
+        let req_trusted = tauri::http::Request::builder()
+            .header("Origin", "http://tauri.localhost")
+            .body(Vec::<u8>::new())
+            .unwrap();
+        let resp = apply_cors_headers(tauri::http::Response::builder(), &req_trusted)
+            .body(Vec::<u8>::new())
+            .unwrap();
+        assert_eq!(
+            resp.headers().get("Access-Control-Allow-Origin").unwrap(),
+            "http://tauri.localhost"
+        );
+        assert_eq!(resp.headers().get("Vary").unwrap(), "Origin");
+
+        let req_evil = tauri::http::Request::builder()
+            .header("Origin", "https://attacker.com")
+            .body(Vec::<u8>::new())
+            .unwrap();
+        let resp_evil = apply_cors_headers(tauri::http::Response::builder(), &req_evil)
+            .body(Vec::<u8>::new())
+            .unwrap();
+        assert!(resp_evil.headers().get("Access-Control-Allow-Origin").is_none());
+    }
+}

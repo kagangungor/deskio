@@ -1,0 +1,400 @@
+import { create } from 'zustand'
+import { CALM_CATALOG, controlById, groupOf, type CalmControlId, type CalmGroup } from '@/lib/calm/catalog'
+import {
+  COUNTED_AS_OURS,
+  OWNED_WRITES,
+  RESTORABLE_LEDGER,
+  assertTransition,
+  probeTransition,
+  type CalmRowState,
+} from '@/lib/calm/states'
+import { MockCalmBackend, UnavailableCalmBackend, type CalmBackend } from '@/bridge/mock-calm'
+import { format, t } from '@/lib/i18n'
+import { useToasts } from '@/stores/toasts'
+
+// 清爽 module store (spec 08 §3-§7). Every row mutation goes through
+// assertTransition / probeTransition — the store CANNOT express a dishonest
+// state change. One operation lock serializes probe/apply/restore (codex R1 #7).
+// Backend = the CalmBackend port; Wave 1 swaps in the Tauri implementation.
+
+// Under Tauri, start FAIL-CLOSED (never the mock): a fast navigation to 清爽 before the async
+// TauriCalmBackend swap (bridge/tauri.ts) must never let the in-memory mock report writable recipes
+// and show fake "quieted" success (ADR-0023 D2, the owner's deceptive-UI cardinal sin). The browser
+// and test loops keep the mock default; tauri.ts installs the real backend and re-probes.
+const isTauriRuntime = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window
+let backend: CalmBackend = isTauriRuntime ? new UnavailableCalmBackend() : new MockCalmBackend()
+
+/** Wave-1 seam + test injection point. */
+export function setCalmBackend(b: CalmBackend) {
+  backend = b
+}
+
+const EXCLUDED_KEY = 'dm.calm.excluded'
+
+// A failed load silently re-arming excluded controls would betray the user's
+// explicit choice (codex R2 #3) — track it and say so on the next probe.
+let excludedLoadFailed = false
+
+function loadExcluded(): Set<CalmControlId> {
+  try {
+    const raw = localStorage.getItem(EXCLUDED_KEY)
+    return new Set(raw ? (JSON.parse(raw) as CalmControlId[]) : [])
+  } catch {
+    excludedLoadFailed = true
+    return new Set()
+  }
+}
+
+export interface CalmApplySummary {
+  verified: number
+  awaiting: number
+  reverted: number
+  skipped: number
+}
+
+type CalmOp = 'idle' | 'probe' | 'apply' | 'restore'
+
+interface CalmState {
+  probed: boolean
+  /** The last probe rejected (host/IPC error) — the page shows a retry instead of a forever-spinner. */
+  probeFailed: boolean
+  /** One operation at a time — probe/apply/restore never interleave. */
+  op: CalmOp
+  rows: Record<CalmControlId, CalmRowState>
+  excluded: Set<CalmControlId>
+  /** Honest per-row skip captions from the last apply (cleared on apply/probe). */
+  skipReasons: Partial<Record<CalmControlId, 'changed'>>
+  /** The guided row whose route we last opened — re-probed on window refocus. */
+  walkedId: CalmControlId | null
+  lastApply: CalmApplySummary | null
+  probe: () => Promise<void>
+  toggleExcluded: (id: CalmControlId) => void
+  /** Apply the one-click package; `only` scopes it (the re-propose notice).
+   *  Resolves to THIS call's summary — null when nothing ran (lock held / no
+   *  candidates), so a caller can never celebrate a stale `lastApply`. */
+  applyAll: (only?: CalmControlId[]) => Promise<CalmApplySummary | null>
+  restoreAll: () => Promise<void>
+  /** Per-row undo (owner 2026-07-13): one control back to its original. */
+  restoreOne: (id: CalmControlId) => Promise<void>
+  walkGuided: (id: CalmControlId) => Promise<void>
+  /** Refocus/return probe for the last-walked guided row (idempotent). */
+  reProbeWalked: () => Promise<void>
+  /** Unreadable guided rows: the user answers 关好了吗 — recorded as theirs, never ours. */
+  attestGuided: (id: CalmControlId) => void
+}
+
+const initialRows = () =>
+  Object.fromEntries(CALM_CATALOG.map((c) => [c.id, 'unknown'])) as Record<CalmControlId, CalmRowState>
+
+function kindOf(id: CalmControlId): 'writable' | 'guided' {
+  return controlById(id).tier === 'guided' ? 'guided' : 'writable'
+}
+
+/** Rows the one-click may write right now: in the package, not excluded, actionable.
+ *  'reopened' (HealthCheck drift) is a candidate again — with provenance. */
+export function applyCandidates(
+  rows: Record<CalmControlId, CalmRowState>,
+  excluded: Set<CalmControlId>,
+): CalmControlId[] {
+  return CALM_CATALOG.filter(
+    (c) =>
+      groupOf(c, rows[c.id]) === 'oneClick' &&
+      c.inDefaultPackage &&
+      !excluded.has(c.id) &&
+      (rows[c.id] === 'pushing' || rows[c.id] === 'reverted' || rows[c.id] === 'reopened'),
+  ).map((c) => c.id)
+}
+
+/** Rows we quieted that were turned back on since (spec 08 §6) — feeds the
+ *  「Windows 更新后，有 N 项推送又打开了 [重新关闭]」 additive notice. */
+export function reopenedRows(rows: Record<CalmControlId, CalmRowState>): CalmControlId[] {
+  return CALM_CATALOG.filter((c) => rows[c.id] === 'reopened').map((c) => c.id)
+}
+
+export const useCalm = create<CalmState>((set, get) => {
+  const setRow = (id: CalmControlId, to: CalmRowState) =>
+    set((s) => ({ rows: { ...s.rows, [id]: assertTransition(kindOf(id), s.rows[id], to) } }))
+
+  /** Honest apply toast assembled from ALL outcome counts (codex R1 #11). */
+  const applyToast = (sum: CalmApplySummary) => {
+    const parts: string[] = []
+    if (sum.verified > 0) parts.push(format(t('Calm_ToastPart_Quieted'), sum.verified))
+    if (sum.awaiting > 0) parts.push(format(t('Calm_ToastPart_Awaiting'), sum.awaiting))
+    const failed = sum.reverted + sum.skipped
+    if (failed > 0) parts.push(format(t('Calm_ToastPart_Failed'), failed))
+    if (parts.length === 0) return
+    useToasts.getState().show(parts.join(t('Calm_ToastJoin')), failed > 0 ? 'warn' : 'success')
+  }
+
+  return {
+    probed: false,
+    probeFailed: false,
+    op: 'idle',
+    rows: initialRows(),
+    excluded: loadExcluded(),
+    skipReasons: {},
+    walkedId: null,
+    lastApply: null,
+
+    probe: async () => {
+      if (get().op !== 'idle') return
+      set({ op: 'probe', probeFailed: false })
+      try {
+        const probed = await backend.probe()
+        set((s) => {
+          const rows = { ...s.rows }
+          for (const p of probed) {
+            // Drift provenance rides IN the state machine: driftedFromUs+pushing
+            // probes to 'reopened' (codex R3 #1 / R4 #1) — never a plain candidate,
+            // never a parallel array the transitions cannot see.
+            rows[p.id] = probeTransition(kindOf(p.id), rows[p.id], p)
+          }
+          return { rows, probed: true, skipReasons: {} }
+        })
+        if (excludedLoadFailed) {
+          excludedLoadFailed = false
+          useToasts.getState().show(t('Calm_Toast_ExcludeLoadFailed'), 'warn')
+        }
+      } catch {
+        // A rejected probe (host/IPC error) must not leave the hero spinning forever — surface it
+        // and let the page offer a retry (owner: no silent, forever-scanning dead UI).
+        set({ probeFailed: true })
+        useToasts.getState().show(t('Calm_Toast_ScanFailed'), 'warn')
+      } finally {
+        set({ op: 'idle' })
+      }
+    },
+
+    toggleExcluded: (id) => {
+      set((s) => {
+        const excluded = new Set(s.excluded)
+        if (excluded.has(id)) excluded.delete(id)
+        else excluded.add(id)
+        try {
+          localStorage.setItem(EXCLUDED_KEY, JSON.stringify([...excluded]))
+        } catch {
+          // The exclusion would silently die with the session — say so (codex R1 #10).
+          useToasts.getState().show(t('Calm_Toast_ExcludeNotSaved'), 'warn')
+        }
+        return { excluded }
+      })
+    },
+
+    applyAll: async (only) => {
+      const { rows, excluded, op } = get()
+      if (op !== 'idle') return null
+      const all = applyCandidates(rows, excluded)
+      const ids = only ? all.filter((id) => only.includes(id)) : all
+      if (ids.length === 0) {
+        useToasts.getState().show(t('Calm_Toast_NothingToDo'))
+        return null
+      }
+      set({ op: 'apply', skipReasons: {} })
+      let lostReply = false
+      const summary: CalmApplySummary = { verified: 0, awaiting: 0, reverted: 0, skipped: 0 }
+      try {
+        for (const id of ids) setRow(id, 'pending')
+        let results: Awaited<ReturnType<CalmBackend['apply']>> = []
+        try {
+          results = await backend.apply(ids)
+        } catch {
+          results = [] // reply lost — handled below as UNKNOWN, never a rollback claim
+        }
+        const byId = new Map(results.map((r) => [r.id, r]))
+        const skipReasons: Partial<Record<CalmControlId, 'changed'>> = {}
+        for (const id of ids) {
+          const row = byId.get(id)
+          if (!row) {
+            // The backend never answered: the write MAY have committed. Claiming
+            // 「已还原」 would be an unproven rollback (codex R2 #1) — drop to
+            // unknown and re-probe the environment for the truth.
+            setRow(id, 'unknown')
+            lostReply = true
+            continue
+          }
+          if (row.outcome === 'verified') {
+            setRow(id, 'verified')
+            summary.verified++
+          } else if (row.outcome === 'setAwaiting') {
+            setRow(id, 'setAwaiting')
+            summary.awaiting++
+          } else if (row.outcome === 'skipped') {
+            setRow(id, 'pushing') // no write happened — the surface still pushes
+            if (row.reason) skipReasons[id] = row.reason
+            summary.skipped++
+          } else {
+            setRow(id, 'reverted') // an EXPLICIT rollback report from the backend
+            summary.reverted++
+          }
+        }
+        set({ lastApply: summary, skipReasons })
+        if (lostReply) useToasts.getState().show(t('Calm_Toast_Unconfirmed'), 'warn')
+        else applyToast(summary)
+      } finally {
+        set({ op: 'idle' })
+      }
+      // Recover the unknown rows from environment truth, outside the apply op.
+      if (lostReply) await get().probe()
+      return summary // THIS call's result — never a stale lastApply read
+    },
+
+    restoreAll: async () => {
+      if (get().op !== 'idle') return
+      // Snapshot the rows a restore would touch — every live LEDGER row, incl.
+      // reopened (drift skip-and-disown). A lost reply drops THEM to unknown
+      // (the restore MAY have committed; a claimed state would lie).
+      const touched = CALM_CATALOG.filter((c) => RESTORABLE_LEDGER.has(get().rows[c.id])).map((c) => c.id)
+      set({ op: 'restore' })
+      let lostReply = false
+      try {
+        let results: Awaited<ReturnType<CalmBackend['restore']>> | null = null
+        try {
+          results = await backend.restore()
+        } catch {
+          lostReply = true
+        }
+        if (results) {
+          let restored = 0
+          let skipped = 0
+          for (const r of results) {
+            if (r.outcome === 'restored') {
+              setRow(r.id, 'pushing') // the surface pushes again — stated plainly
+              restored++
+            } else {
+              // Hand-edited since our write: it is THEIRS now — mark, don't clobber,
+              // and stop displaying it as ours (codex R1 Block #1).
+              setRow(r.id, 'external')
+              skipped++
+            }
+          }
+          const toasts = useToasts.getState()
+          if (skipped > 0) toasts.show(format(t('Calm_Toast_RestoredSkipped'), restored, skipped))
+          else toasts.show(format(t('Calm_Toast_Restored'), restored))
+        } else {
+          for (const id of touched) setRow(id, 'unknown')
+          useToasts.getState().show(t('Calm_Toast_Unconfirmed'), 'warn')
+        }
+      } finally {
+        set({ op: 'idle' })
+      }
+      if (lostReply) await get().probe() // environment truth, outside the restore op
+    },
+
+    restoreOne: async (id) => {
+      if (get().op !== 'idle') return
+      set({ op: 'restore' })
+      let lostReply = false
+      try {
+        let r: Awaited<ReturnType<CalmBackend['restoreOne']>> | null = null
+        try {
+          r = await backend.restoreOne(id)
+        } catch {
+          lostReply = true
+        }
+        if (!r) {
+          setRow(id, 'unknown') // reply lost — never an unproven claim
+          useToasts.getState().show(t('Calm_Toast_Unconfirmed'), 'warn')
+        } else if (r.outcome === 'restored') {
+          setRow(id, 'pushing') // the surface pushes again — stated plainly
+          useToasts.getState().show(format(t('Calm_Toast_RestoredOne'), t(controlById(id).labelKey)))
+        } else {
+          setRow(id, 'external') // hand-edited since: theirs now, untouched
+          useToasts.getState().show(format(t('Calm_Toast_RestoredSkipped'), 0, 1))
+        }
+      } finally {
+        set({ op: 'idle' })
+      }
+      if (lostReply) await get().probe()
+    },
+
+    walkGuided: async (id) => {
+      set({ walkedId: id })
+      try {
+        await backend.openRoute(id)
+      } catch {
+        // The ms-settings route did not launch — clear the walk token and say so, never a dead button.
+        set((s) => (s.walkedId === id ? { walkedId: null } : {}))
+        useToasts.getState().show(t('Calm_Toast_RouteFailed'), 'warn')
+      }
+    },
+
+    reProbeWalked: async () => {
+      const id = get().walkedId
+      if (!id) return
+      // Idempotent: a settled row needs no further probing (codex R1 #9).
+      const state = get().rows[id]
+      if (state !== 'pushing') {
+        set({ walkedId: null })
+        return
+      }
+      let off: boolean | null
+      try {
+        off = await backend.reProbeGuided(id)
+      } catch {
+        // Background return-probe failed — keep walkedId so the next focus can retry; stay silent.
+        return
+      }
+      // Re-check AFTER the await (codex R4 #4): a concurrent re-probe of the SAME
+      // row may have landed first — writing confirmedOff twice is an illegal
+      // transition, so only the probe that finds the row still pushing writes.
+      if (off === true && get().rows[id] === 'pushing') {
+        setRow(id, 'confirmedOff')
+      }
+      // Compare-and-set (codex R3 #4): the user may have walked ANOTHER guided
+      // row while this probe was in flight — never clear the NEW walk token.
+      if (off === true && get().walkedId === id) set({ walkedId: null })
+      // off === false → still pushing (row already says so); null → unreadable, the
+      // page asks the user and records userAttested via attestGuided.
+    },
+
+    attestGuided: (id) => {
+      setRow(id, 'userAttested')
+      if (get().walkedId === id) set({ walkedId: null })
+    },
+  }
+})
+
+/** Verified-writes-only summary count (spec 08 §3: guided outcomes are never ours). */
+export function countQuieted(rows: Record<CalmControlId, CalmRowState>): number {
+  return CALM_CATALOG.filter((c) => COUNTED_AS_OURS.has(rows[c.id])).length
+}
+
+/** Live Deskio-owned intact writes (verified + setAwaiting). */
+export function countOwnedWrites(rows: Record<CalmControlId, CalmRowState>): number {
+  return CALM_CATALOG.filter((c) => OWNED_WRITES.has(rows[c.id])).length
+}
+
+/** Live ledger rows the global Restore can act on — intact writes PLUS drifted
+ *  reopened rows awaiting skip-and-disown (codex R5 #1: when every write drifts,
+ *  the Restore entrance must survive). */
+export function countRestorable(rows: Record<CalmControlId, CalmRowState>): number {
+  return CALM_CATALOG.filter((c) => RESTORABLE_LEDGER.has(rows[c.id])).length
+}
+
+/** Rows per page group, catalog order. Within the guided group the true guided-tier rows lead
+ *  (widgets.feed stays the opening act — ADR-0023 D3), then the fail-closed automatic rows we can
+ *  only walk you to; a stable sort keeps catalog order inside each partition. */
+export function groupedRows(rows: Record<CalmControlId, CalmRowState>) {
+  const groups: Record<CalmGroup, CalmControlId[]> = { oneClick: [], guided: [], held: [] }
+  for (const c of CALM_CATALOG) groups[groupOf(c, rows[c.id])].push(c.id)
+  groups.guided.sort(
+    (a, b) => Number(controlById(b).tier === 'guided') - Number(controlById(a).tier === 'guided'),
+  )
+  return groups
+}
+
+/** ADR-0023 D2: TRUE when the probe found NO one-click writable row at all — the real-Windows
+ *  stack ships fail-closed until the W3 cert lab certifies recipes, so every automatic candidate
+ *  sits either walkable (guided group) or held. The page then HIDES the hero entirely (owner
+ *  2026-07-16): with nothing to one-click, an apology-for-absence block only steals attention —
+ *  the walk groups below are the whole page. (An eternal 「扫描中」 spinner would read as a hang
+ *  and a 「可以让 0 个界面安静下来」 line as a bug, so neither is shown either.) Quieted/reopened
+ *  rows keep the normal hero — they carry real state worth summarizing. */
+export function guidedOnlyFace(probed: boolean, rows: Record<CalmControlId, CalmRowState>): boolean {
+  if (!probed) return false
+  return (
+    groupedRows(rows).oneClick.length === 0 &&
+    countQuieted(rows) === 0 &&
+    reopenedRows(rows).length === 0
+  )
+}
