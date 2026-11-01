@@ -15,10 +15,6 @@
 
 <br/>
 
-<a href="#-how-to-install">
-  <img src=".github/assets/hero-beforeafter.svg" width="880" alt="A cluttered default Windows desktop is beautified into clean squircle icons with one click, then fully restored" />
-</a>
-
 Deskio turns a cluttered Windows desktop into something calm and deliberate.<br/>Preview first, apply when you're happy. Change your mind? One click brings it all back.
 
 </div>
@@ -72,7 +68,7 @@ The nine are a starting point. Eleven icon shapes, plus coloring, plates, finish
 - Hold to compare with the original, right-click to restyle a single icon, undo and redo freely
 
 <div align="center">
-<img src=".github/assets/feature-combine.webp" width="760" alt="The zoomed live preview beside the full control panel: shape, coloring, plate, finish, and shortcut mark" />
+<img src=".github/assets/görsel1.png" width="880" alt="The zoomed live preview beside the full control panel: shape, coloring, plate, finish, and shortcut mark" />
 <br/>
 <sub>The live preview zoomed in on the left; every axis adjustable on the right.</sub>
 </div>
@@ -108,7 +104,7 @@ Find that arrow ugly? Swap it for a cleaner mark, or remove it. The app does it 
 ## 🎛️ Inside the studio
 
 <div align="center">
-<img src=".github/assets/app-studio.webp" width="880" alt="The Deskio window on the wallpaper tab: the Apps, Work and Doing zones live on the desktop mirror, the zone list on the right" />
+<img src=".github/assets/görsel2.png" width="880" alt="The Deskio window on the wallpaper tab: the Apps, Work and Doing zones live on the desktop mirror, the zone list on the right" />
 <br/>
 <sub>Every tab works the same way: adjust on the right, watch your real desktop change live on the left.</sub>
 </div>

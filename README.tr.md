@@ -15,10 +15,6 @@
 
 <br/>
 
-<a href="#-nasıl-kurulur">
-  <img src=".github/assets/hero-beforeafter.svg" width="880" alt="Dağınık varsayılan Windows masaüstü tek tıklamayla temiz süper elips simgelere dönüştürülür ve ardından tamamen geri yüklenir" />
-</a>
-
 Deskio, karmaşık bir Windows masaüstünü sakin ve özenli bir görünüme kavuşturur.<br/>Önce önizleyin, memnun kaldığınızda uygulayın. Fikrinizi mi değiştirdiniz? Tek tıkla her şeyi geri getirin.
 
 </div>
@@ -72,7 +68,7 @@ Bu dokuz stil bir başlangıç noktasıdır. On bir simge şekli, renk tonları,
 - Orijinalle karşılaştırmak için basılı tutun, tek bir simgeyi yeniden biçimlendirmek için sağ tıklayın, özgürce geri alın ve yineleyin
 
 <div align="center">
-<img src=".github/assets/feature-combine.webp" width="760" alt="Tam kontrol panelinin yanında yakınlaştırılmış canlı önizleme: şekil, renklendirme, plaka, kaplama ve kısayol işareti" />
+<img src=".github/assets/görsel1.png" width="880" alt="Tam kontrol panelinin yanında yakınlaştırılmış canlı önizleme: şekil, renklendirme, plaka, kaplama ve kısayol işareti" />
 <br/>
 <sub>Solda yakınlaştırılmış canlı önizleme; sağda her özelliği ayarlanabilir kontrol paneli.</sub>
 </div>
@@ -108,7 +104,7 @@ Windows'un o küçük kısayol okunu çirkin mi buluyorsunuz? Daha zarif bir iş
 ## 🎛️ Stüdyo deneyimi
 
 <div align="center">
-<img src=".github/assets/app-studio.webp" width="880" alt="Duvar kâğıdı sekmesindeki Deskio penceresi: masaüstü yansımasında canlı bölgeler, sağda bölge listesi" />
+<img src=".github/assets/görsel2.png" width="880" alt="Duvar kâğıdı sekmesindeki Deskio penceresi: masaüstü yansımasında canlı bölgeler, sağda bölge listesi" />
 <br/>
 <sub>Her sekme aynı mantıkla çalışır: sağda ayarlayın, solda gerçek masaüstünüzün anlık değişimini izleyin.</sub>
 </div>
