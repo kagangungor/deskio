@@ -13,11 +13,25 @@
 
 **English** · [Türkçe](README.tr.md)
 
-<br/>
+<br/><br/>
+
+<a href="https://github.com/kagangungor/deskio/releases/latest">
+  <img src="https://img.shields.io/badge/⬇️%20Download%20for%20Windows-v1.0.0-ff6f5e?style=for-the-badge&logo=windows&logoColor=white" alt="Download Deskio for Windows" />
+</a>
+
+<br/><br/>
 
 Deskio turns a cluttered Windows desktop into something calm and deliberate.<br/>Preview first, apply when you're happy. Change your mind? One click brings it all back.
 
 </div>
+
+### ⚡ At a Glance
+
+- 🎨 **Nine Handcrafted Styles**: Instant one-click aesthetic transformation (`Squircle`, `Blueprint`, `Pixel Era`, `Gleam`, `Glaze`, `Die-Cut`, `Porthole`, `Scrapbook`, `Creekstone`).
+- ↩️ **100% Risk-Free**: Byte-exact desktop snapshot before any change; one click restores everything back to standard Windows defaults.
+- 🛡️ **Offline & Private**: Zero tracking, zero telemetry, no account required—runs purely on your local machine.
+- 🗂️ **Acrylic Wallpaper Zones**: Organize icons into frosted glass zones for work, personal, and focus.
+- ✂️ **Shortcut Arrow Cleaner**: Remove or customize the native Windows shortcut arrow with one click.
 
 ## ↩️ You can always go back
 
@@ -70,7 +84,7 @@ The nine are a starting point. Eleven icon shapes, plus coloring, plates, finish
 <div align="center">
 <img src=".github/assets/görsel1.png" width="880" alt="The zoomed live preview beside the full control panel: shape, coloring, plate, finish, and shortcut mark" />
 <br/>
-<sub>The live preview zoomed in on the left; every axis adjustable on the right.</sub>
+<sub>Live preview on the left; fine-grained shape, coloring, plate, and finish controls on the right.</sub>
 </div>
 
 ## 🧩 Save it. Share it.
@@ -106,14 +120,14 @@ Find that arrow ugly? Swap it for a cleaner mark, or remove it. The app does it 
 <div align="center">
 <img src=".github/assets/görsel2.png" width="880" alt="The Deskio window on the wallpaper tab: the Apps, Work and Doing zones live on the desktop mirror, the zone list on the right" />
 <br/>
-<sub>Every tab works the same way: adjust on the right, watch your real desktop change live on the left.</sub>
+<sub>Acrylic wallpaper zones editor with real-time desktop mirror and interactive zone list.</sub>
 </div>
 
 ## 📦 How to install
 
-The first installer is being prepared and will land on the [Releases](https://github.com/kagangungor/deskio/releases) page. Then it's: download, double-click, done. It installs just for your account.
+Download the latest installer (`Deskio_1.0.0_x64-setup.exe`) from the [**Releases**](https://github.com/kagangungor/deskio/releases/latest) page. Then it's: download, double-click, done. It installs cleanly and safely just for your user account.
 
-> If Windows shows a blue "Windows protected your PC" screen, don't worry. It's not a virus warning, just Windows being cautious with newer software. Click **More info**, then **Run anyway**.
+> If Windows shows a blue "Windows protected your PC" screen, don't worry. It's not a virus warning, just Windows SmartScreen being cautious with newer software. Click **More info**, then **Run anyway**.
 
 Runs on Windows 10 (1809 or newer) and Windows 11, 64-bit.
 
@@ -173,6 +187,10 @@ React UI ──(tauri-specta bridge)──▶ Rust host
 
 The full picture lives in [`docs/development.md`](docs/development.md) and the design specs under [`docs/specs/`](docs/specs).
 
+## 🗺️ Roadmap
+
+Curious about what's coming next (custom style tuning, theme sync, standalone portable mode)? Check out our [**ROADMAP.md**](ROADMAP.md) for milestone goals and future horizons.
+
 ## 🛠️ For developers
 
 You need [**Bun**](https://bun.sh) ≥ 1.1 and the Rust toolchain pinned in [`rust-toolchain.toml`](rust-toolchain.toml) (installed automatically by `rustup`). Bun is the only JS toolchain here.
@@ -193,12 +211,16 @@ The React UI, the Rust core, docs, localization, and Windows compatibility testi
 
 [MIT](LICENSE) © 2026 [Kağan Güngör](https://github.com/kagangungor). Free and open source.
 
+## 💖 Support the project
+
+If Deskio brought calm and clarity to your daily Windows desktop, consider starring the repo ⭐ or [sponsoring the project](https://github.com/sponsors/kagangungor)!
+
 <div align="center">
 
 **Made your desktop nicer? [Give it a ⭐](https://github.com/kagangungor/deskio) so more people find it.**
 
 <img src=".github/assets/rule-hairline.svg" width="880" alt="" />
 
-<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · English · [Türkçe](README.tr.md)</sub>
+<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Sponsor](https://github.com/sponsors/kagangungor) · English · [Türkçe](README.tr.md)</sub>
 
 </div>

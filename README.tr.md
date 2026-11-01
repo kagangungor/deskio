@@ -13,11 +13,25 @@
 
 [English](README.md) · **Türkçe**
 
-<br/>
+<br/><br/>
+
+<a href="https://github.com/kagangungor/deskio/releases/latest">
+  <img src="https://img.shields.io/badge/⬇️%20Windows%20için%20İndir-v1.0.0-ff6f5e?style=for-the-badge&logo=windows&logoColor=white" alt="Windows için Deskio İndir" />
+</a>
+
+<br/><br/>
 
 Deskio, karmaşık bir Windows masaüstünü sakin ve özenli bir görünüme kavuşturur.<br/>Önce önizleyin, memnun kaldığınızda uygulayın. Fikrinizi mi değiştirdiniz? Tek tıkla her şeyi geri getirin.
 
 </div>
+
+### ⚡ Bir Bakışta Deskio
+
+- 🎨 **Dokuz El Yapımı Görünüm**: Süper elipsten piksel nostaljisine tek tıkla estetik dönüşüm (`Squircle`, `Blueprint`, `Pixel Era`, `Gleam`, `Glaze`, `Die-Cut`, `Porthole`, `Scrapbook`, `Creekstone`).
+- ↩️ **%100 Güvenli ve Sıfır Risk**: Her değişiklik öncesi masaüstünün bayt bayt anlık görüntüsü alınır; tek tıkla her şey orijinal Windows varsayılanlarına döner.
+- 🛡️ **Yerel ve Gizli**: Sıfır telemetri, sıfır bulut, hesap gerektirmez; tamamen bilgisayarınızda çevrimdışı çalışır.
+- 🗂️ **Akrilik Duvar Kâğıdı Bölgeleri**: Simgelerinizi iş, kişisel ve odak alanlarına ayıran buzlu cam bölgeler oluşturun.
+- ✂️ **Kısayol Oku Temizleyici**: Windows'un varsayılan kısayol okunu tek tıkla kaldırın veya zarif bir işaretle değiştirin.
 
 ## ↩️ İstediğiniz zaman geri dönebilirsiniz
 
@@ -70,7 +84,7 @@ Bu dokuz stil bir başlangıç noktasıdır. On bir simge şekli, renk tonları,
 <div align="center">
 <img src=".github/assets/görsel1.png" width="880" alt="Tam kontrol panelinin yanında yakınlaştırılmış canlı önizleme: şekil, renklendirme, plaka, kaplama ve kısayol işareti" />
 <br/>
-<sub>Solda yakınlaştırılmış canlı önizleme; sağda her özelliği ayarlanabilir kontrol paneli.</sub>
+<sub>Solda canlı önizleme; sağda hassas şekil, renk, plaka ve kaplama kontrolleri.</sub>
 </div>
 
 ## 🧩 Kaydedin. Paylaşın.
@@ -106,14 +120,14 @@ Windows'un o küçük kısayol okunu çirkin mi buluyorsunuz? Daha zarif bir iş
 <div align="center">
 <img src=".github/assets/görsel2.png" width="880" alt="Duvar kâğıdı sekmesindeki Deskio penceresi: masaüstü yansımasında canlı bölgeler, sağda bölge listesi" />
 <br/>
-<sub>Her sekme aynı mantıkla çalışır: sağda ayarlayın, solda gerçek masaüstünüzün anlık değişimini izleyin.</sub>
+<sub>Canlı masaüstü yansıması ve etkileşimli bölge listesiyle akrilik duvar kâğıdı düzenleyicisi.</sub>
 </div>
 
 ## 📦 Nasıl kurulur
 
-İlk yükleyici hazırlanmaktadır ve [Releases](https://github.com/kagangungor/deskio/releases) sayfasına eklenecektir. İndirin, çift tıklayın ve hazırsınız. Yalnızca kendi kullanıcı hesabınız için yüklenir.
+En güncel yükleyiciyi (`Deskio_1.0.0_x64-setup.exe`) [**Releases**](https://github.com/kagangungor/deskio/releases/latest) sayfasından indirin. İndirin, çift tıklayın ve hazırsınız. Yalnızca kendi kullanıcı hesabınız için temiz ve güvenli bir şekilde yüklenir.
 
-> Windows mavi "Kişisel bilgisayarınız korundu" ekranı gösterirse endişelenmeyin. Bu bir virüs uyarısı değil, Windows'un yeni yazılımlara karşı varsayılan tedbiridir. **Ek bilgi**'ye ve ardından **Yine de çalıştır**'a tıklayın.
+> Windows mavi "Kişisel bilgisayarınız korundu" (SmartScreen) ekranı gösterirse endişelenmeyin. Bu bir virüs uyarısı değil, Windows SmartScreen'in yeni yayınlanan bağımsız yazılımlara karşı varsayılan tedbiridir. **Ek bilgi**'ye ve ardından **Yine de çalıştır**'a tıklayın.
 
 Windows 10 (1809 veya daha yeni) ve Windows 11 (64-bit) üzerinde çalışır.
 
@@ -123,7 +137,7 @@ Windows 10 (1809 veya daha yeni) ve Windows 11 (64-bit) üzerinde çalışır.
 Herhangi bir şeyi değiştirmeden önce masaüstünüzü yedekler ve her değişiklik tek bir tıkla geri alınabilir. Rahatça deneyebilirsiniz.
 
 **Bilgisayarımı yavaşlatır mı?**
-Fark edilir hiçbir etkisi olmaz. Ağır işlem yalnızca siz uygula düğmesine bastığınızda bir kez gerçekleşir; geri kalan zamanda sessizce bekler.
+Fark edilir hiçbir etkisi olmaz. Ağır işlem yalnızca siz uygula düğmesine bastığınızda bir kez gerçekleşir; geri kalan zamanda sessizce bekler ve Windows masaüstünü sıfırlarsa görünümünüzü geri yükler.
 
 **Yeniden başlatma sonrasında korunur mu?**
 Evet. Yeniden biçimlendirilen simgeler gerçek görsel dosyalarıdır. Büyük bir Windows güncellemesi bazı ayarları sıfırlarsa tek tıkla yeniden uygulayabilir veya geri yükleyebilirsiniz.
@@ -134,11 +148,19 @@ Tamamen ücretsiz ve açık kaynaktır. Yalnızca bilgisayarınızda çalışır
 **Bilgisayardan pek anlamıyorum. Yine de kullanabilir miyim?**
 Evet. Bir görünüm seçin, önizlemeye bakın, uygula'ya tıklayın. Komut yok, teknik karmaşa yok; geri yükleme her zaman tek tık uzaklıkta.
 
+> **Açıkça söylemek gerekirse:** Bu bir beta sürümüdür ve pürüzler olabilir. Deskio, simgelerinizi ve duvar kâğıdı bölgelerinizi stilize eder; tüm Windows için tam bir sistem teması (shell theme) değildir. Tek tıkla kusursuzluk beklemeyin, ancak ne denerseniz deneyin tek tıkla her şeyi eski haline getirebilirsiniz.
+
 <div align="center"><br/><img src=".github/assets/rule-hairline.svg" width="880" alt="" /><br/><br/></div>
 
 ## 🧬 Güçlü ve deterministik Rust çekirdeği
 
-Her görünüm hiçbir platform bağımlılığı olmayan saf Rust mimarisine sahip [`dm-icon-core`](crates/dm-icon-core) tarafından oluşturulur. Simgeleri işlemeden önce analiz eder — sınıflandırma, arka plan algılama, nesne/arka plan ayrımı, baskın renk — ardından katı kurallarla yeniden işler. Makine öğrenimi yok, bulut yok, telemetri yok: aynı girdi her seferinde tamamen çevrimdışı olarak aynı pikselleri üretir.
+Her görünüm hiçbir giriş/çıkış (I/O) ve platform bağımlılığı olmayan, yaklaşık 12.000 satırlık saf Rust mimarisine sahip [`dm-icon-core`](crates/dm-icon-core) tarafından oluşturulur. Simgeleri işlemeden önce analiz eder — sınıflandırma, arka plan algılama, nesne/arka plan ayrımı, baskın renk — ardından katı kurallarla yeniden işler. Makine öğrenimi yok, bulut yok, telemetri yok: aynı girdi her seferinde tamamen çevrimdışı olarak aynı pikselleri üretir.
+
+- **Önizleme = Sonuç, kanıtlanabilir şekilde.** Çekirdek hem WASM (canlı önizleme) hem de yerel kod (nihai ikon çıktısı) olarak derlenir; bir determinizm sözleşmesi — yalnızca [`libm`](crates/dm-icon-core/src/color.rs) aşkın fonksiyonları, sıraya duyarlı olmayan indirgemeler, FMA/SIMD tutarsızlıklarından arındırılmış yapı — her iki derlemenin de bayt bayt özdeş kalmasını sağlar. 1.487 simgelik bir test kümesiyle sertifikalandırılmıştır ([`tests/parity_determinism.rs`](crates/dm-icon-core/tests/parity_determinism.rs)).
+- **Algı odaklı renk matematiği.** Tüm renk hesaplamaları OKLab / linear-light sRGB uzayında gerçekleşir. Bir nesnenin kendi plakası içinde erimesini önleyen otomatik ayırma kurtarma sistemi, eşleştirilmiş renk mesafesi ve ışıklık/açıklık eşikleri kullanır ([`separation.rs`](crates/dm-icon-core/src/separation.rs)) — çünkü 32 px bir simgenin uzamsal frekansında insan gözü ışıklığı kromaya kıyasla çok daha net ayırt eder.
+- **Marka kimliğiniz korunur.** [`compose/field.rs`](crates/dm-icon-core/src/compose/field.rs) içindeki katı bir kural uyarınca: simgenin asıl nesne pikselleri asla yeniden renklendirilmez. Simgeler plaka, kontur ve gölge ile birbirinden ayırt edilir; çakışan plaka tonları ise deterministik olarak ayrıştırılır ([`hue_spread.rs`](crates/dm-icon-core/src/hue_spread.rs)).
+- **Standart yöntemlerin kusursuz bileşimi.** Otsu nesne/plaka ayrımı, IoU silüet eşleme, linear-light önceden çarpılmış alfa (premultiplied-alpha) alan yeniden örnekleme ve Figma'nın MIT lisanslı köşe yumuşatma matematiğinin aslına sadık bir portu ([`shapes/smooth.rs`](crates/dm-icon-core/src/shapes/smooth.rs)) — tekerleği yeniden icat etmek yerine en doğru yöntemler bir araya getirildi.
+- **Hatalara karşı kapalı ve güvenli.** Çekirdek genelinde [`#![forbid(unsafe_code)]`](crates/dm-icon-core/src/lib.rs) uygulanmıştır; tek unsafe kod ince WASM FFI sınırındadır ve her bellek ayrımı taşma kontrollerinden geçirilir ([`dm-icon-wasm`](crates/dm-icon-wasm/src/lib.rs)). Hatalı girdiler asla çökmeye (panic) yol açmaz, hata kodları döndürür — ve uygulama herhangi bir şeye dokunmadan önce masaüstünüzün anlık görüntüsünü alır.
 
 ## 🏗️ Mimari ve teknoloji tercihleri
 
@@ -155,9 +177,22 @@ React UI ──(tauri-specta köprüsü)──▶ Rust host
                                       └─ dm-elevated    küçük izinli yardımcı
 ```
 
+**Neden bu tercihler:**
+
+- **Electron yerine Tauri 2**: Arayüz sistemin kendi WebView2 motorunda çalışır, Chromium paketlenmez; bu sayede yükleyici boyutu ve bellek kullanımı kat kat daha küçüktür.
+- **Tek Rust simge çekirdeği**: `dm-icon-core` hem canlı önizlemeyi (WASM) hem de nihai simgeleri (yerel) aynı kod tabanından üretir. Önizleme pikselleri şans eseri değil, yapısal olarak uygulanan piksellerin aynısıdır.
+- **Üretilen sözleşmeler (Generated contracts)**: TS↔Rust köprüsü `dm-contracts` üzerinden otomatik üretilir ve CI'daki bağlayıcı testleriyle kilitlenir; iki tarafın birbirinden kopması imkânsızdır.
+- **Web-öncelikli geliştirme döngüsü**: Arayüz, tarayıcıda sahte bir arka uçla geliştirilebilir (`bun run dev`, Bun üzerinde 600+ test); Windows tarafı yalnızca kabuk yazma, anlık görüntü/geri yükleme, tepsi ve yetki işlemlerini üstlenir.
+
+Tüm detaylı mimari ve geliştirme rehberine [`docs/development.md`](docs/development.md) belgesinden ve tasarım şartnamelerine [`docs/specs/`](docs/specs) altından ulaşabilirsiniz.
+
+## 🗺️ Yol Haritası
+
+Sırada nelerin olduğunu merak ediyor musunuz (özel stil ayarlama, tema senkronizasyonu, taşınabilir bağımsız mod)? Yaklaşan hedeflerimiz ve gelecek planlarımız için [**ROADMAP.md**](ROADMAP.md) belgesini inceleyin.
+
 ## 🛠️ Geliştiriciler için
 
-[**Bun**](https://bun.sh) ≥ 1.1 ve [`rust-toolchain.toml`](rust-toolchain.toml) içinde belirtilen Rust araç zincirine ihtiyacınız vardır.
+[**Bun**](https://bun.sh) ≥ 1.1 ve [`rust-toolchain.toml`](rust-toolchain.toml) içinde belirtilen Rust araç zincirine ihtiyacınız vardır (otomatik olarak `rustup` ile kurulur).
 
 ```bash
 bun install
@@ -165,13 +200,19 @@ bun run dev          # tarayıcıda sahte sunucu ile web arayüzü — anında y
 bun run tauri:dev    # tam masaüstü uygulaması (Windows) — Rust host'u derler ve pencereyi açar
 ```
 
+Geliştirme yöntemleri, testler, paketleme ve imzalama hakkındaki tam geliştirici kılavuzu [`docs/development.md`](docs/development.md) dosyasındadır; yerel derlemeler imzasızdır ve her yerde sorunsuz çalışır.
+
 ## 🤝 Katkıda Bulunma
 
-React arayüzü, Rust çekirdeği, dokümantasyon, yerelleştirme ve Windows uyumluluk testleri için katkılarınızı memnuniyetle karşılıyoruz. Ayrıntılar için [`CONTRIBUTING.md`](CONTRIBUTING.md) belgesini inceleyebilirsiniz.
+React arayüzü, Rust çekirdeği, dokümantasyon, yerelleştirme ve Windows uyumluluk testleri için katkılarınızı memnuniyetle karşılıyoruz; arayüzün büyük bölümü standart bir tarayıcıda geliştirilebilir. Başlamak için [`CONTRIBUTING.md`](CONTRIBUTING.md) belgesine ve [iyi ilk konulara (good first issues)](https://github.com/kagangungor/deskio/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) göz atabilirsiniz. Güvenlik bildirimleri [`SECURITY.md`](SECURITY.md) üzerinden iletilir.
 
 ## 📄 Lisans
 
 [MIT](LICENSE) © 2026 [Kağan Güngör](https://github.com/kagangungor). Ücretsiz ve açık kaynak.
+
+## 💖 Projeyi Destekleyin
+
+Deskio günlük masaüstü deneyiminize sakinlik ve düzen getirdiyse, depoya bir yıldız ⭐ vermeyi veya [projeye sponsor olmayı](https://github.com/sponsors/kagangungor) düşünebilirsiniz!
 
 <div align="center">
 
@@ -179,6 +220,6 @@ React arayüzü, Rust çekirdeği, dokümantasyon, yerelleştirme ve Windows uyu
 
 <img src=".github/assets/rule-hairline.svg" width="880" alt="" />
 
-<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [English](README.md) · [Türkçe](README.tr.md)</sub>
+<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Sponsor Ol](https://github.com/sponsors/kagangungor) · [English](README.md) · [Türkçe](README.tr.md)</sub>
 
 </div>
