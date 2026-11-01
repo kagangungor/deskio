@@ -213,7 +213,11 @@ The React UI, the Rust core, docs, localization, and Windows compatibility testi
 
 ## 💖 Support the project
 
-If Deskio brought calm and clarity to your daily Windows desktop, consider starring the repo ⭐ or [sponsoring the project](https://github.com/sponsors/kagangungor)!
+If Deskio brought calm and clarity to your daily Windows desktop, consider starring the repo ⭐ or [buying me a coffee](https://buymeacoffee.com/kagangungor)!
+
+<a href="https://buymeacoffee.com/kagangungor">
+  <img src="https://img.shields.io/badge/☕%20Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" />
+</a>
 
 <div align="center">
 
@@ -221,6 +225,6 @@ If Deskio brought calm and clarity to your daily Windows desktop, consider starr
 
 <img src=".github/assets/rule-hairline.svg" width="880" alt="" />
 
-<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Sponsor](https://github.com/sponsors/kagangungor) · English · [Türkçe](README.tr.md)</sub>
+<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Buy Me a Coffee](https://buymeacoffee.com/kagangungor) · English · [Türkçe](README.tr.md)</sub>
 
 </div>

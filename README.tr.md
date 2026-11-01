@@ -212,7 +212,11 @@ React arayüzü, Rust çekirdeği, dokümantasyon, yerelleştirme ve Windows uyu
 
 ## 💖 Projeyi Destekleyin
 
-Deskio günlük masaüstü deneyiminize sakinlik ve düzen getirdiyse, depoya bir yıldız ⭐ vermeyi veya [projeye sponsor olmayı](https://github.com/sponsors/kagangungor) düşünebilirsiniz!
+Deskio günlük masaüstü deneyiminize sakinlik ve düzen getirdiyse, depoya bir yıldız ⭐ vermeyi veya [bir kahve ısmarlamayı](https://buymeacoffee.com/kagangungor) düşünebilirsiniz!
+
+<a href="https://buymeacoffee.com/kagangungor">
+  <img src="https://img.shields.io/badge/☕%20Kahve%20Ismarla-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" />
+</a>
 
 <div align="center">
 
@@ -220,6 +224,6 @@ Deskio günlük masaüstü deneyiminize sakinlik ve düzen getirdiyse, depoya bi
 
 <img src=".github/assets/rule-hairline.svg" width="880" alt="" />
 
-<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Sponsor Ol](https://github.com/sponsors/kagangungor) · [English](README.md) · [Türkçe](README.tr.md)</sub>
+<img src=".github/assets/logo.png" width="40" alt="" /><br/><b>Deskio</b><br/><sub>[Releases](https://github.com/kagangungor/deskio/releases) · [Issues](https://github.com/kagangungor/deskio/issues) · [Kahve Ismarla](https://buymeacoffee.com/kagangungor) · [English](README.md) · [Türkçe](README.tr.md)</sub>
 
 </div>
